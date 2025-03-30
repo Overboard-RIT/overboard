@@ -5,6 +5,25 @@ using System.Linq;
 
 public class Leaderboard : MonoBehaviour
 {
+    public int size = 10;
+    private LeaderboardList leaderboardList;
+
+    public void Start()
+    {
+        leaderboardList = new LeaderboardList(size);
+    }
+
+    public void NewScore(string id, string playerName, int score)
+    {
+        LeaderboardEntry entry = new LeaderboardEntry(id, playerName, score);
+        leaderboardList.Add(entry);
+    }
+
+    public List<LeaderboardEntry> GetLeaderboard()
+    {
+        return leaderboardList.Entries;
+    }
+
     public struct LeaderboardEntry
     {
         public LeaderboardEntry(string id, string playerName, int score)
@@ -22,9 +41,15 @@ public class Leaderboard : MonoBehaviour
     {
         // entries
         private List<LeaderboardEntry> entries = new List<LeaderboardEntry>();
+        public List<LeaderboardEntry> Entries { get => entries; }
         private int maxEntries;
         public int Count => entries.Count;
         public bool IsReadOnly => false;
+
+        public LeaderboardList(int maxEntries)
+        {
+            this.maxEntries = maxEntries;
+        }
 
         public LeaderboardEntry this[int index]
         {
