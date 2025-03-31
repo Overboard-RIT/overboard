@@ -24,7 +24,8 @@ public class LeaderboardItem : MonoBehaviour
     {
         set
         {
-            gameObject.SetActive(value);
+            nameText.SetActive(value);
+            scoreText.SetActive(value);
         }
     }
 }

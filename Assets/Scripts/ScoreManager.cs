@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     public BackWallUI scoreUI; // UI Text element to display the score
     // public UnityEngine.UI.Text finalScoreText; // UI Text element to display the score
     private int currentScore = 0;
+    public int Score { get { return currentScore; } } // Property to access the score
     private bool stopWorking = false;
 
     void Awake()

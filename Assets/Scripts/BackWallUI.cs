@@ -30,7 +30,21 @@ public class BackWallUI : MonoBehaviour
 
     public void SetTimer(int time)
     {
-        timer.GetComponent<TextMeshProUGUI>().text = "0:" + time.ToString();
+        string timeText;
+        if (time == 60)
+        {
+            timeText = "1:00";
+        }
+        else
+        if (time < 10)
+        {
+            timeText = "0:0" + time.ToString();
+        }
+        else
+        {
+            timeText = "0:" + time.ToString();
+        }
+        timer.GetComponent<TextMeshProUGUI>().text = timeText;
     }
 
     public void SetScore(int newScore)

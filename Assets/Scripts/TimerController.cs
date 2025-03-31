@@ -10,8 +10,9 @@ public class GameTimer : MonoBehaviour
     public float fadeDuration = 1f;
     public List<PlayerController> players;
     public FlotsamManager spawner;
-    // public ScoreManager score;
+    public ScoreManager score;
     public BackWallUI backWallUI;
+    public Leaderboard leaderboard;
 
     private bool isGameOver = false;
 
@@ -34,8 +35,13 @@ public class GameTimer : MonoBehaviour
             {
                 player.enabled = false;
             }
+
+            // fake name until we have a name input
+            string fakeName = "Colby" + Random.Range(1, 1000).ToString();
+            leaderboard.NewScore(fakeName, fakeName, score.Score);
+
             spawner.Stop();
-            // score.Stop();
+            score.Stop();
         }
     }
 

@@ -3540,7 +3540,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776425801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -7154,7 +7154,9 @@ MonoBehaviour:
   - {fileID: 204386677}
   - {fileID: 547467366}
   spawner: {fileID: 568445856}
+  score: {fileID: 568445858}
   backWallUI: {fileID: 1864916408}
+  leaderboard: {fileID: 1364431577}
 --- !u!1 &1921008990
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,7 +8428,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062950892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
