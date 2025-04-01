@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
         // in fact, without it the whole thing is a bit pointless, eh?
         if (kinect != null)
         {
-            this.playerPosition = kinect.GetPlayerPosition();
+            this.playerPosition = kinect.GetActivePositions()[0];
             UpdateDotPositions();
             UpdateText();
         }
