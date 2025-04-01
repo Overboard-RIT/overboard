@@ -60,7 +60,7 @@ public class FlotsamManager : MonoBehaviour
         {
 
 
-            Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity, transform);
         }
         else
         {

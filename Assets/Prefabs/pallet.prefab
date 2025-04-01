@@ -176,7 +176,7 @@ MonoBehaviour:
   sinkAcceleration: 0.3
   ableToSpawnCoin: 1
   warningSymbolPrefab: {fileID: 1887923475855019182, guid: ec00d1f1b9f05be429e8f8a5e5948ff2, type: 3}
-  coinPrefab: {fileID: 280726557057193802, guid: c7569851d2d75cb43823515faf3aae60, type: 3}
+  coinPrefab: {fileID: 4352981629451102000, guid: 1fd251a6c5ee7a04ab6c1e1236448bab, type: 3}
 --- !u!114 &-6970124540648842927
 MonoBehaviour:
   m_ObjectHideFlags: 0
