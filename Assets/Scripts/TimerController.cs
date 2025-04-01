@@ -1,18 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using System.Collections;
 using static System.Net.Mime.MediaTypeNames;
 
 public class GameTimer : MonoBehaviour
 {
     public float timeRemaining = 60.99f;
-    public UnityEngine.UI.Text timerText;
-    public CanvasGroup inGameUI;
-    public CanvasGroup gameOverUI;
     public float fadeDuration = 1f;
-    public PlayerController player;
+    public List<PlayerController> players;
     public FlotsamManager spawner;
     public ScoreManager score;
+    public BackWallUI backWallUI;
+    public Leaderboard leaderboard;
 
     private bool isGameOver = false;
 
@@ -24,40 +24,25 @@ public class GameTimer : MonoBehaviour
         timeRemaining = Mathf.Max(timeRemaining, 0); // Ensure time doesn't go below 0
 
         // Update the timer UI
-        timerText.text = "TIME: " + Mathf.FloorToInt(timeRemaining);
+        backWallUI.SetTimer(Mathf.FloorToInt(timeRemaining));
 
         // If time reaches zero, trigger game over
         if (timeRemaining <= 0)
         {
-            StartCoroutine(HandleGameOver());
+            isGameOver = true;
+
+            foreach (PlayerController player in players)
+            {
+                player.enabled = false;
+            }
+
+            // fake name until we have a name input
+            string fakeName = "Colby" + Random.Range(1, 1000).ToString();
+            leaderboard.NewScore(fakeName, fakeName, score.Score);
+
+            spawner.Stop();
+            score.Stop();
         }
-    }
-
-    IEnumerator HandleGameOver()
-    {
-        isGameOver = true;
-
-        // Instantly hide in-game UI
-        inGameUI.alpha = 0;
-        inGameUI.interactable = false;
-        inGameUI.blocksRaycasts = false;
-
-        player.enabled = false;
-        spawner.Stop();
-        score.Stop();
-
-        // Fade in game-over UI
-        float elapsedTime = 0;
-        while (elapsedTime < fadeDuration)
-        {
-            gameOverUI.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        gameOverUI.alpha = 1;
-        gameOverUI.interactable = true;
-        gameOverUI.blocksRaycasts = true;
     }
 
     public void AdjustTime(float amount)
