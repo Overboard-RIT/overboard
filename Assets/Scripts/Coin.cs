@@ -12,6 +12,8 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Coin Triggered: " + other.name); // Log the name of the object that triggered the collider
+        
         // Check if the player has collided with the coin
         if ((other.CompareTag("LeftFoot") || other.CompareTag("RightFoot")))
         {

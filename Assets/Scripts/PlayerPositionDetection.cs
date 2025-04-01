@@ -84,6 +84,9 @@ public class PlayerPositionDetection : MonoBehaviour
             this.center = center;
             this.leftFoot = leftFoot;
             this.rightFoot = rightFoot;
+
+            this.leftFoot.y = 5;
+            this.rightFoot.y = 5;
         }
     }
 

@@ -19,7 +19,7 @@ public class CoinSpawnAnimation : MonoBehaviour
         // Instantiate the coin prefab at the current position and rotation
         Instantiate(coinPrefab, transform.position, Quaternion.identity);
 
-        // Destroy this GameObject (the animation instance)
+        // Start a coroutine to wait before destroying the GameObject
         Destroy(gameObject);
     }
 }
