@@ -2238,6 +2238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332c89a3eaa628342bdab658aaafae88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty: 1
+  scaleFactor: 0.7
+  distanceFactor: 2
   flotsamPrefabs:
   - {fileID: 3959003721913001843, guid: 2322c5170d30843eaaa981d280d93a16, type: 3}
   - {fileID: 177073837375797330, guid: 31e53dd4e826946149af0b30d76cba2c, type: 3}
@@ -2253,8 +2256,6 @@ MonoBehaviour:
     m_Bits: 8
   spawnY: 0
   playerTransform: {fileID: 1997432730}
-  minGlobalBoundary: {x: -14, y: -8, z: -42}
-  maxGlobalBoundary: {x: 14, y: -8, z: -18}
 --- !u!4 &568445857
 Transform:
   m_ObjectHideFlags: 0
@@ -5883,7 +5884,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

@@ -12,8 +12,8 @@ public class BoundsManager : MonoBehaviour
     void Start()
     {
         FlotsamManager flotsamManager = spawnManager.GetComponent<FlotsamManager>();
-        flotsamManager.minGlobalBoundary = boundsMin;
-        flotsamManager.maxGlobalBoundary = boundsMax;
+        flotsamManager.MinGlobalBoundary = boundsMin;
+        flotsamManager.MaxGlobalBoundary = boundsMax;
     }
 
     public bool CheckInBounds(Vector3 position) {
