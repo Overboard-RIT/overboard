@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -8279386456543566035}
   - component: {fileID: 9156229054792611525}
   - component: {fileID: 5762972901598528922}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: raft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30cf7e087c087b6419677db9c1e52635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformType: 1
   rotationSpeed: 10
 --- !u!114 &9156229054792611525
 MonoBehaviour:

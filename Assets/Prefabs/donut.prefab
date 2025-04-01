@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3695863443052988999}
   - component: {fileID: -7294765027088990912}
   - component: {fileID: 5329399523388441510}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: donut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30cf7e087c087b6419677db9c1e52635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformType: 2
   rotationSpeed: 10
 --- !u!114 &-7294765027088990912
 MonoBehaviour:

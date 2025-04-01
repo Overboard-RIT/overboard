@@ -25,8 +25,6 @@ public class FlotsamBehavior : MonoBehaviour
     {
         surfaceDuration = UnityEngine.Random.Range(8f, 14f);
         StartCoroutine(FloatToSurface());
-
-        
     }
 
     private IEnumerator FloatToSurface()
@@ -40,7 +38,7 @@ public class FlotsamBehavior : MonoBehaviour
         transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
         currentState = FlotsamState.Floating;
 
-        if (ableToSpawnCoin && UnityEngine.Random.Range(1, 2) == 1)
+        if (ableToSpawnCoin && UnityEngine.Random.Range(0, 2) == 1)
         {
             SpawnCoin();
         }

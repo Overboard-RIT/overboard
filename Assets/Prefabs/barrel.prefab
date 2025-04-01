@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1741784179070719778}
   - component: {fileID: 8197186422816083015}
   - component: {fileID: -1293198847046370259}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30cf7e087c087b6419677db9c1e52635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformType: 0
   rotationSpeed: 10
 --- !u!114 &8197186422816083015
 MonoBehaviour:
