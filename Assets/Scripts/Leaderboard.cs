@@ -6,13 +6,42 @@ using System.Linq;
 public class Leaderboard : MonoBehaviour
 {
     public List<LeaderboardItem> leaderboardItems;
-    private LeaderboardList leaderboardList;
+    private static LeaderboardList leaderboardList;
+    private static bool leaderboardInitialized = false;
 
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+
+    }
 
     public void Start()
     {
-        leaderboardList = new LeaderboardList(leaderboardItems.Count);
-        ResetLeaderboard();
+        if (!leaderboardInitialized)
+        {
+            leaderboardList = new LeaderboardList(leaderboardItems.Count);
+            ResetLeaderboard();
+            leaderboardInitialized = true;
+        }
+        LoadLeaderboard();
+    }
+
+    private void LoadLeaderboard()
+    {
+        for (int i = 0; i < leaderboardItems.Count; i++)
+        {
+            if (i < leaderboardList.Count)
+            {
+                leaderboardItems[i].Name = leaderboardList[i].playerName;
+                leaderboardItems[i].Score = leaderboardList[i].score;
+                leaderboardItems[i].Visible = true;
+            }
+            else
+            {
+                leaderboardItems[i].Visible = false;
+            }
+        }
     }
 
     public void ResetLeaderboard()
@@ -32,19 +61,7 @@ public class Leaderboard : MonoBehaviour
         leaderboardList.Add(entry);
 
         // update the leaderboard UI
-        for (int i = 0; i < leaderboardItems.Count; i++)
-        {
-            if (i < leaderboardList.Count)
-            {
-                leaderboardItems[i].Name = leaderboardList[i].playerName;
-                leaderboardItems[i].Score = leaderboardList[i].score;
-                leaderboardItems[i].Visible = true;
-            }
-            else
-            {
-                leaderboardItems[i].Visible = false;
-            }
-        }
+        LoadLeaderboard();
     }
 
     public List<LeaderboardEntry> GetLeaderboard()

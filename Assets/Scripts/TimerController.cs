@@ -50,5 +50,4 @@ public class GameTimer : MonoBehaviour
         timeRemaining += amount;
         if (timeRemaining < 0) timeRemaining = 0; // Prevent negative time
     }
-
 }
