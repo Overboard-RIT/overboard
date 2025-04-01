@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class FlotsamManager : MonoBehaviour
 {
+    [Header("Difficulty")]
+    public Difficulty difficulty = Difficulty.Casual; // Difficulty level
+    [Range(0.0f, 1.0f)]
+    public float scaleFactor = 1f; // Scale factor for flotsam size
+    [Range(1.0f, 2.0f)]
+    public float distanceFactor = 1f; // Distance factor for flotsam spawn distance
+    [Header("Flotsam Settings")]
     public GameObject[] flotsamPrefabs; // Array of flotsam prefabs
     public float spawnIntervalMin = 3f; // Time between spawns
     public float spawnIntervalMax = 7f;
@@ -14,13 +21,37 @@ public class FlotsamManager : MonoBehaviour
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
 
-    public Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
-    public Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
+    private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
+    private Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
+    public Vector3 MinGlobalBoundary
+    {
+        get { return minGlobalBoundary; }
+        set { minGlobalBoundary = value; }
+    }
+    public Vector3 MaxGlobalBoundary
+    {
+        get { return maxGlobalBoundary; }
+        set { maxGlobalBoundary = value; }
+    }
+
+    public enum Difficulty
+    {
+        Casual,
+        Expert
+    }
 
     private bool stopWorking = false;
 
     private void Start()
     {
+        if (difficulty == Difficulty.Expert) {
+            offRadiusChance *= 1.3f; // Increase chance for expert difficulty
+            spawnIntervalMax *= 1.5f;
+
+        } else if (difficulty == Difficulty.Casual) {
+            scaleFactor = 1;
+            distanceFactor = 1;
+        }
         StartCoroutine(SpawnFlotsamRoutine());
     }
 
@@ -60,7 +91,8 @@ public class FlotsamManager : MonoBehaviour
         {
 
             spawnPosition.y = -3f;
-            Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            newFlotsam.transform.localScale *= scaleFactor; // Scale the flotsam prefab
         }
         else
         {
@@ -103,7 +135,7 @@ public class FlotsamManager : MonoBehaviour
         BoxCollider flotsamCollider = flotsamPrefab.GetComponent<BoxCollider>();
 
         // Calculate the half extents of the box based on the collider size and the prefab's scale
-        Vector3 halfExtents = Vector3.Scale(flotsamCollider.size * 0.6f, flotsamPrefab.transform.localScale);
+        Vector3 halfExtents = Vector3.Scale(flotsamCollider.size * 0.6f * distanceFactor, flotsamPrefab.transform.localScale);
 
         // Project the position to the XZ plane
         Vector3 projectedPosition = new Vector3(position.x, 0, position.z);
