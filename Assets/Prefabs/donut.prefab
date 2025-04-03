@@ -125,6 +125,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformType: 2
   rotationSpeed: 10
+  bounce: 0
+  bouncePositionDuration: 1
+  bouncePositionStartingAmplitude: 0.4
+  bouncePositionPeriod: 0.75
+  bounceRotationDuration: 1.5
+  bounceRotationStartingAmplitude: 0.02
+  bounceRotationPeriod: 0.5
 --- !u!114 &-7294765027088990912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +150,7 @@ MonoBehaviour:
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
   ableToSpawnCoin: 1
+  gameManager: {fileID: 0}
   warningSymbolPrefab: {fileID: 1393807624894255909, guid: fd63c3981e53d4149b859f56339a2179, type: 3}
   coinPrefab: {fileID: 4352981629451102000, guid: 1fd251a6c5ee7a04ab6c1e1236448bab, type: 3}
 --- !u!114 &5329399523388441510

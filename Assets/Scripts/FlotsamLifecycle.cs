@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class FlotsamBehavior : MonoBehaviour
+public class FlotsamLifecycle : MonoBehaviour
 {
     public float floatSpeed = 1f;      // Speed of rising to surface
     private float sinkSpeed = 0.0f;     // Speed of sinking
@@ -35,16 +35,15 @@ public class FlotsamBehavior : MonoBehaviour
 
     private IEnumerator FloatToSurface()
     {
-        while (transform.position.y < 0f)
+        while (transform.position.y < 0.4f)
         {
             transform.position += Vector3.up * floatSpeed * Time.deltaTime;
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.4f, transform.position.z);
         currentState = FlotsamState.Floating;
-
-        
+        GetComponent<FloatingBehavior>().startPosition = transform.position;
 
         StartCoroutine(StayOnSurface());
     }
