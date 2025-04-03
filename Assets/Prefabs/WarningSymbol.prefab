@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskTransform: {fileID: 7288956147665214719}
-  drawSpeed: 0.15
+  drawSpeed: 0.3
   timeToWait: 0
   symbolRenderers:
   - {fileID: 8152173830116727876}

@@ -44,6 +44,13 @@ public class FloatingBehavior : MonoBehaviour
     [NonSerialized]
     public bool isBouncing = false;
 
+    [Header("Shake Settings")]
+    public bool shake = false;
+    public float shakeAmplitude = 0.02f;
+    public float shakePeriod = 0.15f;
+    [NonSerialized]
+    public bool isShaking = false;
+
     void OnValidate()
     {
         if (bounce)
@@ -51,6 +58,12 @@ public class FloatingBehavior : MonoBehaviour
             bounce = false;
             isBouncing = true;
             startedBouncingAt = Time.time;
+        }
+
+        if (shake)
+        {
+            shake = false;
+            isShaking = true;
         }
     }
 
@@ -62,6 +75,11 @@ public class FloatingBehavior : MonoBehaviour
         }
         isBouncing = true;
         startedBouncingAt = Time.time;
+    }
+
+    public void Shake()
+    {
+        isShaking = true;
     }
 
     void Start()
@@ -140,6 +158,17 @@ public class FloatingBehavior : MonoBehaviour
                 );
             }
         }
+
+        if (isShaking)
+        {
+            float t = Time.time;
+            float shake = ShakeFunction(t);
+            transform.rotation = Quaternion.Euler(
+                transform.rotation.eulerAngles.x + shake,
+                transform.rotation.eulerAngles.y,
+                transform.rotation.eulerAngles.z
+            );
+        }
     }
 
     private float BouncePositionFunction(float t)
@@ -164,5 +193,15 @@ public class FloatingBehavior : MonoBehaviour
         float frequency = 2f * Mathf.PI / T;
         float bounce = falloff * Mathf.Sin(frequency * t);
         return bounce * 360f;
+    }
+
+    private float ShakeFunction(float t)
+    {
+        float A = shakeAmplitude;
+        float T = shakePeriod;
+
+        float frequency = 2f * Mathf.PI / T;
+        float shake = A * Mathf.Sin(frequency * t);
+        return shake * 360f;
     }
 }

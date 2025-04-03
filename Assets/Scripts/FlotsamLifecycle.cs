@@ -56,6 +56,7 @@ public class FlotsamLifecycle : MonoBehaviour
 
         yield return new WaitForSeconds(surfaceDuration - warningTime); // Time before warning appears
         SpawnWarningSymbol(); // Spawn warning before sinking
+        GetComponent<FloatingBehavior>().Shake();
 
         yield return new WaitForSeconds(warningTime); // Remaining time on surface
         currentState = FlotsamState.Sinking;

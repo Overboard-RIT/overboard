@@ -132,6 +132,9 @@ MonoBehaviour:
   bounceRotationDuration: 1.5
   bounceRotationStartingAmplitude: 0.02
   bounceRotationPeriod: 0.5
+  shake: 0
+  shakeAmplitude: 0.02
+  shakePeriod: 0.15
 --- !u!114 &8197186422816083015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatSpeed: 1
-  warningTime: 5
+  warningTime: 2.5
   destroyDepth: -5
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
