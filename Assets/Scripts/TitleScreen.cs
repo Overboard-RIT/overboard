@@ -20,7 +20,7 @@ public class TitleScreen : MonoBehaviour
         // Only respond to Space if the instructions panel is NOT active
         if (isGameOver)
         {
-            if (!gameStarting && instructionsPanel.alpha == 0 && Input.GetKeyDown(KeyCode.Space))
+            if (!gameStarting && instructionsPanel.alpha == 0.01f && Input.GetKeyDown(KeyCode.Space))
             {
                 StartCoroutine(BlinkTextAndStartGame());
             }

@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bf8a342b20242be9ef02c9938070cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowSize: 30
+  windowSize: 10
   playerNumber: 0
   leftFoot: {fileID: 1997432724}
   rightFoot: {fileID: 204386675}
@@ -2328,7 +2328,7 @@ MonoBehaviour:
   - {fileID: 7071855039391069103, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
   - {fileID: 2883081542800028395, guid: f7ee9542a18b0439d99f8a33b8bfb19b, type: 3}
   spawnIntervalMin: 1.5
-  spawnIntervalMax: 3.5
+  spawnIntervalMax: 3
   spawnRadius: 10
   offRadiusChance: 0.1
   offRadiusMaxDistance: 30
@@ -2474,7 +2474,7 @@ Transform:
   m_GameObject: {fileID: 615378687}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 74.9, z: -30}
+  m_LocalPosition: {x: 3, y: 74.9, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2523,7 +2523,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.4
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -2756,7 +2756,7 @@ Transform:
   m_GameObject: {fileID: 631437880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.713062, y: -44.789528, z: -8.83407}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2929,8 +2929,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   margin: 3
-  boundsMin: {x: -11, y: -8, z: -46}
-  boundsMax: {x: 11, y: -8, z: -14}
+  boundsMin: {x: -5, y: -8, z: -40}
+  boundsMax: {x: 11, y: -8, z: -18}
   spawnManager: {fileID: 568445855}
 --- !u!1 &673336006
 GameObject:
@@ -3931,19 +3931,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7.95
+      value: 6.42
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.95
+      value: 6.42
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7.95
+      value: 6.42
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5032,7 +5032,7 @@ MonoBehaviour:
   leftFoot: {fileID: 1997432724}
   rightFoot: {fileID: 204386675}
   boundsManager: {fileID: 666666155}
-  fakeData: 1
+  fakeData: 0
 --- !u!4 &1203261055
 Transform:
   m_ObjectHideFlags: 0
@@ -7103,7 +7103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1728553697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7116,7 +7116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bf8a342b20242be9ef02c9938070cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowSize: 30
+  windowSize: 10
   playerNumber: 1
   leftFoot: {fileID: 1488990628}
   rightFoot: {fileID: 547467364}

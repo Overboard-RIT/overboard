@@ -62,7 +62,7 @@ public class GameTimer : MonoBehaviour
             yield return null;
         }
 
-        //gameOverUI.alpha = 1;
+        gameOverUI.alpha = 0.01f;
         gameOverUI.interactable = true;
         gameOverUI.blocksRaycasts = true;
     }

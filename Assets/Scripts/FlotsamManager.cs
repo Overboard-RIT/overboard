@@ -40,13 +40,13 @@ public class FlotsamManager : MonoBehaviour
                 yield return new WaitForSeconds(0.5f); // Wait until the game starts
             }
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
-            SpawnFlotsam();
+            StartCoroutine(SpawnFlotsam());
         }
     }
 
-    private void SpawnFlotsam()
+    private IEnumerator SpawnFlotsam()
     {
-        if (flotsamPrefabs.Length == 0) return;
+        if (flotsamPrefabs.Length != 0) {
 
         // Decide whether to spawn within the radius or outside
         Vector3 spawnPosition;
@@ -70,8 +70,11 @@ public class FlotsamManager : MonoBehaviour
         else
         {
             // If occupied, retry
-            SpawnFlotsam();
+            yield return new WaitForSeconds(0.05f); // Wait a bit before retrying
+            StartCoroutine(SpawnFlotsam());
         }
+
+    }
 
     }
 

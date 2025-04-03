@@ -129,6 +129,6 @@ public class PlayerPositionDetection : MonoBehaviour
 
     private Vector3 GetVector3FromJoint(Kinect.Joint joint)
     {
-        return new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * -10);
+        return new Vector3(joint.Position.X * 10, 5, joint.Position.Z * -10);
     }
 }

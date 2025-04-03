@@ -24,8 +24,13 @@ public class FlotsamBehavior : MonoBehaviour
 
     void Start()
     {
-        surfaceDuration = UnityEngine.Random.Range(8f, 14f);
+        surfaceDuration = UnityEngine.Random.Range(5f, 8f);
         StartCoroutine(FloatToSurface());
+
+        if (ableToSpawnCoin && UnityEngine.Random.Range(0, 4) != 1)
+        {
+            StartCoroutine(SpawnCoin());
+        }
     }
 
     private IEnumerator FloatToSurface()
@@ -39,10 +44,7 @@ public class FlotsamBehavior : MonoBehaviour
         transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
         currentState = FlotsamState.Floating;
 
-        if (ableToSpawnCoin && UnityEngine.Random.Range(0, 2) == 1)
-        {
-            SpawnCoin();
-        }
+        
 
         StartCoroutine(StayOnSurface());
     }
@@ -80,15 +82,16 @@ public class FlotsamBehavior : MonoBehaviour
     {
         if (warningSymbolPrefab != null)
         {
-            warningSymbol = Instantiate(warningSymbolPrefab, transform.position + Vector3.up * 7f, Quaternion.Euler(90f, -90f, 0f));
+            warningSymbol = Instantiate(warningSymbolPrefab, transform.position + new Vector3(-1, 7, 0), Quaternion.Euler(90f, -90f, 0f));
         }
     }
 
-    private void SpawnCoin()
+    private IEnumerator SpawnCoin()
     {
+        yield return new WaitForSeconds(1.5f);
         if (coinPrefab != null)
         {
-            coinInstance = Instantiate(coinPrefab, transform.position + Vector3.up * 4f, Quaternion.Euler(90f, 0f, 0f));
+            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(90f, 0f, 0f));
         }
     }
 
