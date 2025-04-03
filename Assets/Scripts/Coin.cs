@@ -26,6 +26,6 @@ public class Coin : MonoBehaviour
         // Add points to the score
         ScoreManager.Instance.AddPoints(points);
 
-        gameObject.SetActive(false); // Coin disappears after collection
+        Destroy(gameObject); // Destroy the coin object
     }
 }

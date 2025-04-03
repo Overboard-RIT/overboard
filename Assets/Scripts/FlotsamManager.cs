@@ -17,6 +17,8 @@ public class FlotsamManager : MonoBehaviour
     public Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
     public Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
 
+    public GameManager gameManager; // Reference to GameManager script
+
     private bool stopWorking = false;
 
     private void Start()
@@ -33,6 +35,10 @@ public class FlotsamManager : MonoBehaviour
     {
         while (!stopWorking)
         {
+            while (!gameManager.gameStarted)
+            {
+                yield return new WaitForSeconds(0.5f); // Wait until the game starts
+            }
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
             SpawnFlotsam();
         }
@@ -58,7 +64,6 @@ public class FlotsamManager : MonoBehaviour
         // Ensure there's no overlap with existing flotsam
         if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
         {
-
             spawnPosition.y = -3f;
             Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
         }

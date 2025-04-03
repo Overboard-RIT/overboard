@@ -3,14 +3,45 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool startGame = false;
+    private bool introStarted = false;
 
-    private void OnValidate()
+    public BackWallUI backWallUI; // Reference to the BackWallUI script
+    public float countdownDelay = 1f; // Delay between countdown steps
+
+    public bool gameStarted = false;
+
+    void Update()
     {
-        if (startGame)
+        // Wait for the spacebar press to start the game
+        if (!introStarted && Input.GetKeyDown(KeyCode.Space))
         {
-            startGame = false;
-            SceneManager.LoadScene("GameScene");
+            introStarted = true;
+            StartCoroutine(StartGameCountdown());
         }
     }
+
+    private System.Collections.IEnumerator StartGameCountdown()
+    {
+        backWallUI.Squawk("Ready Yourself, Swabbie!", "");
+        yield return new WaitForSeconds(countdownDelay * 1.5f);
+
+        // Countdown from 3... 2... 1...
+        for (int i = 3; i > 0; i--)
+        {
+            backWallUI.Squawk("Ready Yourself, Swabbie!", "The game will start in " + i.ToString() + "!");
+            yield return new WaitForSeconds(countdownDelay);
+        }
+
+        // Start the game
+        backWallUI.ShowScullyPoint();
+        gameStarted = true;
+        backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
+        yield return new WaitForSeconds(countdownDelay * 4);
+
+        // Clear the message (optional)
+        backWallUI.Quiet();
+        backWallUI.HideScully();
+    }
+
+
 }

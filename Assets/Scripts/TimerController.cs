@@ -15,11 +15,12 @@ public class GameTimer : MonoBehaviour
     public Leaderboard leaderboard;
     public CanvasGroup gameOverUI;
 
-    private bool isGameOver = false;
+    public bool isGameOver = false;
+    public GameManager gameManager;
 
     void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver || !gameManager.gameStarted) return;
 
         timeRemaining -= Time.deltaTime;
         timeRemaining = Mathf.Max(timeRemaining, 0); // Ensure time doesn't go below 0
@@ -50,16 +51,18 @@ public class GameTimer : MonoBehaviour
 
     IEnumerator HandleGameOver()
     {
+        backWallUI.ShowScullyPoint();
+        backWallUI.Squawk("Yer Time's Up!", "We hope you had fun, but it's time for someone else to suffer!");
         // Fade in game-over UI
         float elapsedTime = 0;
         while (elapsedTime < fadeDuration)
         {
-            gameOverUI.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            //gameOverUI.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        gameOverUI.alpha = 1;
+        //gameOverUI.alpha = 1;
         gameOverUI.interactable = true;
         gameOverUI.blocksRaycasts = true;
     }

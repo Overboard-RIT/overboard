@@ -17,7 +17,7 @@ public class FloatingTextUI : MonoBehaviour
     private void Start()
     {
         startPos = uiText.rectTransform.anchoredPosition;
-        startColor = new Color(1, 0, 0, 0); // Red text, initially invisible
+        startColor = new Color(1, 0, 0.26f, 0); // Red text, initially invisible
         uiText.color = startColor;
     }
 
@@ -37,7 +37,7 @@ public class FloatingTextUI : MonoBehaviour
         {
             timer += Time.deltaTime;
             float progress = timer / fadeInTime;
-            uiText.color = new Color(1, 0, 0, progress);
+            uiText.color = new Color(1, 0.30f, 0.51f, progress);
             uiText.rectTransform.anchoredPosition = Vector3.Lerp(startPos, endPos, progress);
             yield return null;
         }

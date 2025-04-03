@@ -12,6 +12,7 @@ public class FlotsamBehavior : MonoBehaviour
     public float maxSinkSpeed = 2f;
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;
+    public GameManager gameManager;     // Reference to GameManager script
 
     public GameObject warningSymbolPrefab; // Assign in Inspector (a prefab)
     private GameObject warningSymbol;      // The instantiated warning symbol
@@ -48,6 +49,10 @@ public class FlotsamBehavior : MonoBehaviour
 
     private IEnumerator StayOnSurface()
     {
+        while (!ableToSpawnCoin && !gameManager.gameStarted) {
+            yield return new WaitForSeconds(0.5f);
+        }
+
         yield return new WaitForSeconds(surfaceDuration - warningTime); // Time before warning appears
         SpawnWarningSymbol(); // Spawn warning before sinking
 
@@ -68,7 +73,6 @@ public class FlotsamBehavior : MonoBehaviour
             yield return null;
         }
 
-        DestroyWarningSymbol(); // Remove warning symbol when it sinks
         Destroy(gameObject); // Destroy flotsam
     }
 
@@ -76,8 +80,7 @@ public class FlotsamBehavior : MonoBehaviour
     {
         if (warningSymbolPrefab != null)
         {
-            warningSymbol = Instantiate(warningSymbolPrefab, transform.position + Vector3.up * 2.5f, Quaternion.identity);
-            warningSymbol.transform.SetParent(transform); // Parent to flotsam so it moves with it
+            warningSymbol = Instantiate(warningSymbolPrefab, transform.position + Vector3.up * 7f, Quaternion.Euler(90f, -90f, 0f));
         }
     }
 
@@ -86,14 +89,6 @@ public class FlotsamBehavior : MonoBehaviour
         if (coinPrefab != null)
         {
             coinInstance = Instantiate(coinPrefab, transform.position + Vector3.up * 4f, Quaternion.Euler(90f, 0f, 0f));
-        }
-    }
-
-    private void DestroyWarningSymbol()
-    {
-        if (warningSymbol != null)
-        {
-            Destroy(warningSymbol);
         }
     }
 
