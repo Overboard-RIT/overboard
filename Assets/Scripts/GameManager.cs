@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public List<StartAndStop> countdownNumbers;
+    public StartAndStop start;
     private bool introStarted = false;
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
@@ -28,11 +31,13 @@ public class GameManager : MonoBehaviour
         // Countdown from 3... 2... 1...
         for (int i = 3; i > 0; i--)
         {
+            countdownNumbers[i - 1].Show();   
             backWallUI.Squawk("Ready Yourself, Swabbie!", "The game will start in " + i.ToString() + "!");
             yield return new WaitForSeconds(countdownDelay);
         }
 
         // Start the game
+        start.Show();
         backWallUI.ShowScullyPoint();
         gameStarted = true;
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
