@@ -13,7 +13,7 @@ public class BackWallUI : MonoBehaviour
     public GameObject speechBubblePanel;
     private List<OverboardPlayer> players = new List<OverboardPlayer>();
 
-    private OverboardPlayer example = new OverboardPlayer("colby", 0, 69);
+    private OverboardPlayer example = new OverboardPlayer("Player 1", 0, 0);
 
     public struct OverboardPlayer
     {
@@ -49,7 +49,7 @@ public class BackWallUI : MonoBehaviour
 
     public void SetScore(int newScore)
     {
-        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString();
+        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString() + " pts";
     }
 
     public void AddPlayer(OverboardPlayer player)
@@ -85,9 +85,9 @@ public class BackWallUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        score.GetComponent<TextMeshProUGUI>().text = "0";
+        score.GetComponent<TextMeshProUGUI>().text = "0 pts";
         AddPlayer(example);
-        AddPlayer(example);
-        Squawk("hi elia", "this is a test");
+        //AddPlayer(example);
+        //Squawk("hi elia", "this is a test");
     }
 }

@@ -13,6 +13,7 @@ public class GameTimer : MonoBehaviour
     public ScoreManager score;
     public BackWallUI backWallUI;
     public Leaderboard leaderboard;
+    public CanvasGroup gameOverUI;
 
     private bool isGameOver = false;
 
@@ -42,7 +43,25 @@ public class GameTimer : MonoBehaviour
 
             spawner.Stop();
             score.Stop();
+
+            StartCoroutine(HandleGameOver());
         }
+    }
+
+    IEnumerator HandleGameOver()
+    {
+        // Fade in game-over UI
+        float elapsedTime = 0;
+        while (elapsedTime < fadeDuration)
+        {
+            gameOverUI.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        gameOverUI.alpha = 1;
+        gameOverUI.interactable = true;
+        gameOverUI.blocksRaycasts = true;
     }
 
     public void AdjustTime(float amount)
