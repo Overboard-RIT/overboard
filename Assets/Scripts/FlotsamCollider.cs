@@ -10,6 +10,7 @@ public class FlotsamCollider : MonoBehaviour
     void OnTriggerEnter(Collider trigger)
     {
         PlayerContact = true;
+        GetComponent<FloatingBehavior>().Bounce();
 
         if (trigger.gameObject.tag == "LeftFoot") {
             leftFootContact = true;
@@ -31,6 +32,7 @@ public class FlotsamCollider : MonoBehaviour
         }
         if (!leftFootContact && !rightFootContact) {
             PlayerContact = false;
+            GetComponent<FloatingBehavior>().Bounce();
         }
     }
 }

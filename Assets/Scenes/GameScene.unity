@@ -3929,6 +3929,22 @@ PrefabInstance:
       propertyPath: rotationSpeed
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -8279386456543566035, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
+      propertyPath: shakeAmplitude
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8279386456543566035, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
+      propertyPath: bouncePositionPeriod
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: -8279386456543566035, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
+      propertyPath: bouncePositionStartingAmplitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8279386456543566035, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
+      propertyPath: bounceRotationStartingAmplitude
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalScale.x
       value: 6.42
@@ -5032,7 +5048,7 @@ MonoBehaviour:
   leftFoot: {fileID: 1997432724}
   rightFoot: {fileID: 204386675}
   boundsManager: {fileID: 666666155}
-  fakeData: 0
+  fakeData: 1
 --- !u!4 &1203261055
 Transform:
   m_ObjectHideFlags: 0
