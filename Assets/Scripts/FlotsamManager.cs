@@ -14,15 +14,40 @@ public class FlotsamManager : MonoBehaviour
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
 
-    public Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
-    public Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
+    [SerializeField]
+    private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
+    [SerializeField]
+    private Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
+    public Vector3 MinGlobalBoundary
+    {
+        get => minGlobalBoundary;
+        set {
+            minGlobalBoundary = new Vector3(value.x, 0, value.z);
+            boundsManager.BoundsMin = minGlobalBoundary;
+        }
+    }
+    public Vector3 MaxGlobalBoundary
+    {
+        get => maxGlobalBoundary;
+        set {
+            maxGlobalBoundary = new Vector3(value.x, 0, value.z);
+            boundsManager.BoundsMax = maxGlobalBoundary;
+        }
+    }
 
     public GameManager gameManager; // Reference to GameManager script
+    public BoundsManager boundsManager; // Reference to BoundsManager script
 
     private bool stopWorking = false;
 
+    void OnValidate() {
+        MinGlobalBoundary = minGlobalBoundary;
+        MaxGlobalBoundary = maxGlobalBoundary;
+    }
     private void Start()
     {
+        boundsManager.BoundsMin = minGlobalBoundary;
+        boundsManager.BoundsMax = maxGlobalBoundary;
         StartCoroutine(SpawnFlotsamRoutine());
     }
 
@@ -46,35 +71,36 @@ public class FlotsamManager : MonoBehaviour
 
     private IEnumerator SpawnFlotsam()
     {
-        if (flotsamPrefabs.Length != 0) {
-
-        // Decide whether to spawn within the radius or outside
-        Vector3 spawnPosition;
-        if (UnityEngine.Random.value < offRadiusChance)
+        if (flotsamPrefabs.Length != 0)
         {
-            spawnPosition = GetRandomPositionOutsideRadius();
-        }
-        else
-        {
-            spawnPosition = GetRandomPositionAroundPlayer();
-        }
 
-        GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
+            // Decide whether to spawn within the radius or outside
+            Vector3 spawnPosition;
+            if (UnityEngine.Random.value < offRadiusChance)
+            {
+                spawnPosition = GetRandomPositionOutsideRadius();
+            }
+            else
+            {
+                spawnPosition = GetRandomPositionAroundPlayer();
+            }
 
-        // Ensure there's no overlap with existing flotsam
-        if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
-        {
-            spawnPosition.y = -3f;
-            Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
-        }
-        else
-        {
-            // If occupied, retry
-            yield return new WaitForSeconds(0.05f); // Wait a bit before retrying
-            StartCoroutine(SpawnFlotsam());
-        }
+            GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
 
-    }
+            // Ensure there's no overlap with existing flotsam
+            if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
+            {
+                spawnPosition.y = -3f;
+                Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            }
+            else
+            {
+                // If occupied, retry
+                yield return new WaitForSeconds(0.05f); // Wait a bit before retrying
+                StartCoroutine(SpawnFlotsam());
+            }
+
+        }
 
     }
 
