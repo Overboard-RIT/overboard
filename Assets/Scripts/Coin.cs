@@ -3,6 +3,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public int points = 100; // Points awarded when the coin is collected
+    public GameObject collectAnim;
 
     void Update()
     {
@@ -26,6 +27,7 @@ public class Coin : MonoBehaviour
         // Add points to the score
         ScoreManager.Instance.AddPoints(points);
 
+        Instantiate(collectAnim, transform.position, Quaternion.Euler(90f, 0, 0)); // Instantiate the collection animation at the coin's position
         Destroy(gameObject); // Destroy the coin object
     }
 }
