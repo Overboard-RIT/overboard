@@ -81,6 +81,7 @@ public class FloatingBehavior : MonoBehaviour
     public void Shake()
     {
         isShaking = true;
+        GetComponent<Renderer>().material.color = Color.red;
     }
 
     void Start()

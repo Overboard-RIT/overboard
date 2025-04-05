@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatSpeed: 1
-  warningTime: 2.5
+  warningTime: 1.25
   destroyDepth: -5
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
