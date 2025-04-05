@@ -122,3 +122,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 150
+  collectAnim: {fileID: 4352981629451102000, guid: bc44cfb8172b44c638dd8d0ad837927f, type: 3}
