@@ -69,8 +69,9 @@ public class FloatingBehavior : MonoBehaviour
 
     public void Bounce()
     {
-        if (isBouncing)
+        if (isBouncing || GetComponent<FlotsamLifecycle>().currentState != FlotsamLifecycle.FlotsamState.Floating)
         {
+            // Already bouncing or rising/sinking, do nothing
             return;
         }
         isBouncing = true;

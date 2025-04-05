@@ -12,15 +12,16 @@ public class FlotsamLifecycle : MonoBehaviour
     public float maxSinkSpeed = 2f;
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;
-    public GameManager gameManager;     // Reference to GameManager script
+    public GameManager gameManager; // Reference to GameManager script
 
     public GameObject warningSymbolPrefab; // Assign in Inspector (a prefab)
     private GameObject warningSymbol;      // The instantiated warning symbol
     public GameObject coinPrefab;
     private GameObject coinInstance;
 
-    private enum FlotsamState { Rising, Floating, Sinking }
-    private FlotsamState currentState = FlotsamState.Rising;
+    public enum FlotsamState { Rising, Floating, Sinking }
+    [NonSerialized]
+    public FlotsamState currentState = FlotsamState.Rising;
 
     void Start()
     {
@@ -91,7 +92,7 @@ public class FlotsamLifecycle : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (coinPrefab != null)
         {
-            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(0f, 0f, 0f));
+            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(90f, 0f, 0f));
         }
     }
 
