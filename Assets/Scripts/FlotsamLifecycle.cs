@@ -13,7 +13,7 @@ public class FlotsamBehavior : MonoBehaviour
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;
     public GameManager gameManager;     // Reference to GameManager script
-
+    public GameObject bubbles;         // Assign in Inspector (a prefab)
     public GameObject warningSymbolPrefab; // Assign in Inspector (a prefab)
     private GameObject warningSymbol;      // The instantiated warning symbol
     public GameObject coinPrefab;
@@ -66,6 +66,7 @@ public class FlotsamBehavior : MonoBehaviour
 
     private IEnumerator SinkBelowWater()
     {
+        GameObject newBubbles = Instantiate(bubbles, transform.position, Quaternion.Euler(90f, 0f, 0f));
         sinkSpeed = 0f; // Start at 0 and accelerate downward
 
         while (transform.position.y > destroyDepth)
@@ -74,7 +75,7 @@ public class FlotsamBehavior : MonoBehaviour
             transform.position += Vector3.down * sinkSpeed * Time.deltaTime;
             yield return null;
         }
-
+        Destroy(newBubbles); // Destroy bubbles
         Destroy(gameObject); // Destroy flotsam
     }
 
