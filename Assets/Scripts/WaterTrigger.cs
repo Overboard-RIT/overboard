@@ -12,6 +12,11 @@ public class WaterTrigger : MonoBehaviour
 
     private float? enteredWaterAt = null;
 
+    public GameObject playerLeftFoot;
+    public GameObject playerRightFoot;
+
+    public GameObject splash;
+
     public GameTimer gameTimer; // Assign in Inspector
 
     void Update()
@@ -43,6 +48,10 @@ public class WaterTrigger : MonoBehaviour
                 penaltyText.ShowText(); // Show "-5 SECONDS!" text
                 lastPenaltyTime = Time.time; // Update penalty timer
                 enteredWaterAt = null;
+
+                Vector3 playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
+                playerPosition.y = 0.5f; // Adjust Y position to be above the water
+                Instantiate(splash, playerPosition, Quaternion.Euler(90f, 0f, 0f));
             }
         }
     }
