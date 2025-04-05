@@ -6,6 +6,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class GameTimer : MonoBehaviour
 {
+    public StartAndStop timeup;
     public float timeRemaining = 60.99f;
     public float fadeDuration = 1f;
     public List<PlayerController> players;
@@ -51,6 +52,7 @@ public class GameTimer : MonoBehaviour
 
     IEnumerator HandleGameOver()
     {
+        timeup.Show();
         backWallUI.ShowScullyPoint();
         backWallUI.Squawk("Yer Time's Up!", "We hope you had fun, but it's time for someone else to suffer!");
         // Fade in game-over UI
