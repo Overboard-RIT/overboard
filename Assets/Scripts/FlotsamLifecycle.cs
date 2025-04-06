@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class FlotsamBehavior : MonoBehaviour
+public class FlotsamLifecycle : MonoBehaviour
 {
     public float floatSpeed = 1f;      // Speed of rising to surface
     private float sinkSpeed = 0.0f;     // Speed of sinking
@@ -35,16 +35,15 @@ public class FlotsamBehavior : MonoBehaviour
 
     private IEnumerator FloatToSurface()
     {
-        while (transform.position.y < 0f)
+        while (transform.position.y < 0.4f)
         {
             transform.position += Vector3.up * floatSpeed * Time.deltaTime;
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.4f, transform.position.z);
         currentState = FlotsamState.Floating;
-
-        
+        GetComponent<FloatingBehavior>().startPosition = transform.position;
 
         StartCoroutine(StayOnSurface());
     }
@@ -57,6 +56,7 @@ public class FlotsamBehavior : MonoBehaviour
 
         yield return new WaitForSeconds(surfaceDuration - warningTime); // Time before warning appears
         SpawnWarningSymbol(); // Spawn warning before sinking
+        GetComponent<FloatingBehavior>().Shake();
 
         yield return new WaitForSeconds(warningTime); // Remaining time on surface
         currentState = FlotsamState.Sinking;
@@ -92,7 +92,7 @@ public class FlotsamBehavior : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (coinPrefab != null)
         {
-            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(90f, 0f, 0f));
+            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(0f, 0f, 0f));
         }
     }
 
