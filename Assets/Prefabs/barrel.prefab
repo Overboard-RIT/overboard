@@ -166,5 +166,6 @@ MonoBehaviour:
   sinkAcceleration: 0.5
   ableToSpawnCoin: 1
   gameManager: {fileID: 0}
+  bubbles: {fileID: 2842336448850805461, guid: 0ac45f00cebd3461489f643e87cb4641, type: 3}
   warningSymbolPrefab: {fileID: 1393807624894255909, guid: fd63c3981e53d4149b859f56339a2179, type: 3}
   coinPrefab: {fileID: 4352981629451102000, guid: 1fd251a6c5ee7a04ab6c1e1236448bab, type: 3}
