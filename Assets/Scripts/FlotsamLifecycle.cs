@@ -91,7 +91,7 @@ public class FlotsamLifecycle : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (coinPrefab != null)
         {
-            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(90f, 0f, 0f));
+            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(0f, 0f, 0f));
         }
     }
 
