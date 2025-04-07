@@ -19,8 +19,9 @@ public class FlotsamLifecycle : MonoBehaviour
     public GameObject coinPrefab;
     private GameObject coinInstance;
 
-    private enum FlotsamState { Rising, Floating, Sinking }
-    private FlotsamState currentState = FlotsamState.Rising;
+    public enum FlotsamState { Rising, Floating, Sinking }
+    [NonSerialized]
+    public FlotsamState currentState = FlotsamState.Rising;
 
     void Start()
     {
@@ -50,7 +51,8 @@ public class FlotsamLifecycle : MonoBehaviour
 
     private IEnumerator StayOnSurface()
     {
-        while (!ableToSpawnCoin && !gameManager.gameStarted) {
+        while (!ableToSpawnCoin && !gameManager.gameStarted)
+        {
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -92,7 +94,7 @@ public class FlotsamLifecycle : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (coinPrefab != null)
         {
-            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(0f, 0f, 0f));
+            coinInstance = Instantiate(coinPrefab, transform.position + new Vector3(1, 5, 0), Quaternion.Euler(90f, 0f, 0f));
         }
     }
 
