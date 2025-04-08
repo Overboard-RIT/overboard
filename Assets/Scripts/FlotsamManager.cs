@@ -18,22 +18,8 @@ public class FlotsamManager : MonoBehaviour
     private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
     [SerializeField]
     private Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
-    public Vector3 MinGlobalBoundary
-    {
-        get => minGlobalBoundary;
-        set {
-            minGlobalBoundary = new Vector3(value.x, 0, value.z);
-            boundsManager.BoundsMin = minGlobalBoundary;
-        }
-    }
-    public Vector3 MaxGlobalBoundary
-    {
-        get => maxGlobalBoundary;
-        set {
-            maxGlobalBoundary = new Vector3(value.x, 0, value.z);
-            boundsManager.BoundsMax = maxGlobalBoundary;
-        }
-    }
+    public Vector3 MinGlobalBoundary { get; set; }
+    public Vector3 MaxGlobalBoundary { get; set; }
 
     public GameManager gameManager; // Reference to GameManager script
     public BoundsManager boundsManager; // Reference to BoundsManager script
