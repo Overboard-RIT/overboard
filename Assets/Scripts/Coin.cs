@@ -5,6 +5,8 @@ public class Coin : MonoBehaviour
     public int points = 100; // Points awarded when the coin is collected
     public GameObject collectAnim;
 
+    public AudioSource collectSound; // Sound to play when the coin is collected
+
     void Update()
     {
         // Make the coin spin around the Y-axis (using deltaTime to make it frame-rate independent)
@@ -13,7 +15,6 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Coin Triggered: " + other.name); // Log the name of the object that triggered the collider
         
         // Check if the player has collided with the coin
         if ((other.CompareTag("LeftFoot") || other.CompareTag("RightFoot")))
@@ -27,7 +28,10 @@ public class Coin : MonoBehaviour
         // Add points to the score
         ScoreManager.Instance.AddPoints(points);
 
+        collectSound.Play(); // Play the collection sound
+
         Instantiate(collectAnim, transform.position, Quaternion.Euler(90f, 0, 0)); // Instantiate the collection animation at the coin's position
+
         Destroy(gameObject); // Destroy the coin object
     }
 }
