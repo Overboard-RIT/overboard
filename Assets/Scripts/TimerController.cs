@@ -6,6 +6,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class GameTimer : MonoBehaviour
 {
+    public StartAndStop timeup;
     public float timeRemaining = 60.99f;
     public float fadeDuration = 1f;
     public List<PlayerController> players;
@@ -13,12 +14,14 @@ public class GameTimer : MonoBehaviour
     public ScoreManager score;
     public BackWallUI backWallUI;
     public Leaderboard leaderboard;
+    public CanvasGroup gameOverUI;
 
-    private bool isGameOver = false;
+    public bool isGameOver = false;
+    public GameManager gameManager;
 
     void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver || !gameManager.gameStarted) return;
 
         timeRemaining -= Time.deltaTime;
         timeRemaining = Mathf.Max(timeRemaining, 0); // Ensure time doesn't go below 0
@@ -42,7 +45,28 @@ public class GameTimer : MonoBehaviour
 
             spawner.Stop();
             score.Stop();
+
+            StartCoroutine(HandleGameOver());
         }
+    }
+
+    IEnumerator HandleGameOver()
+    {
+        timeup.Show();
+        backWallUI.ShowScullyPoint();
+        backWallUI.Squawk("Yer Time's Up!", "We hope you had fun, but it's time for someone else to suffer!");
+        // Fade in game-over UI
+        float elapsedTime = 0;
+        while (elapsedTime < fadeDuration)
+        {
+            //gameOverUI.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        gameOverUI.alpha = 0.01f;
+        gameOverUI.interactable = true;
+        gameOverUI.blocksRaycasts = true;
     }
 
     public void AdjustTime(float amount)
@@ -50,5 +74,4 @@ public class GameTimer : MonoBehaviour
         timeRemaining += amount;
         if (timeRemaining < 0) timeRemaining = 0; // Prevent negative time
     }
-
 }

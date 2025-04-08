@@ -3,6 +3,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public int points = 100; // Points awarded when the coin is collected
+    public GameObject collectAnim;
 
     void Update()
     {
@@ -12,6 +13,8 @@ public class Coin : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Coin Triggered: " + other.name); // Log the name of the object that triggered the collider
+        
         // Check if the player has collided with the coin
         if ((other.CompareTag("LeftFoot") || other.CompareTag("RightFoot")))
         {
@@ -24,6 +27,7 @@ public class Coin : MonoBehaviour
         // Add points to the score
         ScoreManager.Instance.AddPoints(points);
 
-        gameObject.SetActive(false); // Coin disappears after collection
+        Instantiate(collectAnim, transform.position, Quaternion.Euler(90f, 0, 0)); // Instantiate the collection animation at the coin's position
+        Destroy(gameObject); // Destroy the coin object
     }
 }

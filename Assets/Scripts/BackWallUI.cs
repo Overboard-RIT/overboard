@@ -13,7 +13,11 @@ public class BackWallUI : MonoBehaviour
     public GameObject speechBubblePanel;
     private List<OverboardPlayer> players = new List<OverboardPlayer>();
 
-    private OverboardPlayer example = new OverboardPlayer("colby", 0, 69);
+    public GameObject scullyPlatform;
+    public GameObject scullyNeutral;
+    public GameObject scullyPoint;
+
+    private OverboardPlayer example = new OverboardPlayer("Player 1", 0, 0);
 
     public struct OverboardPlayer
     {
@@ -49,7 +53,7 @@ public class BackWallUI : MonoBehaviour
 
     public void SetScore(int newScore)
     {
-        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString();
+        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString() + " pts";
     }
 
     public void AddPlayer(OverboardPlayer player)
@@ -82,12 +86,31 @@ public class BackWallUI : MonoBehaviour
         newBubble.GetComponent<SpeechBubble>().Body = body;
     }
 
+    public void Quiet() {
+        foreach (Transform child in speechBubblePanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void HideScully() {
+        scullyPlatform.SetActive(false);
+        scullyNeutral.SetActive(false);
+        scullyPoint.SetActive(false);
+    }
+
+    public void ShowScullyPoint() {
+        scullyPlatform.SetActive(true);
+        scullyPoint.SetActive(true);
+        scullyNeutral.SetActive(false);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        score.GetComponent<TextMeshProUGUI>().text = "0";
+        score.GetComponent<TextMeshProUGUI>().text = "0 pts";
         AddPlayer(example);
-        AddPlayer(example);
-        Squawk("hi elia", "this is a test");
+        //AddPlayer(example);
+        Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
     }
 }

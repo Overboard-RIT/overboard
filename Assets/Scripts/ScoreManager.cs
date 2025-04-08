@@ -36,6 +36,10 @@ public class ScoreManager : MonoBehaviour
         {
             // Add points to the score
             currentScore += points;
+            if (currentScore < 0)
+            {
+                currentScore = 0; // Ensure score doesn't go negative
+            }
             UpdateScoreText();
         }
         

@@ -40,8 +40,13 @@ public class FlotsamManager : MonoBehaviour
         Expert
     }
 
+
     private bool stopWorking = false;
 
+    void OnValidate() {
+        MinGlobalBoundary = minGlobalBoundary;
+        MaxGlobalBoundary = maxGlobalBoundary;
+    }
     private void Start()
     {
         if (difficulty == Difficulty.Expert) {
@@ -52,6 +57,7 @@ public class FlotsamManager : MonoBehaviour
             scaleFactor = 1;
             distanceFactor = 1;
         }
+
         StartCoroutine(SpawnFlotsamRoutine());
     }
 
@@ -64,31 +70,45 @@ public class FlotsamManager : MonoBehaviour
     {
         while (!stopWorking)
         {
+            while (!gameManager.gameStarted)
+            {
+                yield return new WaitForSeconds(0.5f); // Wait until the game starts
+            }
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
-            SpawnFlotsam();
+            StartCoroutine(SpawnFlotsam());
         }
     }
 
-    private void SpawnFlotsam()
+    private IEnumerator SpawnFlotsam()
     {
-        if (flotsamPrefabs.Length == 0) return;
-
-        // Decide whether to spawn within the radius or outside
-        Vector3 spawnPosition;
-        if (UnityEngine.Random.value < offRadiusChance)
+        if (flotsamPrefabs.Length != 0)
         {
-            spawnPosition = GetRandomPositionOutsideRadius();
-        }
-        else
-        {
-            spawnPosition = GetRandomPositionAroundPlayer();
-        }
 
-        GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
+            // Decide whether to spawn within the radius or outside
+            Vector3 spawnPosition;
+            if (UnityEngine.Random.value < offRadiusChance)
+            {
+                spawnPosition = GetRandomPositionOutsideRadius();
+            }
+            else
+            {
+                spawnPosition = GetRandomPositionAroundPlayer();
+            }
 
-        // Ensure there's no overlap with existing flotsam
-        if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
-        {
+            GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
+
+            // Ensure there's no overlap with existing flotsam
+            if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
+            {
+                spawnPosition.y = -3f;
+                Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            }
+            else
+            {
+                // If occupied, retry
+                yield return new WaitForSeconds(0.05f); // Wait a bit before retrying
+                StartCoroutine(SpawnFlotsam());
+            }
 
             spawnPosition.y = -3f;
             GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
@@ -98,6 +118,7 @@ public class FlotsamManager : MonoBehaviour
         {
             // If occupied, retry
             SpawnFlotsam();
+
         }
 
     }
