@@ -16,6 +16,10 @@ public class GameTimer : MonoBehaviour
     public Leaderboard leaderboard;
     public CanvasGroup gameOverUI;
 
+    public AudioSource tenSecondAudio;
+    public AudioSource fiveSecondAudio;
+    public AudioSource gameOverAudio;
+
     public bool isGameOver = false;
     public GameManager gameManager;
 
@@ -29,9 +33,21 @@ public class GameTimer : MonoBehaviour
         // Update the timer UI
         backWallUI.SetTimer(Mathf.FloorToInt(timeRemaining));
 
-        // If time reaches zero, trigger game over
-        if (timeRemaining <= 0)
+        if (timeRemaining <= 11.05f && timeRemaining > 6 && !tenSecondAudio.isPlaying)
         {
+            tenSecondAudio.Play();
+        }
+        else if (timeRemaining <= 4.0f && timeRemaining > 0 && !fiveSecondAudio.isPlaying)
+        {
+            tenSecondAudio.Stop();
+            fiveSecondAudio.Play();
+        }
+
+        // If time reaches zero, trigger game over
+        if (timeRemaining <= 0.05f)
+        {
+            fiveSecondAudio.Stop();
+            gameOverAudio.Play();
             isGameOver = true;
 
             foreach (PlayerController player in players)
