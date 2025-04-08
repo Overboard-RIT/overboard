@@ -13,6 +13,9 @@ public class FlotsamManager : MonoBehaviour
     public LayerMask flotsamLayer; // Layer to check for existing flotsam
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
+    private GameObject lastSpawnedFlotsam;
+
+    public BootyManager bootyManager;
 
     [SerializeField]
     private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
@@ -92,6 +95,12 @@ public class FlotsamManager : MonoBehaviour
             {
                 spawnPosition.y = -3f;
                 Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+
+                if (lastSpawnedFlotsam != null)
+                {
+                    Debug.Log("here");
+                    this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                }
             }
             else
             {

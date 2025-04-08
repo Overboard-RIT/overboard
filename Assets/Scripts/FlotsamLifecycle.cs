@@ -47,8 +47,8 @@ public class FlotsamLifecycle : MonoBehaviour
         GetComponent<FloatingBehavior>().startPosition = transform.position;
 
         StartCoroutine(StayOnSurface());
-    }
 
+    }
     private IEnumerator StayOnSurface()
     {
         while (!ableToSpawnCoin && !gameManager.gameStarted)
