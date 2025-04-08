@@ -818,7 +818,7 @@ Transform:
   m_GameObject: {fileID: 200007302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -0.2, z: -30}
+  m_LocalPosition: {x: 2, y: -0.2, z: -30}
   m_LocalScale: {x: 2.55, y: 1, z: 4.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2719,8 +2719,8 @@ MonoBehaviour:
     m_Bits: 8
   spawnY: 0
   playerTransform: {fileID: 1997432730}
-  minGlobalBoundary: {x: 6, y: 0, z: -50}
-  maxGlobalBoundary: {x: 0, y: 0, z: -10}
+  minGlobalBoundary: {x: -2, y: 0, z: -50}
+  maxGlobalBoundary: {x: 6, y: 0, z: -10}
   gameManager: {fileID: 309585986}
   boundsManager: {fileID: 666666157}
 --- !u!4 &568445857
@@ -4420,7 +4420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5376576067793135658, guid: 19ec4fcca4fc54c6f978741e8f8f749f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8144,7 +8144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeup: {fileID: 34922951}
-  timeRemaining: 20.99
+  timeRemaining: 60.99
   fadeDuration: 1
   players:
   - {fileID: 1997432725}
