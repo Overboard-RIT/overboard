@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4057415158791317448}
   - component: {fileID: 16446966416793624}
   - component: {fileID: 5135422268128658042}
+  - component: {fileID: 4684358530236179288}
   m_Layer: 0
   m_Name: CoinCollectAnim
   m_TagString: Untagged
@@ -125,7 +126,7 @@ AudioSource:
   m_Resource: {fileID: 8300000, guid: 0c87e63f63b3b8b4f815e03a31ee4b53, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.9
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -208,3 +209,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4684358530236179288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4352981629451102000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa6f4214f679b448a05522973f14b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinPrefab: {fileID: 3111696062146099990, guid: c7569851d2d75cb43823515faf3aae60, type: 3}
+  spawnCoin: 0
