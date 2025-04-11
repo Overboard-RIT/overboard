@@ -9,7 +9,8 @@ public class FloatingBehavior : MonoBehaviour
         Barrel,
         Raft,
         Donut,
-        Crate
+        Crate,
+        UIPlanks
     }
     [Header("Floating Settings")]
 
@@ -82,13 +83,21 @@ public class FloatingBehavior : MonoBehaviour
         isShaking = true;
     }
 
+    public void EndGame()
+    {
+        Destroy(this);
+    }
+
     void Start()
     {
-        rotationSpeed += UnityEngine.Random.Range(0, 5);
-
-        if (UnityEngine.Random.value < 0.5f)
+        if (rotationSpeed != 0)
         {
-            rotationSpeed *= -1;
+            rotationSpeed += UnityEngine.Random.Range(0, 5);
+
+            if (UnityEngine.Random.value < 0.5f)
+            {
+                rotationSpeed *= -1;
+            }
         }
 
         switch (platformType)

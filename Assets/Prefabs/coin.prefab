@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5474950717811484808}
   m_Layer: 0
   m_Name: coin
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +107,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.1
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5474950717811484808
 MonoBehaviour:

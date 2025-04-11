@@ -5,6 +5,8 @@ using UnityEngine;
 public class FlotsamManager : MonoBehaviour
 {
     public GameObject[] flotsamPrefabs; // Array of flotsam prefabs
+    public int uiPlanksIndex = 4;
+    public int startingFlotsamIndex = 2;
     public float spawnIntervalMin = 3f; // Time between spawns
     public float spawnIntervalMax = 7f;
     public float spawnRadius = 15f; // Radius around the player to spawn flotsam
@@ -18,40 +20,78 @@ public class FlotsamManager : MonoBehaviour
     private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
     [SerializeField]
     private Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
-    public Vector3 MinGlobalBoundary { get; set; }
-    public Vector3 MaxGlobalBoundary { get; set; }
+    public Vector3 MinGlobalBoundary
+    {
+        get => minGlobalBoundary;
+        set
+        {
+            minGlobalBoundary = new Vector3(value.x, 0, value.z);
+            boundsManager.BoundsMin = minGlobalBoundary;
+        }
+    }
+    public Vector3 MaxGlobalBoundary
+    {
+        get => maxGlobalBoundary;
+        set
+        {
+            maxGlobalBoundary = new Vector3(value.x, 0, value.z);
+            boundsManager.BoundsMax = maxGlobalBoundary;
+        }
+    }
 
     public GameManager gameManager; // Reference to GameManager script
     public BoundsManager boundsManager; // Reference to BoundsManager script
 
-    private bool stopWorking = false;
+    private GameObject casualDifficulty;
+    private GameObject expertDifficulty;
 
-    void OnValidate() {
+    void OnValidate()
+    {
         MinGlobalBoundary = minGlobalBoundary;
         MaxGlobalBoundary = maxGlobalBoundary;
     }
     private void Start()
     {
-        boundsManager.BoundsMin = minGlobalBoundary;
-        boundsManager.BoundsMax = maxGlobalBoundary;
+        // boundsManager.BoundsMin = minGlobalBoundary;
+        // boundsManager.BoundsMax = maxGlobalBoundary;
+    }
+
+    public void StartGame()
+    {
+        SpawnStartingFlotsam();
+    }
+
+    public void StartOnboarding()
+    {
+        SpawnOnboardingFlotsam();
+    }
+
+    public void ShowDifficulty()
+    {
+        SpawnDifficultyFlotsams();
+    }
+
+    public void HideDifficulty()
+    {
+        DestroyDifficultyFlotsams();
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine(SpawnFlotsamRoutine());
     }
 
     public void Stop()
     {
-        stopWorking = true;
+        StopAllCoroutines();
     }
 
     private IEnumerator SpawnFlotsamRoutine()
     {
-        while (!stopWorking)
+        while (true)
         {
-            while (!gameManager.gameStarted)
-            {
-                yield return new WaitForSeconds(0.5f); // Wait until the game starts
-            }
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
-            StartCoroutine(SpawnFlotsam());
+            yield return StartCoroutine(SpawnFlotsam());
         }
     }
 
@@ -88,6 +128,64 @@ public class FlotsamManager : MonoBehaviour
 
         }
 
+    }
+
+    private void SpawnOnboardingFlotsam()
+    {
+        Vector3 spawnPosition = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.8f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.5f)
+        );
+        GameObject flotsamPrefab = flotsamPrefabs[uiPlanksIndex];
+        GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.Euler(90f, 90f, 0));
+        newFlotsam.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        newFlotsam.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+        newFlotsam.GetComponent<UIPlatform>().PlatformEntered.AddListener(ShowDifficulty);
+        newFlotsam.GetComponent<UIPlatform>().PlatformExited.AddListener(HideDifficulty);
+    }
+
+    private void SpawnDifficultyFlotsams()
+    {
+        Vector3 spawnPosition1 = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.5f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.43f)
+        );
+        GameObject flotsamPrefab = flotsamPrefabs[uiPlanksIndex];
+        casualDifficulty = Instantiate(flotsamPrefab, spawnPosition1, Quaternion.Euler(90f, 90f, 0));
+        casualDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+        casualDifficulty.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+
+        Vector3 spawnPosition2 = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.5f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.57f)
+        );
+        expertDifficulty = Instantiate(flotsamPrefab, spawnPosition2, Quaternion.Euler(90f, 90f, 0));
+        expertDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+        expertDifficulty.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+    }
+
+    private void DestroyDifficultyFlotsams()
+    {
+        if (casualDifficulty != null)
+        {
+            casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
+        }
+        if (expertDifficulty != null)
+        {
+            expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
+        }
+    }
+
+    private void SpawnStartingFlotsam()
+    {
+        Vector3 spawnPosition = 0.5f * (minGlobalBoundary + maxGlobalBoundary);
+        spawnPosition.y = -3f;
+        GameObject flotsamPrefab = flotsamPrefabs[startingFlotsamIndex];
+        GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+        newFlotsam.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
     }
 
     // Check if the spawn position is within the global boundaries

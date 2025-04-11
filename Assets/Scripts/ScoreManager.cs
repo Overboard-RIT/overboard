@@ -9,7 +9,6 @@ public class ScoreManager : MonoBehaviour
     // public UnityEngine.UI.Text finalScoreText; // UI Text element to display the score
     private int currentScore = 0;
     public int Score { get { return currentScore; } } // Property to access the score
-    private bool stopWorking = false;
 
     void Awake()
     {
@@ -17,6 +16,7 @@ public class ScoreManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            enabled = false; // Disable the script until game starts
         }
         else
         {
@@ -24,30 +24,21 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Start()
+    public void StartGame()
     {
-        // Update the score UI at the start
+        currentScore = 0; // Reset score at the start of the game
         UpdateScoreText();
     }
 
     public void AddPoints(int points)
     {
-        if (!stopWorking)
+        // Add points to the score
+        currentScore += points;
+        if (currentScore < 0)
         {
-            // Add points to the score
-            currentScore += points;
-            if (currentScore < 0)
-            {
-                currentScore = 0; // Ensure score doesn't go negative
-            }
-            UpdateScoreText();
+            currentScore = 0; // Ensure score doesn't go negative
         }
-        
-    }
-
-    public void Stop()
-    {
-        stopWorking = true;
+        UpdateScoreText();
     }
 
     void UpdateScoreText()

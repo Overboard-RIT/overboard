@@ -12,7 +12,7 @@ public class FlotsamLifecycle : MonoBehaviour
     public float maxSinkSpeed = 2f;
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;
-    public GameManager gameManager;     // Reference to GameManager script
+    public GameManager gameManager;    // Reference to GameManager script
     public GameObject bubbles;         // Assign in Inspector (a prefab)
     public GameObject warningSymbolPrefab; // Assign in Inspector (a prefab)
     private GameObject warningSymbol;      // The instantiated warning symbol
@@ -25,6 +25,7 @@ public class FlotsamLifecycle : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameManager>();
         surfaceDuration = UnityEngine.Random.Range(5f, 8f);
         StartCoroutine(FloatToSurface());
 
@@ -32,6 +33,15 @@ public class FlotsamLifecycle : MonoBehaviour
         {
             StartCoroutine(SpawnCoin());
         }
+    }
+
+    public void EndGame()
+    {
+        Destroy(warningSymbol);
+        GetComponent<FlotsamCollider>().EndGame();
+        GetComponent<FloatingBehavior>().EndGame();
+        StopAllCoroutines();
+        StartCoroutine(SinkBelowWater());
     }
 
     private IEnumerator FloatToSurface()
@@ -51,7 +61,8 @@ public class FlotsamLifecycle : MonoBehaviour
 
     private IEnumerator StayOnSurface()
     {
-        while (!ableToSpawnCoin && !gameManager.gameStarted)
+        // while (!ableToSpawnCoin && !gameManager.gameStarted)
+        while (!gameManager.gameStarted)
         {
             yield return new WaitForSeconds(0.5f);
         }
