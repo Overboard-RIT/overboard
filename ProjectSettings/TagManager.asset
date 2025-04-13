@@ -9,6 +9,7 @@ TagManager:
   - RightFoot
   - Flotsam
   - Coin
+  - UITimer
   layers:
   - Default
   - TransparentFX

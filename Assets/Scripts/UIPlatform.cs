@@ -3,13 +3,14 @@ using UnityEngine.Events;
 
 public class UIPlatform : MonoBehaviour
 {
-    public UnityEvent PlatformEntered;
-    public UnityEvent PlatformExited;
+    public UnityEvent PlatformEntered = new UnityEvent();
+    public UnityEvent PlatformExited = new UnityEvent();
     public bool enterPlatform = false;
     public bool exitPlatform = false;
-
     public float platformStandDuration = 0.5f;
-    private float platformEnteredAt = 0f;
+    public float enterTimerStartedAt = 0f;
+    public float exitTimerStartedAt = 0f;
+    public bool platformEntered = false;
 
     void OnValidate()
     {
@@ -45,6 +46,10 @@ public class UIPlatform : MonoBehaviour
         {
             PlatformExited = new UnityEvent();
         }
+        if (GetComponent<TimerPlatform>() != null)
+        {
+            GetComponent<TimerPlatform>().timerDuration = platformStandDuration;
+        }
     }
 
     // Update is called once per frame
@@ -53,25 +58,34 @@ public class UIPlatform : MonoBehaviour
         // Check if the player is on the platform
         if (GetComponent<FlotsamCollider>().PlayerContact)
         {
+            exitTimerStartedAt = 0;
+
             // if player has just entered the platform, start the timer
-            if (platformEnteredAt == 0)
+            if (!platformEntered && enterTimerStartedAt == 0)
             {
-                platformEnteredAt = Time.time;
+                enterTimerStartedAt = Time.time;
             }
             // if player has been on the platform long enough, trigger the event
-            if (Time.time - platformEnteredAt > platformStandDuration)
+            if (Time.time - enterTimerStartedAt > platformStandDuration && !platformEntered)
             {
+                platformEntered = true;
                 OnPlatformEntered();
             }
         }
         // if player is not on the platform
         else
         {
-            // reset the timer
-            platformEnteredAt = 0;
-            // if player had been on the platform, trigger the exit event
-            if (platformEnteredAt != 0 && Time.time - platformEnteredAt > platformStandDuration)
+            enterTimerStartedAt = 0;
+
+            // if player has just entered the platform, start the timer
+            if (platformEntered && exitTimerStartedAt == 0)
             {
+                exitTimerStartedAt = Time.time;
+            }
+            // if player has been on the platform long enough, trigger the event
+            if (Time.time - exitTimerStartedAt > platformStandDuration && platformEntered)
+            {
+                platformEntered = false;
                 OnPlatformExited();
             }
         }

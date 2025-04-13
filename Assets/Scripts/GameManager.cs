@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
-
     public bool gameStarted = false;
+
+    [Header("Inspector Controls")]
     public bool startOnboard = false;
     public bool showDifficulty = false;
+    public bool startGame = false;
     public bool endGame = false;
 
 
@@ -41,6 +43,12 @@ public class GameManager : MonoBehaviour
             showDifficulty = false;
             ShowDifficulty();
         }
+
+        if (startGame)
+        {
+            startGame = false;
+            StartCountdown();
+        }
     }
 
     void Update()
@@ -53,9 +61,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void StartCountdown() {
+        StartCoroutine(StartGameCountdown());
+    }
+
+    private void StartGame()
     {
-        gameStarted = true;
+        // Set the difficulty in the FlotsamManager
+        // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
         gameTimer.enabled = true;
@@ -82,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        gameStarted = false;
+        // gameStarted = false;
 
         // fake name until we have a name input
         string fakeName = "Colby" + Random.Range(1, 1000).ToString();

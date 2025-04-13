@@ -79,6 +79,10 @@ public class FlotsamLifecycle : MonoBehaviour
 
     private IEnumerator SinkBelowWater()
     {
+        if (GetComponent<UIPlatform>() != null)
+        {
+            Destroy(GetComponent<UIPlatform>());
+        }
         GameObject newBubbles = Instantiate(bubbles, transform.position, Quaternion.Euler(90f, 0f, 0f));
         sinkSpeed = 0f; // Start at 0 and accelerate downward
 
