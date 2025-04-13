@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class FlotsamManager : MonoBehaviour
 {
+    [Header("Difficulty")]
+    public Difficulty difficulty = Difficulty.Casual; // Difficulty level
+    [Range(0.0f, 1.0f)]
+    public float scaleFactor = 1f; // Scale factor for flotsam size
+    [Range(1.0f, 2.0f)]
+    public float distanceFactor = 1f; // Distance factor for flotsam spawn distance
+    [Header("Flotsam Settings")]
     public GameObject[] flotsamPrefabs; // Array of flotsam prefabs
     public int uiPlanksIndex = 4;
     public int startingFlotsamIndex = 2;
@@ -16,31 +23,17 @@ public class FlotsamManager : MonoBehaviour
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
 
-    [SerializeField]
     private Vector3 minGlobalBoundary; // Minimum (x, z) boundary for spawn area
-    [SerializeField]
     private Vector3 maxGlobalBoundary; // Maximum (x, z) boundary for spawn area
-    public Vector3 MinGlobalBoundary
+    public Vector3 MinGlobalBoundary { get; set; }
+    public Vector3 MaxGlobalBoundary { get; set; }
+
+    public enum Difficulty
     {
-        get => minGlobalBoundary;
-        set
-        {
-            minGlobalBoundary = new Vector3(value.x, 0, value.z);
-            boundsManager.BoundsMin = minGlobalBoundary;
-        }
-    }
-    public Vector3 MaxGlobalBoundary
-    {
-        get => maxGlobalBoundary;
-        set
-        {
-            maxGlobalBoundary = new Vector3(value.x, 0, value.z);
-            boundsManager.BoundsMax = maxGlobalBoundary;
-        }
+        Casual,
+        Expert
     }
 
-    public GameManager gameManager; // Reference to GameManager script
-    public BoundsManager boundsManager; // Reference to BoundsManager script
 
     private GameObject casualDifficulty;
     private GameObject expertDifficulty;
@@ -52,6 +45,15 @@ public class FlotsamManager : MonoBehaviour
     }
     private void Start()
     {
+        if (difficulty == Difficulty.Expert) {
+            offRadiusChance *= 1.3f; // Increase chance for expert difficulty
+            spawnIntervalMax *= 1.5f;
+
+        } else if (difficulty == Difficulty.Casual) {
+            scaleFactor = 1;
+            distanceFactor = 1;
+        }
+
         // boundsManager.BoundsMin = minGlobalBoundary;
         // boundsManager.BoundsMax = maxGlobalBoundary;
     }
@@ -126,8 +128,75 @@ public class FlotsamManager : MonoBehaviour
                 StartCoroutine(SpawnFlotsam());
             }
 
+            spawnPosition.y = -3f;
+            GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+            newFlotsam.transform.localScale *= scaleFactor; // Scale the flotsam prefab
+        }
+        else
+        {
+            // If occupied, retry
+            SpawnFlotsam();
+
         }
 
+    }
+
+    private void SpawnOnboardingFlotsam()
+    {
+        Vector3 spawnPosition = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.8f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.5f)
+        );
+        GameObject flotsamPrefab = flotsamPrefabs[uiPlanksIndex];
+        GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.Euler(90f, 90f, 0));
+        newFlotsam.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+        newFlotsam.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+        newFlotsam.GetComponent<UIPlatform>().PlatformEntered.AddListener(ShowDifficulty);
+        newFlotsam.GetComponent<UIPlatform>().PlatformExited.AddListener(HideDifficulty);
+    }
+
+    private void SpawnDifficultyFlotsams()
+    {
+        Vector3 spawnPosition1 = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.5f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.43f)
+        );
+        GameObject flotsamPrefab = flotsamPrefabs[uiPlanksIndex];
+        casualDifficulty = Instantiate(flotsamPrefab, spawnPosition1, Quaternion.Euler(90f, 90f, 0));
+        casualDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+        casualDifficulty.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+
+        Vector3 spawnPosition2 = new Vector3(
+            Mathf.Lerp(minGlobalBoundary.x, maxGlobalBoundary.x, 0.5f),
+            -3f,
+            Mathf.Lerp(minGlobalBoundary.z, maxGlobalBoundary.z, 0.57f)
+        );
+        expertDifficulty = Instantiate(flotsamPrefab, spawnPosition2, Quaternion.Euler(90f, 90f, 0));
+        expertDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+        expertDifficulty.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
+    }
+
+    private void DestroyDifficultyFlotsams()
+    {
+        if (casualDifficulty != null)
+        {
+            casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
+        }
+        if (expertDifficulty != null)
+        {
+            expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
+        }
+    }
+
+    private void SpawnStartingFlotsam()
+    {
+        Vector3 spawnPosition = 0.5f * (minGlobalBoundary + maxGlobalBoundary);
+        spawnPosition.y = -3f;
+        GameObject flotsamPrefab = flotsamPrefabs[startingFlotsamIndex];
+        GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+        newFlotsam.GetComponent<FlotsamLifecycle>().ableToSpawnCoin = false;
     }
 
     private void SpawnOnboardingFlotsam()
@@ -221,7 +290,7 @@ public class FlotsamManager : MonoBehaviour
         BoxCollider flotsamCollider = flotsamPrefab.GetComponent<BoxCollider>();
 
         // Calculate the half extents of the box based on the collider size and the prefab's scale
-        Vector3 halfExtents = Vector3.Scale(flotsamCollider.size * 0.6f, flotsamPrefab.transform.localScale);
+        Vector3 halfExtents = Vector3.Scale(flotsamCollider.size * 0.6f * distanceFactor, flotsamPrefab.transform.localScale);
 
         // Project the position to the XZ plane
         Vector3 projectedPosition = new Vector3(position.x, 0, position.z);

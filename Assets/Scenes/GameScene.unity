@@ -2745,6 +2745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332c89a3eaa628342bdab658aaafae88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty: 1
+  scaleFactor: 0.7
+  distanceFactor: 2
   flotsamPrefabs:
   - {fileID: 3959003721913001843, guid: 2322c5170d30843eaaa981d280d93a16, type: 3}
   - {fileID: 177073837375797330, guid: 31e53dd4e826946149af0b30d76cba2c, type: 3}
