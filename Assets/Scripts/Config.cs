@@ -45,7 +45,7 @@ public class Config : MonoBehaviour
     [Range(20, 50)]
     private float offRadiusMaxDistance = 30f;
     [SerializeField]
-    private Vector3 cameraPosition = new Vector3(3, 75, -30);
+    private Vector3 cameraPosition;
 
     public Vector3 MinBounds
     {
@@ -68,6 +68,11 @@ public class Config : MonoBehaviour
 
             flotsamManager.MinGlobalBoundary = minBounds;
             boundsManager.BoundsMin = minBounds;
+            CameraPosition = new Vector3(
+                0.5f * (minBounds.x + maxBounds.x),
+                Camera.main.transform.position.y,
+                0.5f * (minBounds.z + maxBounds.z)
+            );
         }
     }
 
@@ -92,6 +97,11 @@ public class Config : MonoBehaviour
 
             flotsamManager.MaxGlobalBoundary = maxBounds;
             boundsManager.BoundsMax = maxBounds;
+            CameraPosition = new Vector3(
+                0.5f * (minBounds.x + maxBounds.x),
+                Camera.main.transform.position.y,
+                0.5f * (minBounds.z + maxBounds.z)
+            );
         }
     }
 
