@@ -21,7 +21,8 @@ public class FlotsamManager : MonoBehaviour
     public Vector3 MinGlobalBoundary
     {
         get => minGlobalBoundary;
-        set {
+        set
+        {
             minGlobalBoundary = new Vector3(value.x, 0, value.z);
             boundsManager.BoundsMin = minGlobalBoundary;
         }
@@ -29,7 +30,8 @@ public class FlotsamManager : MonoBehaviour
     public Vector3 MaxGlobalBoundary
     {
         get => maxGlobalBoundary;
-        set {
+        set
+        {
             maxGlobalBoundary = new Vector3(value.x, 0, value.z);
             boundsManager.BoundsMax = maxGlobalBoundary;
         }
@@ -40,7 +42,8 @@ public class FlotsamManager : MonoBehaviour
 
     private bool stopWorking = false;
 
-    void OnValidate() {
+    void OnValidate()
+    {
         MinGlobalBoundary = minGlobalBoundary;
         MaxGlobalBoundary = maxGlobalBoundary;
     }
@@ -62,42 +65,40 @@ public class FlotsamManager : MonoBehaviour
         {
             while (!gameManager.gameStarted)
             {
-                yield return new WaitForSeconds(0.5f); // Wait until the game starts
+                yield return new WaitForSeconds(0.1f); // Wait until the game starts
             }
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
-            StartCoroutine(SpawnFlotsam());
+            SpawnFlotsam();
         }
     }
 
-    private IEnumerator SpawnFlotsam()
+    private void SpawnFlotsam()
     {
         if (flotsamPrefabs.Length != 0)
         {
 
-            // Decide whether to spawn within the radius or outside
-            Vector3 spawnPosition;
-            if (UnityEngine.Random.value < offRadiusChance)
+            while (true)
             {
-                spawnPosition = GetRandomPositionOutsideRadius();
-            }
-            else
-            {
-                spawnPosition = GetRandomPositionAroundPlayer();
-            }
+                // Decide whether to spawn within the radius or outside
+                Vector3 spawnPosition;
+                if (UnityEngine.Random.value < offRadiusChance)
+                {
+                    spawnPosition = GetRandomPositionOutsideRadius();
+                }
+                else
+                {
+                    spawnPosition = GetRandomPositionAroundPlayer();
+                }
 
-            GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
+                GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
 
-            // Ensure there's no overlap with existing flotsam
-            if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
-            {
-                spawnPosition.y = -3f;
-                Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
-            }
-            else
-            {
-                // If occupied, retry
-                yield return new WaitForSeconds(0.05f); // Wait a bit before retrying
-                StartCoroutine(SpawnFlotsam());
+                // Ensure there's no overlap with existing flotsam
+                if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
+                {
+                    spawnPosition.y = -3f;
+                    Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                    return;
+                }
             }
 
         }
@@ -140,7 +141,7 @@ public class FlotsamManager : MonoBehaviour
         Vector3 halfExtents = Vector3.Scale(flotsamCollider.size * 0.6f, flotsamPrefab.transform.localScale);
 
         // Project the position to the XZ plane
-        Vector3 projectedPosition = new Vector3(position.x, 0, position.z);
+        Vector3 projectedPosition = new Vector3(position.x, 0.5f, position.z);
 
         // Check for collisions with existing flotsam (using a box overlap check)
         Collider[] colliders = Physics.OverlapBox(projectedPosition, halfExtents, Quaternion.identity, flotsamLayer);

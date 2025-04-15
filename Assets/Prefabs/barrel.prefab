@@ -109,7 +109,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2.5, z: 2}
+  m_Size: {x: 2.2, y: 2.75, z: 2.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-1741784179070719778
 MonoBehaviour:
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 1
   warningTime: 2.5
-  destroyDepth: -5
+  destroyDepth: -3
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
   ableToSpawnCoin: 1

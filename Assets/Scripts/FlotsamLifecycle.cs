@@ -8,7 +8,7 @@ public class FlotsamLifecycle : MonoBehaviour
     private float sinkSpeed = 0.0f;     // Speed of sinking
     private float surfaceDuration = 5f; // Time staying on surface
     public float warningTime = 2f;     // Time before warning appears
-    public float destroyDepth = -5f;   // Depth at which object is destroyed
+    public float destroyDepth = -1f;   // Depth at which object is destroyed
     public float maxSinkSpeed = 2f;
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;

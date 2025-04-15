@@ -31,20 +31,20 @@ public class GameTimer : MonoBehaviour
         timeRemaining = Mathf.Max(timeRemaining, 0); // Ensure time doesn't go below 0
 
         // Update the timer UI
-        backWallUI.SetTimer(Mathf.FloorToInt(timeRemaining));
+        backWallUI.SetTimer(Mathf.CeilToInt(timeRemaining));
 
-        if (timeRemaining <= 11.05f && timeRemaining > 6 && !tenSecondAudio.isPlaying)
+        if (timeRemaining <= 10f && timeRemaining > 6 && !tenSecondAudio.isPlaying)
         {
             tenSecondAudio.Play();
         }
-        else if (timeRemaining <= 4.0f && timeRemaining > 0 && !fiveSecondAudio.isPlaying)
+        else if (timeRemaining <= 3.0f && timeRemaining > 0 && !fiveSecondAudio.isPlaying)
         {
             tenSecondAudio.Stop();
             fiveSecondAudio.Play();
         }
 
         // If time reaches zero, trigger game over
-        if (timeRemaining <= 0.05f)
+        if (timeRemaining <= 0.0f)
         {
             fiveSecondAudio.Stop();
             gameOverAudio.Play();

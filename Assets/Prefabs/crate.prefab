@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatSpeed: 1
   warningTime: 2.5
-  destroyDepth: -5
+  destroyDepth: -3
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
   ableToSpawnCoin: 1

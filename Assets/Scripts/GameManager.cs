@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
 
+    public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
+
     public bool gameStarted = false;
 
     void Update()
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private System.Collections.IEnumerator StartGameCountdown()
     {
+        backgroundAudio.stopOnboarding();
         backWallUI.Squawk("Ready Yourself, Swabbie!", "");
         yield return new WaitForSeconds(countdownDelay * 1.5f);
 
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
         start.Show();
         backWallUI.ShowScullyPoint();
         gameStarted = true;
+        backgroundAudio.playGameplay();
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
         yield return new WaitForSeconds(countdownDelay * 4);
 
