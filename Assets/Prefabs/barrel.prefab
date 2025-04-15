@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: -1741784179070719778}
   - component: {fileID: 8197186422816083015}
   - component: {fileID: -1293198847046370259}
+  - component: {fileID: 3861293190063873319}
   m_Layer: 3
   m_Name: barrel
-  m_TagString: Untagged
+  m_TagString: Flotsam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +166,26 @@ MonoBehaviour:
   maxSinkSpeed: 2
   sinkAcceleration: 0.5
   ableToSpawnCoin: 1
+  sinkableByItself: 1
   gameManager: {fileID: 0}
   bubbles: {fileID: 2842336448850805461, guid: 0ac45f00cebd3461489f643e87cb4641, type: 3}
   warningSymbolPrefab: {fileID: 1393807624894255909, guid: fd63c3981e53d4149b859f56339a2179, type: 3}
   coinPrefab: {fileID: 4352981629451102000, guid: 1fd251a6c5ee7a04ab6c1e1236448bab, type: 3}
+--- !u!114 &3861293190063873319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959003721913001843}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.13725491, g: 0.18431373, b: 0.2, a: 1}
+  outlineWidth: 2.25
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -3,12 +3,23 @@ using System;
 
 public class BoundsManager : MonoBehaviour
 {
-    public float margin = 3f;
+    private float margin = 3f;
 
     private Vector3 boundsMin;
     private Vector3 boundsMax;
     public GameObject ocean;
     public GameObject raft;
+
+    public float Margin
+    {
+        get => margin;
+        set
+        {
+            margin = value;
+            RepositionOcean();
+            RepositionRaft();
+        }
+    }
 
     public Vector3 BoundsMin
     {
