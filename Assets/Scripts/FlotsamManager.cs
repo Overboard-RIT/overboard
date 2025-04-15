@@ -67,6 +67,8 @@ public class FlotsamManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.5f); // Wait until the game starts
             }
+
+            Debug.Log("Spawning flotsam...");
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
             StartCoroutine(SpawnFlotsam());
         }
@@ -94,13 +96,15 @@ public class FlotsamManager : MonoBehaviour
             if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
             {
                 spawnPosition.y = -3f;
-                Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
 
                 if (lastSpawnedFlotsam != null)
                 {
                     Debug.Log("here");
                     this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
                 }
+
+                lastSpawnedFlotsam = newFlotsam;
             }
             else
             {

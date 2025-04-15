@@ -37,10 +37,12 @@ public class BootyManager : MonoBehaviour
         // this is sorta spaghetti and serves as an alternative to checking for a null value,
         // as a Vector3 can't be null (defaults zero). If zero, and RNG rolls correctly,
         // and we're ready to spawn, spawn a gem at the midpoint
-        if((midpoint != Vector3.zero) && (UnityEngine.Random.Range(0,4) == 1) && readyToSpawn)
+        Debug.Log("midpoint: " + midpoint + " " + "ready to spawn:" + readyToSpawn);
+        // if((midpoint != Vector3.zero) && (UnityEngine.Random.Range(0,4) == 1) && readyToSpawn)
+        if((midpoint != Vector3.zero) && readyToSpawn)
         {
             Debug.Log(midpoint);
-            SpawnGem();
+            StartCoroutine(SpawnGem());
         }
     }
 
@@ -48,13 +50,16 @@ public class BootyManager : MonoBehaviour
     public void SendPositions(GameObject flotsam1, Vector3 flotsam2Pos)
     {
         Vector3 flotsam1Pos = flotsam1.transform.position;
-        midpoint = (flotsam1Pos + flotsam2Pos) / 2f;
+        midpoint = 0.5f * (flotsam1Pos + flotsam2Pos);
+        midpoint.y = 3f;
 
     }
 
     // spawns the gem!
-    private void SpawnGem()
+    private IEnumerator SpawnGem()
     {
+        yield return new WaitForSeconds(1.5f); // wait for platform to rise
+
         Debug.Log("spawngem");
         Instantiate(gem, midpoint, Quaternion.identity);
         StartCoroutine(StartCooldown());
