@@ -14,6 +14,9 @@ public class FloatingTextUI : MonoBehaviour
     public float fadeOutTime = 0.5f;
     public float moveUpDistance = 30f;
 
+    public AudioSource splash;
+    public AudioSource cowbell;
+
     private void Start()
     {
         startPos = uiText.rectTransform.anchoredPosition;
@@ -29,6 +32,7 @@ public class FloatingTextUI : MonoBehaviour
 
     private IEnumerator AnimateText()
     {
+        splash.Play();
         float timer = 0f;
         Vector3 endPos = startPos + Vector3.up * moveUpDistance;
 
@@ -47,6 +51,7 @@ public class FloatingTextUI : MonoBehaviour
 
         // Fade Out
         timer = 0f;
+        cowbell.Play();
         while (timer < fadeOutTime)
         {
             timer += Time.deltaTime;

@@ -15,7 +15,10 @@ public class GameManager : MonoBehaviour
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
-    public bool gameStarted = false;
+
+    public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
+
+    // public bool gameStarted = false;
 
     [Header("Inspector Controls")]
     public bool startOnboard = false;
@@ -79,6 +82,7 @@ public class GameManager : MonoBehaviour
         backWallUI.ShowScullyPoint();
         flotsamManager.StartSpawning();
         scoreManager.StartGame();
+        backgroundAudio.playGameplay();
         
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
@@ -116,6 +120,7 @@ public class GameManager : MonoBehaviour
 
     private System.Collections.IEnumerator StartGameCountdown()
     {
+        backgroundAudio.stopOnboarding();
         backWallUI.Squawk("Ready Yourself, Swabbie!", "");
         yield return new WaitForSeconds(countdownDelay * 1.5f);
 
@@ -129,6 +134,7 @@ public class GameManager : MonoBehaviour
 
         StartGame();
         yield return new WaitForSeconds(countdownDelay * 4);
+        flotsamManager.startingPlatform.GetComponent<FlotsamLifecycle>().StartGame();
 
         // Clear the message (optional)
         backWallUI.Quiet();

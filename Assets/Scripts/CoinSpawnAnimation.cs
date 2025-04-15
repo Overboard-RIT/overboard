@@ -6,6 +6,8 @@ public class CoinSpawnAnimation : MonoBehaviour
 
     private Animator animator;
 
+    public bool spawnCoin = false;
+
     void Start()
     {
         // Get the Animator component attached to this GameObject
@@ -16,9 +18,11 @@ public class CoinSpawnAnimation : MonoBehaviour
     // This method will be called when the animation finishes playing
     public void OnAnimationEnd()
     {
-        // Instantiate the coin prefab at the current position and rotation
-        Instantiate(coinPrefab, transform.position, Quaternion.identity);
-
+        if (spawnCoin) {
+            // Instantiate the coin prefab at the current position and rotation
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+        
         // Start a coroutine to wait before destroying the GameObject
         Destroy(gameObject);
     }
