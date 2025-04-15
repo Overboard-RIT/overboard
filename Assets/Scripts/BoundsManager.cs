@@ -12,10 +12,13 @@ public class BoundsManager : MonoBehaviour
 
     public float Margin
     {
-        FlotsamManager flotsamManager = spawnManager.GetComponent<FlotsamManager>();
-        flotsamManager.MinGlobalBoundary = boundsMin;
-        flotsamManager.MaxGlobalBoundary = boundsMax;
-
+        get => margin;
+        set
+        {
+            margin = value;
+            RepositionOcean();
+            RepositionRaft();
+        }
     }
 
     public Vector3 BoundsMin

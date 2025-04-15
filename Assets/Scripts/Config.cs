@@ -233,6 +233,11 @@ public class Config : MonoBehaviour
 
     void Start()
     {
+        flotsamManager = FindObjectsByType<FlotsamManager>(FindObjectsSortMode.None)[0];
+        boundsManager = FindObjectsByType<BoundsManager>(FindObjectsSortMode.None)[0];
+        waterTrigger = FindObjectsByType<WaterTrigger>(FindObjectsSortMode.None)[0];
+        gameTimer = FindObjectsByType<GameTimer>(FindObjectsSortMode.None)[0];
+        denoisers = new List<Denoiser>(FindObjectsByType<Denoiser>(FindObjectsSortMode.None));
         OnValidate();
     }
 }
