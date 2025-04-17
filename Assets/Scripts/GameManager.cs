@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public bool startGame = false;
     public bool endGame = false;
 
+    private string playerName;
+
 
     void OnValidate()
     {
@@ -78,7 +80,15 @@ public class GameManager : MonoBehaviour
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
+        playerName = GetComponent<Names>().GenerateUniquePirateName();
         start.Show();
+        backWallUI.AddPlayer(
+            new BackWallUI.OverboardPlayer(
+                playerName,
+                0,
+                0 // replace with metagame score
+            )
+        );
         backWallUI.ShowScullyPoint();
         flotsamManager.StartSpawning();
         scoreManager.StartGame();
@@ -102,8 +112,7 @@ public class GameManager : MonoBehaviour
         // gameStarted = false;
 
         // fake name until we have a name input
-        string fakeName = "Colby" + Random.Range(1, 1000).ToString();
-        leaderboard.NewScore(fakeName, fakeName, scoreManager.Score);
+        leaderboard.NewScore(playerName, playerName, scoreManager.Score);
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
