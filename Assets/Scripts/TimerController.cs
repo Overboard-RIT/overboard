@@ -20,6 +20,8 @@ public class GameTimer : MonoBehaviour
     public bool isGameOver = false;
     public GameManager gameManager;
 
+    public TimerAnimation timerAnimation; // Reference to the TimerAnimation script
+
     void Awake()
     {
         enabled = false; // Disable the script until game starts
@@ -50,6 +52,10 @@ public class GameTimer : MonoBehaviour
 
         // Update the timer UI
         backWallUI.SetTimer(Mathf.CeilToInt(timeRemaining));
+
+        // Update the timer animation
+        float normalizedTime = timeRemaining / 59.01f; // Normalize time to a value between 0 and 1
+        timerAnimation.updateDisplay(normalizedTime); // Update the timer animation
     }
 
     public void EndGame()
