@@ -1290,7 +1290,6 @@ MonoBehaviour:
   backWallUI: {fileID: 1864916408}
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
-  gameStarted: 0
   startOnboard: 0
   showDifficulty: 0
   startGame: 0
@@ -2770,6 +2769,7 @@ MonoBehaviour:
     m_Bits: 8
   spawnY: 0
   playerTransform: {fileID: 1997432730}
+  startingPlatform: {fileID: 0}
 --- !u!4 &568445857
 Transform:
   m_ObjectHideFlags: 0
@@ -5959,6 +5959,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310434075}
   m_CullTransparentMesh: 1
+--- !u!1 &1328671217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1328671219}
+  - component: {fileID: 1328671218}
+  m_Layer: 0
+  m_Name: RFIDScanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1328671218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328671217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2789a6e788848eb4eaa3b8f3fc219cc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1328671219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328671217}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1364431573
 GameObject:
   m_ObjectHideFlags: 0
@@ -11393,3 +11437,4 @@ SceneRoots:
   - {fileID: 309585987}
   - {fileID: 706497940}
   - {fileID: 1481209886}
+  - {fileID: 1328671219}
