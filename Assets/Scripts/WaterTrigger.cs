@@ -44,6 +44,8 @@ public class WaterTrigger : MonoBehaviour
                 penaltyText.ShowText(); // Show "-5 SECONDS!" text
                 lastPenaltyTime = Time.time; // Update penalty timer
                 enteredWaterAt = null;
+                gameManager.GetComponent<VoiceTriggers>().OnOverboard();
+                gameManager.GetComponent<VoiceTriggers>().ResetBanterTimer();
             }
         }
     }

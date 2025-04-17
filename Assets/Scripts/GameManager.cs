@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start() {
+        ReloadGame();
+    }
+
     void Update()
     {
         // Wait for the spacebar press to start the game
@@ -70,7 +74,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // Set the difficulty in the FlotsamManager
         // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
@@ -79,10 +82,11 @@ public class GameManager : MonoBehaviour
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
         start.Show();
-        backWallUI.ShowScullyPoint();
+        backWallUI.StartGame();
         flotsamManager.StartSpawning();
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
+        GetComponent<VoiceTriggers>().StartBantering();
         
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
@@ -100,6 +104,8 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         // gameStarted = false;
+        GetComponent<VoiceTriggers>().OnRoundEnd();
+        GetComponent<VoiceTriggers>().StopBantering();
 
         // fake name until we have a name input
         string fakeName = "Colby" + Random.Range(1, 1000).ToString();
@@ -115,6 +121,18 @@ public class GameManager : MonoBehaviour
         foreach (GameObject coin in GameObject.FindGameObjectsWithTag("Coin"))
         {
             Destroy(coin);
+        }
+    }
+
+    public void ReloadGame() {
+        GetComponent<VoiceTriggers>().OnIdle();
+        backWallUI.GoIdle();
+        backgroundAudio.playOnboarding();
+        StartOnboarding();
+
+        foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
+        {
+            Destroy(effect);
         }
     }
 
@@ -138,7 +156,7 @@ public class GameManager : MonoBehaviour
 
         // Clear the message (optional)
         backWallUI.Quiet();
-        backWallUI.HideScully();
+        // backWallUI.HideScully();
     }
 
 
