@@ -78,6 +78,7 @@ public class GameTimer : MonoBehaviour
             yield return null;
         }
 
+        gameOverAudio.Play();
         gameOverUI.alpha = 0.01f;
         gameOverUI.interactable = true;
         gameOverUI.blocksRaycasts = true;
