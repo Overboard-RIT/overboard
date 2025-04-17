@@ -10,6 +10,8 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+/[Aa]ssets/AssetBundles/
+
 .vsconfig
 
 */**/.DS_Store
