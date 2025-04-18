@@ -16,8 +16,8 @@ public class Scully : MonoBehaviour
 
     public void SquawkRaft()
     {
-        loader.StopAllCoroutines();
-        loader.PlayScully(ScullyLoader.ScullyCategory.StepOntoTheRaft);
+        loader.OverrideIdle();
+        loader.PlayScullyOnce(ScullyLoader.ScullyCategory.StepOntoTheRaft);
     }
 
     // public void SquawkGameBand()
@@ -32,31 +32,28 @@ public class Scully : MonoBehaviour
 
     public void SquawkChooseDifficulty()
     {
-        loader.StopAllCoroutines();
-        loader.PlayScullyLooping(ScullyLoader.ScullyCategory.ChooseDifficulty, 1f);
+        loader.OverrideIdle();
+        loader.PlayScullyLooping(ScullyLoader.ScullyCategory.ChooseDifficulty, 3f);
     }
 
     public void StopOnboarding()
     {
-        loader.StopAllCoroutines();
+        loader.OverrideIdle();
+    }
+
+    public void StartGame()
+    {
+        loader.OverrideIdle();
     }
 
     public void SquawkOverboard()
     {
-        if (GetComponent<VideoPlayer>().isPlaying)
-        {
-            return;
-        }
-        loader.PlayScully(ScullyLoader.ScullyCategory.Overboard);
+        loader.PlayScullyOnce(ScullyLoader.ScullyCategory.Overboard);
     }
 
     public void SquawkBanter()
     {
-        if (GetComponent<VideoPlayer>().isPlaying)
-        {
-            return;
-        }
-        loader.PlayScully(ScullyLoader.ScullyCategory.Banter);
+        loader.PlayScullyOnce(ScullyLoader.ScullyCategory.Banter);
     }
 
     public void SquawkRoundEnd()
@@ -69,15 +66,15 @@ public class Scully : MonoBehaviour
         int score = ScoreManager.Instance.Score;
         if (score < 1000)
         {
-            yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.LowScore));
+            yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.LowScore));
         }
         else if (score < 2500)
         {
-            yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.NormalScore));
+            yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.NormalScore));
         }
         else
         {
-            yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.HighScore));
+            yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.HighScore));
         }
     }
 
@@ -85,7 +82,7 @@ public class Scully : MonoBehaviour
     {
         // round end
         Debug.Log("Squawk Round End");
-        yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.RoundEnd));
+        yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.RoundEnd));
         yield return new WaitForSeconds(endGap);
 
         // score
@@ -97,23 +94,27 @@ public class Scully : MonoBehaviour
         // rank
         Debug.Log("Squawk Rank");
         gameManager.GetComponent<VoiceTriggers>().OnShowRank();
-        yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.Rank));
+        yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.Rank));
         yield return new WaitForSeconds(endGap);
 
-        // end game
-        Debug.Log("Squawk End Game");
-        gameManager.GetComponent<VoiceTriggers>().OnGameEnd();
-        yield return StartCoroutine(loader.PlayScullyCoroutine(ScullyLoader.ScullyCategory.EndGame));
+        // // end game
+        // Debug.Log("Squawk End Game");
+        // gameManager.GetComponent<VoiceTriggers>().OnGameEnd();
+        // yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.EndGame));
 
         // reload game
         yield return new WaitForSeconds(5f);
         gameManager.ReloadGame();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         loader = GetComponent<ScullyLoader>();
+        if (loader == null)
+        {
+            Debug.LogError("ScullyLoader component not found on Scully object.");
+            return;
+        }
     }
 
     // Update is called once per frame

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ScullyLoader : MonoBehaviour
@@ -25,7 +26,9 @@ public class ScullyLoader : MonoBehaviour
     }
 
     // Your categorized name arrays as strings
-    public VideoPlayer source;
+    public VideoPlayer idlePlayer;
+    private VideoPlayer player;
+    public string defaultPath;
     public string[] stepOntoTheRaft;
     public string[] gameBand;
     public string[] howToPlay;
@@ -41,6 +44,7 @@ public class ScullyLoader : MonoBehaviour
     public string[] endGame;
 
     // Your categorized VideoClip arrays
+    private VideoClip defaultClip;
     private VideoClip[] stepOntoTheRaftClips;
     private VideoClip[] gameBandClips;
     private VideoClip[] howToPlayClips;
@@ -54,23 +58,84 @@ public class ScullyLoader : MonoBehaviour
     private VideoClip[] highScoreClips;
     private VideoClip[] rankClips;
     private VideoClip[] endGameClips;
+    private bool isBusy = false;
+    private bool IsBusy
+    {
+        get
+        {
+            return isBusy;
+        }
+        set
+        {
+            isBusy = value;
+            StartCoroutine(SwitchToAndFromIdle(value));
+        }
+    }
+
+    private IEnumerator SwitchToAndFromIdle(bool fromIdle)
+    {
+        if (fromIdle)
+        {
+            while (!player.isPlaying)
+            {
+                yield return null; // Wait until the video is done playing
+            }
+            idlePlayer.GetComponent<RawImage>().color = Color.clear;
+            player.GetComponent<RawImage>().color = Color.white;
+        }
+        else
+        {
+            while (player.isPlaying)
+            {
+                yield return null; // Wait until the video is done playing
+            }
+            idlePlayer.GetComponent<RawImage>().color = Color.white;
+            player.GetComponent<RawImage>().color = Color.clear;
+        }
+    }
+
+    void Awake()
+    {
+        player = GetComponent<VideoPlayer>();
+        IsBusy = false;
+        LoadVideoBundle();
+        LoadAllClips();
+
+    }
 
     void Start()
     {
-        LoadVideoBundle();
-        LoadAllClips();
     }
 
-    private void LoadScully(VideoClip clip)
+    // private IEnumerator LoadDefault()
+    // {
+    //     player.clip = defaultClip;
+    //     player.isLooping = true;
+    //     player.Prepare();
+    //     while (!player.isPrepared)
+    //     {
+    //         yield return null; // Wait until the video is prepared
+    //     }
+    //     player.Play();
+    // }
+
+    private IEnumerator LoadScully(VideoClip clip)
     {
         if (clip != null)
         {
-            source.clip = clip;
-            source.Play();
+            player.clip = clip;
+            player.isLooping = false;
+            player.Prepare();
+            while (!player.isPrepared)
+            {
+                yield return null; // Wait until the video is prepared
+            }
+            player.Play();
         }
         else
         {
             Debug.LogError("Clip is null!");
+            yield break; // Exit if the clip is null
         }
     }
 
@@ -124,10 +189,27 @@ public class ScullyLoader : MonoBehaviour
         return PickRandomClip(clips);
     }
 
-    public void PlayScully(ScullyCategory category)
+    // public void PlayScully(ScullyCategory category)
+    // {
+    //     VideoClip clip = PlayScullyGetVideoClip(category);
+    //     LoadScully(clip);
+    // }
+
+    public void OverrideIdle()
     {
-        VideoClip clip = PlayScullyGetVideoClip(category);
-        LoadScully(clip);
+        StopAllCoroutines();
+        IsBusy = false;
+    }
+
+    public void PlayScullyOnce(ScullyCategory category)
+    {
+        StartCoroutine(PlayScullyOnceCoroutine(category));
+    }
+
+    public IEnumerator PlayScullyOnceCoroutine(ScullyCategory category)
+    {
+        yield return PlayScullyCoroutine(category);
+        // StartCoroutine(LoadDefault());
     }
 
     public void PlayScullyLooping(ScullyCategory category, float loopDelay)
@@ -139,17 +221,28 @@ public class ScullyLoader : MonoBehaviour
     {
         while (true)
         {
-            yield return PlayScullyCoroutine(category);
+            yield return PlayScullyOnceCoroutine(category);
             yield return new WaitForSeconds(loopDelay);
         }
     }
 
-    public IEnumerator PlayScullyCoroutine(ScullyCategory category)
+    private IEnumerator PlayScullyCoroutine(ScullyCategory category)
     {
+        if (IsBusy)
+        {
+            yield break; // Exit if already busy
+        }
+        IsBusy = true;
         VideoClip clip = PlayScullyGetVideoClip(category);
-        LoadScully(clip);
+        yield return StartCoroutine(LoadScully(clip));
         yield return new WaitForSeconds((float)clip.length);
+        while (player.isPlaying)
+        {
+            yield return null; // Wait until the video is done playing
+        }
+        IsBusy = false;
     }
+
     private VideoClip PickRandomClip(VideoClip[] clips)
     {
         int randomIndex = Random.Range(0, clips.Length);
@@ -171,6 +264,7 @@ public class ScullyLoader : MonoBehaviour
     private void LoadAllClips()
     {
         // Populate VideoClip arrays by loading clips from the string arrays
+        defaultClip = videoBundle.LoadAsset<VideoClip>(defaultPath);
         stepOntoTheRaftClips = LoadCategory(stepOntoTheRaft);
         gameBandClips = LoadCategory(gameBand);
         howToPlayClips = LoadCategory(howToPlay);

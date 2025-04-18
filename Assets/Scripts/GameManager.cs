@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
     public ScoreManager scoreManager;
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
+        scully.StartGame();
         start.Show();
         backWallUI.StartGame();
         flotsamManager.StartSpawning();
