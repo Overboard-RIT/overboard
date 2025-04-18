@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WaterTrigger : MonoBehaviour
 {
@@ -18,9 +19,18 @@ public class WaterTrigger : MonoBehaviour
     public GameObject splash;
 
     public GameTimer gameTimer; // Assign in Inspector
+    private List<Shark> sharks = new List<Shark>();
 
     void Update()
     {
+        foreach (Shark shark in sharks)
+        {
+            if (shark != null)
+            {
+                shark.playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
+            }
+        }
+
         if (gameTimer.isGameOver || !gameManager.gameStarted) {
             return;
         }
@@ -31,6 +41,14 @@ public class WaterTrigger : MonoBehaviour
             if (flotsamCollider.PlayerContact)
             {
                 enteredWaterAt = null;
+                foreach (Shark shark in sharks)
+                {
+                    if (shark != null)
+                    {
+                        Destroy(shark.gameObject); // Destroy the shark if the player is in contact with flotsam
+                    }
+                }
+                sharks.Clear(); // Clear the list of sharks if the player is in contact with flotsam
                 return;
             }
         }
@@ -51,7 +69,8 @@ public class WaterTrigger : MonoBehaviour
 
                 Vector3 playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
                 playerPosition.y = 0.5f; // Adjust Y position to be above the water
-                Instantiate(splash, playerPosition, Quaternion.Euler(90f, 0f, 0f));
+                GameObject shark = Instantiate(splash, playerPosition, Quaternion.Euler(90f, 0f, 0f));
+                sharks.Add(shark.GetComponent<Shark>());
             }
         }
     }
