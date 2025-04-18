@@ -11,7 +11,7 @@ using System;
 
 public class BootyManager : MonoBehaviour
 {
-    
+
 
     public GameObject gem;
 
@@ -39,10 +39,12 @@ public class BootyManager : MonoBehaviour
         // and we're ready to spawn, spawn a gem at the midpoint
         Debug.Log("midpoint: " + midpoint + " " + "ready to spawn:" + readyToSpawn);
         // if((midpoint != Vector3.zero) && (UnityEngine.Random.Range(0,4) == 1) && readyToSpawn)
-        if((midpoint != Vector3.zero) && readyToSpawn)
+        if ((midpoint != Vector3.zero) && readyToSpawn)
         {
             Debug.Log(midpoint);
             StartCoroutine(SpawnGem());
+            readyToSpawn = false;
+            Debug.Log("Gem: readyToSpawn = false");
         }
     }
 
@@ -61,16 +63,13 @@ public class BootyManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f); // wait for platform to rise
 
         Debug.Log("spawngem");
-        Instantiate(gem, midpoint, Quaternion.identity);
+        Instantiate(gem, midpoint, Quaternion.Euler(90, 0, 0));
         StartCoroutine(StartCooldown());
 
     }
 
     private IEnumerator StartCooldown()
     {
-        readyToSpawn = false;
-        Debug.Log("Gem: readyToSpawn = false");
-
         yield return new WaitForSeconds(5);
 
         readyToSpawn = true;

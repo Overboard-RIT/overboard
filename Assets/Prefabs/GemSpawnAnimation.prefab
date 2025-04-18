@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1877125071, guid: 876d118c0073749ecb3ba1525943be6e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.98039216, g: 0.4784314, b: 0.6303723, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,4 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6f4214f679b448a05522973f14b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 3111696062146099990, guid: c7569851d2d75cb43823515faf3aae60, type: 3}
+  coinPrefab: {fileID: 6266479721307919796, guid: eb8f2632072cf5e49b475e8b3e469243, type: 3}
