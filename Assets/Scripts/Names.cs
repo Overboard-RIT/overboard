@@ -3,7 +3,41 @@ using System.Collections.Generic;
 
 public class Names : MonoBehaviour
 {
-    private List<string> pirateNames = new List<string>();
+    private List<PirateName> pirateNames = new List<PirateName>();
+
+    private struct PirateName : System.IEquatable<PirateName>
+    {
+        public string firstAdjective;
+        public string secondAdjective;
+        public string noun;
+
+        public PirateName(string firstAdjective, string secondAdjective, string noun)
+        {
+            this.firstAdjective = firstAdjective;
+            this.secondAdjective = secondAdjective;
+            this.noun = noun;
+        }
+
+        public override string ToString()
+        {
+            return $"{firstAdjective} {secondAdjective} {noun}";
+        }
+
+        public static implicit operator string(PirateName pirateName)
+        {
+            return pirateName.ToString();
+        }
+
+        public override Equals(PirateName other)
+        {
+            return this.ToString() == other.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(firstAdjective, secondAdjective, noun);
+        }
+    }
 
     private string[] adjectives = {
         "Swashbuckling",
@@ -38,11 +72,14 @@ public class Names : MonoBehaviour
         "Mermaid",
         "Beach",
         "Barrel",
-        "Matey"
+        "Matey",
+        "Crab",
+        "Fish",
+        "Starfish"
     };
     public string GenerateUniquePirateName()
     {
-        string pirateName = GeneratePirateName();
+        PirateName pirateName = GeneratePirateName();
 
         // Check if the name is already in the list
         while (pirateNames.Contains(pirateName))
@@ -71,6 +108,6 @@ public class Names : MonoBehaviour
 
         noun = nouns[Random.Range(0, nouns.Length)];
 
-        return firstAdjective + " " + secondAdjective + " " + noun;
+        return new PirateName(firstAdjective, secondAdjective, noun);
     }
 }
