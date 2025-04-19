@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
     public ScoreManager scoreManager;
@@ -56,6 +57,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start() {
+        ReloadGame();
+    }
+
     void Update()
     {
         // Wait for the spacebar press to start the game
@@ -72,7 +77,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // Set the difficulty in the FlotsamManager
         // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
@@ -81,6 +85,7 @@ public class GameManager : MonoBehaviour
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
         playerName = GetComponent<Names>().GenerateUniquePirateName();
+        scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
             new BackWallUI.OverboardPlayer(
@@ -89,10 +94,11 @@ public class GameManager : MonoBehaviour
                 0 // replace with metagame score
             )
         );
-        backWallUI.ShowScullyPoint();
+        backWallUI.StartGame();
         flotsamManager.StartSpawning();
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
+        GetComponent<VoiceTriggers>().StartBantering();
         
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
@@ -110,6 +116,8 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         // gameStarted = false;
+        GetComponent<VoiceTriggers>().OnRoundEnd();
+        GetComponent<VoiceTriggers>().StopBantering();
 
         // fake name until we have a name input
         leaderboard.NewScore(playerName, playerName, scoreManager.Score);
@@ -128,6 +136,18 @@ public class GameManager : MonoBehaviour
         foreach (GameObject shark in GameObject.FindGameObjectsWithTag("Shark"))
         {
             Destroy(shark);
+        }
+    }
+
+    public void ReloadGame() {
+        GetComponent<VoiceTriggers>().OnIdle();
+        backWallUI.GoIdle();
+        backgroundAudio.playOnboarding();
+        StartOnboarding();
+
+        foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
+        {
+            Destroy(effect);
         }
     }
 
@@ -151,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         // Clear the message (optional)
         backWallUI.Quiet();
-        backWallUI.HideScully();
+        // backWallUI.HideScully();
     }
 
 

@@ -8,7 +8,7 @@ public class BoundsManager : MonoBehaviour
     private Vector3 boundsMin;
     private Vector3 boundsMax;
     public GameObject ocean;
-    public GameObject raft;
+    // public GameObject raft;
 
     public float Margin
     {
@@ -17,7 +17,7 @@ public class BoundsManager : MonoBehaviour
         {
             margin = value;
             RepositionOcean();
-            RepositionRaft();
+            // RepositionRaft();
         }
     }
 
@@ -28,7 +28,7 @@ public class BoundsManager : MonoBehaviour
         {
             boundsMin = value;
             RepositionOcean();
-            RepositionRaft();
+            // RepositionRaft();
         }
     }
     public Vector3 BoundsMax
@@ -38,7 +38,7 @@ public class BoundsManager : MonoBehaviour
         {
             boundsMax = value;
             RepositionOcean();
-            RepositionRaft();
+            // RepositionRaft();
         }
     }
 
@@ -69,12 +69,12 @@ public class BoundsManager : MonoBehaviour
         );
     }
 
-    private void RepositionRaft() {
-        Vector3 newPosition = new Vector3(
-            (boundsMin.x + boundsMax.x) / 2f,
-            ocean.transform.position.y,
-            (boundsMin.z + boundsMax.z) / 2f
-        );
-        raft.transform.position = newPosition;
-    }
+    // private void RepositionRaft() {
+    //     Vector3 newPosition = new Vector3(
+    //         (boundsMin.x + boundsMax.x) / 2f,
+    //         ocean.transform.position.y,
+    //         (boundsMin.z + boundsMax.z) / 2f
+    //     );
+    //     raft.transform.position = newPosition;
+    // }
 }

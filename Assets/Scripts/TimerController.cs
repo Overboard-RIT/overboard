@@ -67,7 +67,7 @@ public class GameTimer : MonoBehaviour
     IEnumerator HandleGameOver()
     {
         timeup.Show();
-        backWallUI.ShowScullyPoint();
+        // backWallUI.ShowScullyPoint();
         backWallUI.Squawk("Yer Time's Up!", "We hope you had fun, but it's time for someone else to suffer!");
         // Fade in game-over UI
         float elapsedTime = 0;

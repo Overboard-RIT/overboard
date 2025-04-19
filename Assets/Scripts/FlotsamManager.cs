@@ -130,6 +130,7 @@ public class FlotsamManager : MonoBehaviour
     }
     private void SpawnOnboardingFlotsam()
     {
+        // gameManager.GetComponent<VoiceTriggers>().OnOnboardingStarted();
         Vector3 spawnPosition = new Vector3(
             Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.8f),
             -3f,
@@ -153,6 +154,7 @@ public class FlotsamManager : MonoBehaviour
 
     private void SpawnDifficultyFlotsams()
     {
+        gameManager.GetComponent<VoiceTriggers>().OnPromptDifficulty();
         Vector3 spawnPosition1 = new Vector3(
             Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.5f),
             -3f,
@@ -164,6 +166,7 @@ public class FlotsamManager : MonoBehaviour
         casualDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Casual;
             expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
@@ -187,6 +190,7 @@ public class FlotsamManager : MonoBehaviour
         expertDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Expert;
             casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();

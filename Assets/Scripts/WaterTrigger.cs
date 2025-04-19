@@ -67,6 +67,8 @@ public class WaterTrigger : MonoBehaviour
                 penaltyText.ShowText(); // Show "-5 SECONDS!" text
                 lastPenaltyTime = Time.time; // Update penalty timer
                 enteredWaterAt = null;
+                gameManager.GetComponent<VoiceTriggers>().OnOverboard();
+                gameManager.GetComponent<VoiceTriggers>().ResetBanterTimer();
 
                 Vector3 playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
                 playerPosition.y = 0.5f; // Adjust Y position to be above the water
