@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2609216770715024704}
   - component: {fileID: 8912657629828491817}
   - component: {fileID: 1460017587208021623}
+  - component: {fileID: -5505677490345177587}
   m_Layer: 0
   m_Name: Sharks
-  m_TagString: Untagged
+  m_TagString: Shark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,3 +111,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-5505677490345177587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6237662344381303887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7565da8bddd49a5aae28e5cd16a32d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPosition: {x: 0, y: 0, z: 0}

@@ -116,6 +116,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(coin);
         }
+        foreach (GameObject shark in GameObject.FindGameObjectsWithTag("Shark"))
+        {
+            Destroy(shark);
+        }
     }
 
     private System.Collections.IEnumerator StartGameCountdown()
