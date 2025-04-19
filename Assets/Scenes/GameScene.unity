@@ -955,6 +955,9 @@ MonoBehaviour:
   penaltyCooldown: 3
   scoreManager: {fileID: 568445858}
   gameManager: {fileID: 309585986}
+  playerLeftFoot: {fileID: 1997432724}
+  playerRightFoot: {fileID: 204386675}
+  splash: {fileID: 6237662344381303887, guid: e3be1f5a437bc4c97843ea65b45b0425, type: 3}
   gameTimer: {fileID: 1864916409}
 --- !u!328 &200007308
 VideoPlayer:
@@ -1372,6 +1375,7 @@ GameObject:
   - component: {fileID: 309585986}
   - component: {fileID: 309585988}
   - component: {fileID: 309585989}
+  - component: {fileID: 309585990}
   m_Layer: 0
   m_Name: GameManagerObj
   m_TagString: GameController
@@ -1585,6 +1589,18 @@ MonoBehaviour:
   GameEnd:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &309585990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309585985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc071ba91a504d7ab3f7c526ea80333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &312117869
 GameObject:
   m_ObjectHideFlags: 0

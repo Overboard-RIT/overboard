@@ -58,6 +58,7 @@ public class Scully : MonoBehaviour
 
     public void SquawkRoundEnd()
     {
+        loader.OverrideIdle();
         StartCoroutine(SquawkEndCoroutine());
     }
 

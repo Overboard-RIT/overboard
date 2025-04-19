@@ -116,7 +116,7 @@ public class BackWallUI : MonoBehaviour
     {
         idlePanel.SetActive(false);
         score.GetComponent<TextMeshProUGUI>().text = "0 pts";
-        AddPlayer(example);
+        // AddPlayer(example);
         //AddPlayer(example);
         Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
     }
