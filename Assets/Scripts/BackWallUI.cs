@@ -113,7 +113,7 @@ public class BackWallUI : MonoBehaviour
     void Start()
     {
         score.GetComponent<TextMeshProUGUI>().text = "0 pts";
-        AddPlayer(example);
+        // AddPlayer(example);
         //AddPlayer(example);
         Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
     }
