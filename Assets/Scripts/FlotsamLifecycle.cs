@@ -2,28 +2,31 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class FlotsamBehavior : MonoBehaviour
+public class FlotsamLifecycle : MonoBehaviour
 {
     public float floatSpeed = 1f;      // Speed of rising to surface
     private float sinkSpeed = 0.0f;     // Speed of sinking
-    private float surfaceDuration = 5f; // Time staying on surface
+    public float surfaceDuration = 5f; // Time staying on surface
     public float warningTime = 2f;     // Time before warning appears
-    public float destroyDepth = -5f;   // Depth at which object is destroyed
+    public float destroyDepth = -1f;   // Depth at which object is destroyed
     public float maxSinkSpeed = 2f;
     public float sinkAcceleration = 0.5f;
     public bool ableToSpawnCoin = true;
-    public GameManager gameManager;     // Reference to GameManager script
-
+    public bool sinkableByItself = false;
+    public GameManager gameManager;    // Reference to GameManager script
+    public GameObject bubbles;         // Assign in Inspector (a prefab)
     public GameObject warningSymbolPrefab; // Assign in Inspector (a prefab)
     private GameObject warningSymbol;      // The instantiated warning symbol
     public GameObject coinPrefab;
     private GameObject coinInstance;
 
-    private enum FlotsamState { Rising, Floating, Sinking }
-    private FlotsamState currentState = FlotsamState.Rising;
+    public enum FlotsamState { Rising, Floating, Sinking }
+    [NonSerialized]
+    public FlotsamState currentState = FlotsamState.Rising;
 
     void Start()
     {
+        gameManager = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameManager>();
         surfaceDuration = UnityEngine.Random.Range(5f, 8f);
         StartCoroutine(FloatToSurface());
 
@@ -33,30 +36,46 @@ public class FlotsamBehavior : MonoBehaviour
         }
     }
 
+    public void StartGame() {
+        if (currentState != FlotsamState.Sinking)
+        {
+            StartCoroutine(StayOnSurface());
+        }
+    }
+
+    public void EndGame()
+    {
+        Destroy(warningSymbol);
+        GetComponent<FlotsamCollider>().EndGame();
+        GetComponent<FloatingBehavior>().EndGame();
+        StopAllCoroutines();
+        StartCoroutine(SinkBelowWater());
+    }
+
     private IEnumerator FloatToSurface()
     {
-        while (transform.position.y < 0f)
+
+        while (transform.position.y < 0.4f)
         {
             transform.position += Vector3.up * floatSpeed * Time.deltaTime;
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.4f, transform.position.z);
         currentState = FlotsamState.Floating;
+        GetComponent<FloatingBehavior>().startPosition = transform.position;
 
-        
-
-        StartCoroutine(StayOnSurface());
+        if (sinkableByItself)
+        {
+            StartCoroutine(StayOnSurface());
+        }
     }
 
     private IEnumerator StayOnSurface()
     {
-        while (!ableToSpawnCoin && !gameManager.gameStarted) {
-            yield return new WaitForSeconds(0.5f);
-        }
-
         yield return new WaitForSeconds(surfaceDuration - warningTime); // Time before warning appears
         SpawnWarningSymbol(); // Spawn warning before sinking
+        GetComponent<FloatingBehavior>().Shake();
 
         yield return new WaitForSeconds(warningTime); // Remaining time on surface
         currentState = FlotsamState.Sinking;
@@ -66,6 +85,11 @@ public class FlotsamBehavior : MonoBehaviour
 
     private IEnumerator SinkBelowWater()
     {
+        if (GetComponent<UIPlatform>() != null)
+        {
+            Destroy(GetComponent<UIPlatform>());
+        }
+        GameObject newBubbles = Instantiate(bubbles, transform.position, Quaternion.Euler(90f, 0f, 0f));
         sinkSpeed = 0f; // Start at 0 and accelerate downward
 
         while (transform.position.y > destroyDepth)
@@ -74,7 +98,7 @@ public class FlotsamBehavior : MonoBehaviour
             transform.position += Vector3.down * sinkSpeed * Time.deltaTime;
             yield return null;
         }
-
+        Destroy(newBubbles); // Destroy bubbles
         Destroy(gameObject); // Destroy flotsam
     }
 

@@ -17,6 +17,8 @@ public class BackWallUI : MonoBehaviour
     public GameObject scullyNeutral;
     public GameObject scullyPoint;
 
+    public AudioSource SquawkSound;
+
     private OverboardPlayer example = new OverboardPlayer("Player 1", 0, 0);
 
     public struct OverboardPlayer
@@ -80,6 +82,8 @@ public class BackWallUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        SquawkSound.Play();
 
         GameObject newBubble = Instantiate(speechBubble, speechBubblePanel.transform);
         newBubble.GetComponent<SpeechBubble>().Heading = heading;

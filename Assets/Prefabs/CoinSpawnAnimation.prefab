@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4747231873213873389}
   m_Layer: 0
   m_Name: CoinSpawnAnimation
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1980076822, guid: b9709f2b909f0984faae1448e2ef9707, type: 3}
+  m_Sprite: {fileID: -1877125071, guid: 876d118c0073749ecb3ba1525943be6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ Animator:
   m_GameObject: {fileID: 4352981629451102000}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7d046945f50970d419683b66221426e6, type: 2}
+  m_Controller: {fileID: 9100000, guid: a7cf123d3c7f94074bfc4942d9bfdfe1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 3111696062146099990, guid: c7569851d2d75cb43823515faf3aae60, type: 3}
+  spawnCoin: 1

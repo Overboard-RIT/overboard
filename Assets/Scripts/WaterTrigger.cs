@@ -21,6 +21,10 @@ public class WaterTrigger : MonoBehaviour
     public GameTimer gameTimer; // Assign in Inspector
     private List<Shark> sharks = new List<Shark>();
 
+    void Awake() {
+        enabled = false; // Disable this script until the game starts
+    }
+
     void Update()
     {
         foreach (Shark shark in sharks)
@@ -31,13 +35,10 @@ public class WaterTrigger : MonoBehaviour
             }
         }
 
-        if (gameTimer.isGameOver || !gameManager.gameStarted) {
-            return;
-        }
-
-        FlotsamCollider[] flotsamColliders = FindObjectsByType<FlotsamCollider>(FindObjectsSortMode.None);
-        foreach (FlotsamCollider flotsamCollider in flotsamColliders)
+        GameObject[] flotsams = GameObject.FindGameObjectsWithTag("Flotsam");
+        foreach (GameObject flotsam in flotsams)
         {
+            FlotsamCollider flotsamCollider = flotsam.GetComponent<FlotsamCollider>();
             if (flotsamCollider.PlayerContact)
             {
                 enteredWaterAt = null;
