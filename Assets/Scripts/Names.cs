@@ -28,14 +28,9 @@ public class Names : MonoBehaviour
             return pirateName.ToString();
         }
 
-        public override Equals(PirateName other)
+        public bool Equals(PirateName other)
         {
             return this.ToString() == other.ToString();
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(firstAdjective, secondAdjective, noun);
         }
     }
 
@@ -91,7 +86,7 @@ public class Names : MonoBehaviour
         pirateNames.Add(pirateName);
         return pirateName;
     }
-    private string GeneratePirateName()
+    private PirateName GeneratePirateName()
     {
         string firstAdjective;
         string secondAdjective;
