@@ -842,6 +842,9 @@ MonoBehaviour:
   penaltyCooldown: 3
   scoreManager: {fileID: 568445858}
   gameManager: {fileID: 309585986}
+  playerLeftFoot: {fileID: 1997432724}
+  playerRightFoot: {fileID: 204386675}
+  splash: {fileID: 6237662344381303887, guid: e3be1f5a437bc4c97843ea65b45b0425, type: 3}
   gameTimer: {fileID: 1864916409}
 --- !u!328 &200007308
 VideoPlayer:
