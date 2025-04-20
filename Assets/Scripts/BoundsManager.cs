@@ -77,4 +77,23 @@ public class BoundsManager : MonoBehaviour
     //     );
     //     raft.transform.position = newPosition;
     // }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.blue;
+        Vector3 center = (boundsMin + boundsMax) / 2f;
+        Vector3 size = new Vector3(
+            boundsMax.x - boundsMin.x,
+            10f,
+            boundsMax.z - boundsMin.z
+        );
+        Gizmos.DrawWireCube(center, size);
+
+        Gizmos.color = Color.green;
+        Vector3 sizePlusMargin = new Vector3(
+            boundsMax.x - boundsMin.x + margin * 2f,
+            10f + margin * 2f,
+            boundsMax.z - boundsMin.z + margin * 2f
+        );
+        Gizmos.DrawWireCube(center, sizePlusMargin);
+    }
 }

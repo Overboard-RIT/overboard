@@ -40,6 +40,16 @@ public class FlotsamManager : MonoBehaviour
     private GameObject expertDifficulty;
     public GameObject startingPlatform;
 
+    
+    void OnDrawGizmos() {
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 0, 1));
+        Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
+        Gizmos.DrawSphere(playerTransform.position, spawnRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(playerTransform.position, spawnRadius);
+        Gizmos.DrawWireSphere(playerTransform.position, offRadiusMaxDistance);
+    }
+
     void Start()
     {
         // boundsManager.BoundsMin = MinGlobalBoundary;
