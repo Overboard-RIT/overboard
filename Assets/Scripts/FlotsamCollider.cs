@@ -45,4 +45,17 @@ public class FlotsamCollider : MonoBehaviour
             GetComponent<FloatingBehavior>().Bounce();
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.matrix = transform.localToWorldMatrix;
+
+        Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
+        Vector3 size = GetComponent<BoxCollider>().size;
+        Vector3 center = GetComponent<BoxCollider>().center;
+        Gizmos.DrawCube(center, size);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(center, size);
+    }
 }

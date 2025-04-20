@@ -30,4 +30,16 @@ public class Coin : MonoBehaviour
 
         Destroy(gameObject); // Destroy the coin object
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.color = new Color(1f, 0f, 1f, 0.25f);
+        float radius = GetComponent<SphereCollider>().radius;
+        Vector3 center = GetComponent<SphereCollider>().center;
+        Gizmos.DrawSphere(center, radius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(center, radius);
+    }
 }
