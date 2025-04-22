@@ -66,7 +66,6 @@ public class RFIDScanner : MonoBehaviour
     {
         // Load presets from the server
         StartCoroutine(BuildPresets());
-        ConnectToServer("ws://nm-rfid-2.rit.edu:8001/ws");
     }
 
     private IEnumerator BuildPresets()
@@ -99,7 +98,8 @@ public class RFIDScanner : MonoBehaviour
 
             Debug.Log("Light presets loaded into dictionary.");
 
-            StartCoroutine(Test()); // Test sending led commands
+            //StartCoroutine(Test()); // Test sending led commands
+            ConnectToServer("ws://nm-rfid-2.rit.edu:8001/ws");
         }
         else
         {
@@ -161,7 +161,9 @@ public class RFIDScanner : MonoBehaviour
         await webSocket.ConnectAsync(new Uri(uri), cts.Token);
         Debug.Log("Connected!");
         // Start listening for messages
-        _ = Task.Run(() => ReceiveLoop());
+        await UpdateLED(RFIDLed.ATTRACT);
+
+        _ = Task.Run(() => ReceiveLoop());      
 
     }
 
@@ -179,6 +181,7 @@ public class RFIDScanner : MonoBehaviour
             }
             else
             {
+                await UpdateLED(RFIDLed.SUCCESS);
                 var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                 Debug.Log($"Message received: {message}");
             }
