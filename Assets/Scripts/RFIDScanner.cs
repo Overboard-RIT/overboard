@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.WebSockets;
 
 // enum for possible light states
 public enum RFIDLed
@@ -22,6 +23,9 @@ public enum RFIDLed
 public class RFIDScanner : MonoBehaviour
 {
     public const string serverUrl = "http://nm-rfid-2.rit.edu:8001"; // HTTP address
+
+    private ClientWebSocket webSocket;
+    private CancellationTokenSource cts;
 
     // Class that holds params for each light preset
     [System.Serializable]
@@ -54,6 +58,13 @@ public class RFIDScanner : MonoBehaviour
     }
 
     private Dictionary<RFIDLed, LightPreset> lightPresets = new Dictionary<RFIDLed, LightPreset>();
+
+    void Start()
+    {
+        // Load presets from the server
+        StartCoroutine(BuildPresets());
+        ConnectToServer("ws://http://nm-rfid-2.rit.edu:8001/ws");
+    }
 
     private IEnumerator BuildPresets()
     {
@@ -91,12 +102,6 @@ public class RFIDScanner : MonoBehaviour
         {
             Debug.LogError($"Failed to load presets: {jsonRequest.error}");
         }
-    }
-
-    void Start()
-    {
-        // Load presets from the server
-        StartCoroutine(BuildPresets());
     }
 
     private IEnumerator Test()
@@ -141,6 +146,79 @@ public class RFIDScanner : MonoBehaviour
         else
         {
             Debug.LogWarning($"Preset for {preset} not found.");
+        }
+    }
+
+    private async Task ConnectToServer(string uri)
+    {
+        webSocket = new ClientWebSocket();
+        cts = new CancellationTokenSource();
+
+        try
+        {
+            Debug.Log($"Connecting to {uri}...");
+            await webSocket.ConnectAsync(new Uri(uri), cts.Token);
+            Debug.Log("Connected!");
+
+            // Start listening for messages
+            _ = Task.Run(() => ReceiveLoop());
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"WebSocket connection error: {ex.Message}");
+        }
+    }
+
+    private async Task ReceiveLoop()
+    {
+        var buffer = new byte[1024 * 4];
+
+        try
+        {
+            while (webSocket.State == WebSocketState.Open)
+            {
+                var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cts.Token);
+                if (result.MessageType == WebSocketMessageType.Close)
+                {
+                    Debug.Log("Server closed connection");
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
+                }
+                else
+                {
+                    var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    Debug.Log($"Message received: {message}");
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("Receive loop canceled.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"WebSocket receive error: {ex.Message}");
+        }
+    }
+
+    public async Task SendMessage(string message)
+    {
+        if (webSocket?.State == WebSocketState.Open)
+        {
+            var bytes = Encoding.UTF8.GetBytes(message);
+            var segment = new ArraySegment<byte>(bytes);
+
+            await webSocket.SendAsync(segment, WebSocketMessageType.Text, true, cts.Token);
+        }
+    }
+
+    private async void OnApplicationQuit()
+    {
+        if (webSocket != null)
+        {
+            cts.Cancel();
+            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "App closing", CancellationToken.None);
+            webSocket.Dispose();
+            cts.Dispose();
         }
     }
 }
