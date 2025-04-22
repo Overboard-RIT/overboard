@@ -18,6 +18,7 @@ public class UIReferenceHolder : MonoBehaviour
 
     [Header("Player 1 UI")]
     public Image p1ContainerFull;
+    public Image p1ContainerFull2;
     public Image p1ContainerEmpty;
     public Image p1BoardShadow;
     public Image p1Board;
@@ -42,7 +43,11 @@ public class UIReferenceHolder : MonoBehaviour
     public MetaConfig metaConfig;
 
     [Header("Settings")]
+    public Image diffCasual;
+    public Image diffExpert;
     public bool twoPlayer = false;
+
+    private string currentDiff = "casual";
 
     // the only privatebools care about if the players are ready to play the game
     // which should be determined by an outside file tracking the player option
@@ -69,11 +74,15 @@ public class UIReferenceHolder : MonoBehaviour
 
         // hide Player 1 components
         SetImageAlpha(p1ContainerFull, 0f);
+        SetImageAlpha(p1ContainerFull2, 0f);
         SetImageAlpha(p1ContainerEmpty, 0f);
         SetImageAlpha(p1ReadyText, 0f);
 
         // hide "Let's Play" sign
         SetImageAlpha(letsPlaySign, 0f);
+
+        // hide Expert difficulty
+        SetImageAlpha(diffExpert, 0f);
 
         // get player names from meta config
         string[] names = metaConfig.GetComponent<MetaConfig>().GetNames();
@@ -92,7 +101,7 @@ public class UIReferenceHolder : MonoBehaviour
         // Keyboard Controls for 2 Player Mode and Ready states
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ToggleTwoPlayerMode();
+            //ToggleTwoPlayerMode();
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -102,7 +111,23 @@ public class UIReferenceHolder : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SetP2Ready(true);
+            //SetP2Ready(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ToggleDifficulty();
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            //SetScullyText(PickDifficulty)
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            //SetScullyText(Ready)
+            //StartTimerToStartGame
         }
 
 
@@ -110,8 +135,10 @@ public class UIReferenceHolder : MonoBehaviour
         if (p1Ready)
         {
             SetImageAlpha(p1ContainerFull, 1f);
+            SetImageAlpha(p1ContainerFull2, 1f);
             SetImageAlpha(p1WaitingText, 0f);
             SetImageAlpha(p1ReadyText, 1f);
+            SetImageAlpha(p1BoardShadow, 0f);
         }
 
         if (p2Ready)
@@ -141,6 +168,7 @@ public class UIReferenceHolder : MonoBehaviour
         }
     }
 
+    // Unusued While 2Player is Disabled
     // ToggleTwoPlayerMode is what creates a large shift in visible
     // UI elements to make it more palattable for players
     private void ToggleTwoPlayerMode()
@@ -189,6 +217,7 @@ public class UIReferenceHolder : MonoBehaviour
         p1Ready = isReady;
     }
 
+    // Unusued While 2Player is Disabled
     // SetP2Ready sets the Player 2 ready status to true
     // (it shouldn't be able to go to false under normal circumstances)
     private void SetP2Ready(bool isReady)
@@ -205,6 +234,22 @@ public class UIReferenceHolder : MonoBehaviour
             Color c = img.color;
             c.a = alpha;
             img.color = c;
+        }
+    }
+
+    private void ToggleDifficulty()
+    {
+        if(this.currentDiff == "casual")
+        {
+            SetImageAlpha(diffCasual, 0f);
+            SetImageAlpha(diffExpert, 1f);
+            currentDiff = "expert";
+        }
+        else
+        {
+            SetImageAlpha(diffCasual, 1f);
+            SetImageAlpha(diffExpert, 0f);
+            currentDiff = "casual";
         }
     }
 
