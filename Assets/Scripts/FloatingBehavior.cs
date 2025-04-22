@@ -19,6 +19,8 @@ public class FloatingBehavior : MonoBehaviour
     private float amplitude = 0.1f; // Amplitude of the floating effect
 
     public float rotationSpeed = 10f; // Speed of slow rotation
+    private bool isRollingBarrel = false;
+    private Vector3 barrelRollingDirection = Vector3.zero;
 
     [NonSerialized]
     public Vector3 startPosition;
@@ -106,7 +108,13 @@ public class FloatingBehavior : MonoBehaviour
                 amplitude = 10f;
                 if (UnityEngine.Random.value < 0.5f)
                 {
-                    transform.Rotate(0f, 0f, 90f, Space.World);
+                    transform.Rotate(
+                        0f,
+                        UnityEngine.Random.Range(0, 360f),
+                        90f,
+                    Space.World);
+                    barrelRollingDirection = transform.forward;
+                    isRollingBarrel = true;
                 }
                 break;
             case PlatformType.Raft:
@@ -130,11 +138,19 @@ public class FloatingBehavior : MonoBehaviour
     void Update()
     {
         // Rotate slightly
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f, Space.World);
+        if (isRollingBarrel)
+        {
+            transform.position += barrelRollingDirection * Time.deltaTime;
+            transform.Rotate(0f, -5 * rotationSpeed * Time.deltaTime, 0f, Space.Self);
+        }
+        else
+        {
+            transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f, Space.World);
+            // Add sinusoidal movement to the X rotation
+            float sinRotationX = Mathf.Sin(Time.time) * amplitude;
+            transform.rotation = Quaternion.Euler(sinRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
 
-        // Add sinusoidal movement to the X rotation
-        float sinRotationX = Mathf.Sin(Time.time) * amplitude;
-        transform.rotation = Quaternion.Euler(sinRotationX, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
         // Add bounce effect
         if (isBouncing)
