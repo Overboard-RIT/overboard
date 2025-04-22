@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
+// enum for possible light states
 public enum RFIDLed
 {
     OFF,
@@ -19,8 +22,6 @@ public enum RFIDLed
 public class RFIDScanner : MonoBehaviour
 {
     public const string serverUrl = "http://nm-rfid-2.rit.edu:8001"; // HTTP address
-    private UnityWebRequest sseRequest; // Request for the SSE connection
-    private bool isListening = false; // Flag to track if the SSE connection is active
 
     // Class that holds params for each light preset
     [System.Serializable]
@@ -84,7 +85,7 @@ public class RFIDScanner : MonoBehaviour
 
             Debug.Log("Light presets loaded into dictionary.");
 
-            StartCoroutine(Test()); // Start the SSE connection after loading presets
+            StartCoroutine(Test()); // Test sending led commands
         }
         else
         {
@@ -110,60 +111,7 @@ public class RFIDScanner : MonoBehaviour
         UpdateLED(RFIDLed.OFF);
     }
 
-    private IEnumerator EstablishSSEConnection()
-    {
-        sseRequest = UnityWebRequest.Get(serverUrl + "/sse");
-        sseRequest.downloadHandler = new DownloadHandlerBuffer();
-
-        // Send the request and wait for the response
-        yield return sseRequest.SendWebRequest();
-
-        if (sseRequest.result == UnityWebRequest.Result.Success)
-        {
-            Debug.Log("SSE connection established!");
-            isListening = true;
-
-            // Start listening for server-sent events
-            StartCoroutine(ListenForEvents());
-
-            StartCoroutine(Test());
-        }
-        else
-        {
-            Debug.LogError($"Failed to establish SSE connection: {sseRequest.error}");
-        }
-    }
-
-    private IEnumerator ListenForEvents()
-    {
-        while (isListening)
-        {
-            // Check if there is new data in the response
-            string response = sseRequest.downloadHandler.text;
-
-            if (!string.IsNullOrEmpty(response))
-            {
-                // Process the received event
-                Debug.Log($"Received SSE event: {response}");
-                HandleServerEvent(response);
-
-                // Clear the download buffer to avoid processing the same data repeatedly
-                sseRequest.downloadHandler.Dispose();
-                sseRequest.downloadHandler = new DownloadHandlerBuffer();
-            }
-
-            yield return null; // Wait for the next frame
-        }
-    }
-
-    private void HandleServerEvent(string eventData)
-    {
-        // Example: Handle the server-sent event
-        Debug.Log($"Handling server event: {eventData}");
-        // Add logic to process the event data (e.g., update LED state)
-    }
-
-    private IEnumerator SendMessageToServer(string url, string messageToSend)
+    private IEnumerator SendMessageToRFIDServer(string url, string messageToSend)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(messageToSend);
@@ -188,22 +136,11 @@ public class RFIDScanner : MonoBehaviour
         if (lightPresets.TryGetValue(preset, out LightPreset lightPreset))
         {
             string message = lightPreset.ToString(); // Convert the preset to a JSON string
-            StartCoroutine(SendMessageToServer(serverUrl + "/lights", message));
+            StartCoroutine(SendMessageToRFIDServer(serverUrl + "/lights", message));
         }
         else
         {
             Debug.LogWarning($"Preset for {preset} not found.");
         }
-    }
-
-    private void OnDestroy()
-    {
-        // Clean up the SSE connection when the object is destroyed
-        isListening = false;
-        if (sseRequest != null)
-        {
-            sseRequest.Dispose();
-        }
-        UpdateLED(RFIDLed.OFF);
     }
 }
