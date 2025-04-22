@@ -40,6 +40,16 @@ public class FlotsamManager : MonoBehaviour
     private GameObject expertDifficulty;
     public GameObject startingPlatform;
 
+    
+    void OnDrawGizmos() {
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 0, 1));
+        Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
+        Gizmos.DrawSphere(playerTransform.position, spawnRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(playerTransform.position, spawnRadius);
+        Gizmos.DrawWireSphere(playerTransform.position, offRadiusMaxDistance);
+    }
+
     void Start()
     {
         // boundsManager.BoundsMin = MinGlobalBoundary;
@@ -130,6 +140,7 @@ public class FlotsamManager : MonoBehaviour
     }
     private void SpawnOnboardingFlotsam()
     {
+        // gameManager.GetComponent<VoiceTriggers>().OnOnboardingStarted();
         Vector3 spawnPosition = new Vector3(
             Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.8f),
             -3f,
@@ -153,6 +164,7 @@ public class FlotsamManager : MonoBehaviour
 
     private void SpawnDifficultyFlotsams()
     {
+        gameManager.GetComponent<VoiceTriggers>().OnPromptDifficulty();
         Vector3 spawnPosition1 = new Vector3(
             Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.5f),
             -3f,
@@ -164,6 +176,7 @@ public class FlotsamManager : MonoBehaviour
         casualDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Casual;
             expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
@@ -187,6 +200,7 @@ public class FlotsamManager : MonoBehaviour
         expertDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Expert;
             casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();

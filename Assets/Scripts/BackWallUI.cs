@@ -11,6 +11,7 @@ public class BackWallUI : MonoBehaviour
     public GameObject player2;
     public GameObject speechBubble;
     public GameObject speechBubblePanel;
+    public GameObject idlePanel;
     private List<OverboardPlayer> players = new List<OverboardPlayer>();
 
     public GameObject scullyPlatform;
@@ -90,31 +91,47 @@ public class BackWallUI : MonoBehaviour
         newBubble.GetComponent<SpeechBubble>().Body = body;
     }
 
-    public void Quiet() {
+    public void Quiet()
+    {
         foreach (Transform child in speechBubblePanel.transform)
         {
             Destroy(child.gameObject);
         }
     }
 
-    public void HideScully() {
-        scullyPlatform.SetActive(false);
-        scullyNeutral.SetActive(false);
-        scullyPoint.SetActive(false);
-    }
+    // public void HideScully() {
+    //     scullyPlatform.SetActive(false);
+    //     scullyNeutral.SetActive(false);
+    //     scullyPoint.SetActive(false);
+    // }
 
-    public void ShowScullyPoint() {
-        scullyPlatform.SetActive(true);
-        scullyPoint.SetActive(true);
-        scullyNeutral.SetActive(false);
-    }
+    // public void ShowScullyPoint() {
+    //     scullyPlatform.SetActive(true);
+    //     scullyPoint.SetActive(true);
+    //     scullyNeutral.SetActive(false);
+    // }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void StartGame()
     {
+        idlePanel.SetActive(false);
         score.GetComponent<TextMeshProUGUI>().text = "0 pts";
-        AddPlayer(example);
+        // AddPlayer(example);
         //AddPlayer(example);
         Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
+    }
+
+    void Start() {
+        GoIdle();
+    }
+
+    public void GoIdle()
+    {
+        idlePanel.SetActive(true);
+        foreach (Transform child in playersPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        players.Clear();
     }
 }

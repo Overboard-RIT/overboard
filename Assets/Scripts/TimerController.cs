@@ -20,6 +20,8 @@ public class GameTimer : MonoBehaviour
     public bool isGameOver = false;
     public GameManager gameManager;
 
+    public TimerAnimation timerAnimation; // Reference to the TimerAnimation script
+
     void Awake()
     {
         enabled = false; // Disable the script until game starts
@@ -50,6 +52,10 @@ public class GameTimer : MonoBehaviour
 
         // Update the timer UI
         backWallUI.SetTimer(Mathf.CeilToInt(timeRemaining));
+
+        // Update the timer animation
+        float normalizedTime = timeRemaining / 59.01f; // Normalize time to a value between 0 and 1
+        timerAnimation.updateDisplay(normalizedTime); // Update the timer animation
     }
 
     public void EndGame()
@@ -61,7 +67,7 @@ public class GameTimer : MonoBehaviour
     IEnumerator HandleGameOver()
     {
         timeup.Show();
-        backWallUI.ShowScullyPoint();
+        // backWallUI.ShowScullyPoint();
         backWallUI.Squawk("Yer Time's Up!", "We hope you had fun, but it's time for someone else to suffer!");
         // Fade in game-over UI
         float elapsedTime = 0;
@@ -72,6 +78,7 @@ public class GameTimer : MonoBehaviour
             yield return null;
         }
 
+        gameOverAudio.Play();
         gameOverUI.alpha = 0.01f;
         gameOverUI.interactable = true;
         gameOverUI.blocksRaycasts = true;

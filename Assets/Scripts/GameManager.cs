@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
     public ScoreManager scoreManager;
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
     public bool showDifficulty = false;
     public bool startGame = false;
     public bool endGame = false;
+
+    private string playerName;
 
 
     void OnValidate()
@@ -54,6 +57,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start() {
+        ReloadGame();
+    }
+
     void Update()
     {
         // Wait for the spacebar press to start the game
@@ -70,7 +77,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // Set the difficulty in the FlotsamManager
         // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
@@ -78,11 +84,21 @@ public class GameManager : MonoBehaviour
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
+        playerName = GetComponent<Names>().GenerateUniquePirateName();
+        scully.StartGame();
         start.Show();
-        backWallUI.ShowScullyPoint();
+        backWallUI.AddPlayer(
+            new BackWallUI.OverboardPlayer(
+                playerName,
+                0,
+                0 // replace with metagame score
+            )
+        );
+        backWallUI.StartGame();
         flotsamManager.StartSpawning();
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
+        GetComponent<VoiceTriggers>().StartBantering();
         
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
@@ -100,10 +116,11 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         // gameStarted = false;
+        GetComponent<VoiceTriggers>().OnRoundEnd();
+        GetComponent<VoiceTriggers>().StopBantering();
 
         // fake name until we have a name input
-        string fakeName = "Colby" + Random.Range(1, 1000).ToString();
-        leaderboard.NewScore(fakeName, fakeName, scoreManager.Score);
+        leaderboard.NewScore(playerName, playerName, scoreManager.Score);
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
@@ -115,6 +132,22 @@ public class GameManager : MonoBehaviour
         foreach (GameObject coin in GameObject.FindGameObjectsWithTag("Coin"))
         {
             Destroy(coin);
+        }
+        foreach (GameObject shark in GameObject.FindGameObjectsWithTag("Shark"))
+        {
+            Destroy(shark);
+        }
+    }
+
+    public void ReloadGame() {
+        GetComponent<VoiceTriggers>().OnIdle();
+        backWallUI.GoIdle();
+        backgroundAudio.playOnboarding();
+        StartOnboarding();
+
+        foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
+        {
+            Destroy(effect);
         }
     }
 
@@ -138,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         // Clear the message (optional)
         backWallUI.Quiet();
-        backWallUI.HideScully();
+        // backWallUI.HideScully();
     }
 
 
