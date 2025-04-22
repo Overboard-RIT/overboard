@@ -98,7 +98,6 @@ public class RFIDScanner : MonoBehaviour
 
             Debug.Log("Light presets loaded into dictionary.");
 
-            //StartCoroutine(Test()); // Test sending led commands
             ConnectToServer("ws://nm-rfid-2.rit.edu:8001/ws");
         }
         else
@@ -107,44 +106,42 @@ public class RFIDScanner : MonoBehaviour
         }
     }
 
-    private IEnumerator Test()
+    private async Task SendMessageToRFIDServer(string url, string messageToSend)
     {
-        yield return new WaitForSeconds(4f);
-        UpdateLED(RFIDLed.OCCUPIED);
-        yield return new WaitForSeconds(4f);
-        UpdateLED(RFIDLed.BUSY);
-        yield return new WaitForSeconds(4f);
-        UpdateLED(RFIDLed.SUCCESS);
-        yield return new WaitForSeconds(4f);
-        UpdateLED(RFIDLed.OFF);
-    }
-
-    private IEnumerator SendMessageToRFIDServer(string url, string messageToSend)
-    {
-        UnityWebRequest request = new UnityWebRequest(url, "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(messageToSend);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
-            Debug.Log("Message sent successfully!");
-        }
-        else
-        {
-            Debug.LogError($"Error sending message: {request.error}");
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(messageToSend);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            Debug.Log($"Sending message to {url}: {messageToSend}");
+
+            // Send the request and wait for the response
+            var operation = request.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield(); // Wait for the request to complete
+            }
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Message sent successfully!");
+            }
+            else
+            {
+                Debug.LogError($"Error sending message: {request.error}");
+            }
         }
     }
 
-    public void UpdateLED(RFIDLed preset)
+    public async Task UpdateLED(RFIDLed preset)
     {
         if (lightPresets.TryGetValue(preset, out LightPreset lightPreset))
         {
             string message = lightPreset.ToString(); // Convert the preset to a JSON string
-            StartCoroutine(SendMessageToRFIDServer(serverUrl + "/lights", message));
+            await SendMessageToRFIDServer(serverUrl + "/lights", message);
         }
         else
         {
@@ -161,9 +158,10 @@ public class RFIDScanner : MonoBehaviour
         await webSocket.ConnectAsync(new Uri(uri), cts.Token);
         Debug.Log("Connected!");
         // Start listening for messages
-        await UpdateLED(RFIDLed.ATTRACT);
+        _ = Task.Run(() => ReceiveLoop());
 
-        _ = Task.Run(() => ReceiveLoop());      
+        // set light pattern
+        //await UpdateLED(RFIDLed.ATTRACT);
 
     }
 
