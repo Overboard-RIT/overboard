@@ -30,6 +30,8 @@ public class RFIDScanner : MonoBehaviour
     private ClientWebSocket webSocket;
     private CancellationTokenSource cts;
 
+    public AudioSource successAudio;
+
     // Class that holds params for each light preset
     [System.Serializable]
     private class LightPreset
@@ -106,42 +108,38 @@ public class RFIDScanner : MonoBehaviour
         }
     }
 
-    private async Task SendMessageToRFIDServer(string url, string messageToSend)
+    private IEnumerator SendMessageToRFIDServer(string url, string messageToSend)
     {
-        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(messageToSend);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        Debug.Log($"Sending message to {url}: {messageToSend}");
+
+        // Send the request
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(messageToSend);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            Debug.Log($"Sending message to {url}: {messageToSend}");
-
-            // Send the request and wait for the response
-            var operation = request.SendWebRequest();
-
-            while (!operation.isDone)
-            {
-                await Task.Yield(); // Wait for the request to complete
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Message sent successfully!");
-            }
-            else
-            {
-                Debug.LogError($"Error sending message: {request.error}");
-            }
+            Debug.Log("Message sent successfully!");
+        }
+        else
+        {
+            Debug.LogError($"Error sending message: {request.error}");
         }
     }
 
-    public async Task UpdateLED(RFIDLed preset)
+    public IEnumerator UpdateLED(RFIDLed preset)
     {
         if (lightPresets.TryGetValue(preset, out LightPreset lightPreset))
         {
             string message = lightPreset.ToString(); // Convert the preset to a JSON string
-            await SendMessageToRFIDServer(serverUrl + "/lights", message);
+            Debug.Log($"Updating LED to {preset}");
+
+            // Start sending the message to the server
+            yield return StartCoroutine(SendMessageToRFIDServer(serverUrl + "/lights", message));
         }
         else
         {
@@ -156,34 +154,47 @@ public class RFIDScanner : MonoBehaviour
 
         Debug.Log($"Connecting to {uri}...");
         await webSocket.ConnectAsync(new Uri(uri), cts.Token);
-        Debug.Log("Connected!");
-        // Start listening for messages
-        _ = Task.Run(() => ReceiveLoop());
 
-        // set light pattern
-        //await UpdateLED(RFIDLed.ATTRACT);
+        Debug.Log("Connected!");
+
+        StartCoroutine(UpdateLED(RFIDLed.ATTRACT));
+
+        // Start listening for messages
+        StartCoroutine(ReceiveLoop());
 
     }
 
-    private async Task ReceiveLoop()
+    private IEnumerator ReceiveLoop()
     {
         var buffer = new byte[1024 * 4];
 
         while (webSocket.State == WebSocketState.Open)
         {
-            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cts.Token);
-            if (result.MessageType == WebSocketMessageType.Close)
+            var receiveTask = webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cts.Token);
+
+            // Wait for the task to complete
+            while (!receiveTask.IsCompleted)
+            {
+                yield return null;
+            }
+
+            if (receiveTask.Result.MessageType == WebSocketMessageType.Close)
             {
                 Debug.Log("Server closed connection");
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
+                yield return webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
             }
             else
             {
-                await UpdateLED(RFIDLed.SUCCESS);
-                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                var message = Encoding.UTF8.GetString(buffer, 0, receiveTask.Result.Count);
                 Debug.Log($"Message received: {message}");
+
+                // Handle message
+                yield return StartCoroutine(UpdateLED(RFIDLed.BUSY));
+                yield return new WaitForSeconds(1f); // Simulate some processing time
+                successAudio.Play(); // Play success sound
+                yield return StartCoroutine(UpdateLED(RFIDLed.SUCCESSBLUE));
+                yield return StartCoroutine(UpdateLED(RFIDLed.OCCUPIED));
             }
         }
-
     }
 }
