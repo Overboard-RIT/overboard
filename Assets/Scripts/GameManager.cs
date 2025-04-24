@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
@@ -16,10 +17,12 @@ public class GameManager : MonoBehaviour
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
-
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
+    public Results results;
 
     // public bool gameStarted = false;
+
+    public int overboards = 0;
 
     [Header("Inspector Controls")]
     public bool startOnboard = false;
@@ -29,6 +32,19 @@ public class GameManager : MonoBehaviour
 
     private string playerName;
 
+    void Awake()
+    {
+        // Ensure only one instance of ScoreManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+            enabled = false; // Disable the script until game starts
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void OnValidate()
     {
@@ -57,7 +73,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start() {
+    void Start()
+    {
         ReloadGame();
     }
 
@@ -69,16 +86,15 @@ public class GameManager : MonoBehaviour
             introStarted = true;
             StartCoroutine(StartGameCountdown());
         }
-
-        // test key for ensuring Onboarding connections are valid
-        // look through the new code in BackWallUI.cs to get a better reference
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            this.StartOnboarding();
-        }
     }
 
-    public void StartCountdown() {
+    public void IncrementOverboards()
+    {
+        overboards++;
+    }
+
+    public void StartCountdown()
+    {
         StartCoroutine(StartGameCountdown());
     }
 
@@ -106,19 +122,13 @@ public class GameManager : MonoBehaviour
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
         GetComponent<VoiceTriggers>().StartBantering();
-        
+
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
 
     public void StartOnboarding()
     {
         flotsamManager.StartOnboarding();
-
-        // Andrew added this
-        // I think it's where you want to trigger this in the UI?
-        backWallUI.StartOnboarding();
-
-        backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
     }
 
     public void ShowDifficulty()
@@ -137,6 +147,7 @@ public class GameManager : MonoBehaviour
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
+        results.gameObject.SetActive(true);
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {
@@ -152,11 +163,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReloadGame() {
+    public void ReloadGame()
+    {
         GetComponent<VoiceTriggers>().OnIdle();
         backWallUI.GoIdle();
         backgroundAudio.playOnboarding();
         StartOnboarding();
+        overboards = 0;
+        results.Init();
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {
