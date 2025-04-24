@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using System.Xml.Linq;
 
 public class BackWallUI : MonoBehaviour
 {
@@ -147,8 +146,8 @@ public class BackWallUI : MonoBehaviour
     public void StartGame()
     {
         idlePanel.SetActive(false);
-        onboardingPanel.SetActive(false);
         score.GetComponent<TextMeshProUGUI>().text = "0 pts";
+        HideOnboarding();
         // AddPlayer(example);
         //AddPlayer(example);
         // Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
@@ -197,6 +196,10 @@ public class BackWallUI : MonoBehaviour
 
     }
 
+    private void HideOnboarding() {
+        onboardingPanel.SetActive(false);
+    }
+
     public void SetDifficulty()
     {
         diffiucltyPanel.SetActive(true);
@@ -227,13 +230,12 @@ public class BackWallUI : MonoBehaviour
 
     void Start() {
         GoIdle();
-        this.scullyScript = scullyNeutral.GetComponent<Scully>();
     }
 
     public void GoIdle()
     {
-        idlePanel.SetActive(true);
         onboardingPanel.SetActive(false);
+        idlePanel.SetActive(true);
         foreach (Transform child in playersPanel.transform)
         {
             Destroy(child.gameObject);
