@@ -9,7 +9,6 @@ public class Leaderboard : MonoBehaviour
     private static LeaderboardList leaderboardList;
     private static bool leaderboardInitialized = false;
 
-
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -42,6 +41,10 @@ public class Leaderboard : MonoBehaviour
                 leaderboardItems[i].Visible = false;
             }
         }
+    }
+
+    public int? GetLeaderboardPosition(string id, string playerName, int score) {
+        return leaderboardList.SimulateAdd(new LeaderboardEntry("", "", score));
     }
 
     public void ResetLeaderboard()
@@ -100,6 +103,37 @@ public class Leaderboard : MonoBehaviour
         {
             get => entries[index];
             set => throw new System.NotSupportedException("Set is not supported");
+        }
+        public int? SimulateAdd(LeaderboardEntry entry)
+        {
+            // if the leaderboard is full and the new entry is lower than the lowest score, return out
+            if (entries.Count >= maxEntries && entry.score < entries.Last().score)
+                return null;
+            // if player is already on the leaderboard, keep the higher score
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (entries[i].id == entry.id)
+                {
+                    if (entry.score > entries[i].score)
+                    {
+                        entries[i] = entry;
+                        entries.Sort((e1, e2) => e2.score.CompareTo(e1.score));
+                        return null;
+                    }
+                }
+            }
+            // see where player would've been
+            {
+                for (int i = entries.Count - 1; i >= 0; i++)
+                {
+                    if (entry.score > entries[i].score)
+                    {
+                        continue;
+                    }
+                    return i + 2;
+                }
+                return 1;
+            }
         }
         public void Add(LeaderboardEntry entry)
         {

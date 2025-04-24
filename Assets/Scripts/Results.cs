@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Video;
 using System.Collections;
 
 public class Results : MonoBehaviour
@@ -6,11 +7,15 @@ public class Results : MonoBehaviour
     public GameObject scorePanel;
     public GameObject overboardsPanel;
     public GameObject rankPanel;
+    public GameObject leaderboardRankPanel;
+    public GameObject namePanel;
+    public VideoPlayer scrollPlayer;
 
     public bool showScore = false;
     public bool showRank = false;
 
-    void OnValidate() {
+    void OnValidate()
+    {
         if (showScore)
         {
             ShowScore();
@@ -24,7 +29,8 @@ public class Results : MonoBehaviour
         }
     }
 
-    public enum Rank {
+    public enum Rank
+    {
         Captain = 0,
         FirstMate = 1,
         Scallywag = 2,
@@ -34,9 +40,11 @@ public class Results : MonoBehaviour
 
     public void Init()
     {
+        namePanel.SetActive(false);
         scorePanel.SetActive(false);
         overboardsPanel.SetActive(false);
         rankPanel.SetActive(false);
+        leaderboardRankPanel.SetActive(false);
 
         scorePanel.GetComponent<ValueDisplay>().Value = "0";
         overboardsPanel.GetComponent<ValueDisplay>().Value = "0";
@@ -50,9 +58,20 @@ public class Results : MonoBehaviour
         Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowName(string name)
     {
+        StartCoroutine(ShowNameCoroutine(name));
+    }
+
+    private IEnumerator ShowNameCoroutine(string name)
+    {
+        yield return new WaitForSeconds(0.5f);
+        while (scrollPlayer.isPlaying)
+        {
+            yield return null;
+        }
+        namePanel.GetComponent<ValueDisplay>().Value = name;
+        namePanel.SetActive(true);
     }
 
     public void ShowScore()
@@ -73,7 +92,8 @@ public class Results : MonoBehaviour
             1f));
     }
 
-    public void ShowRank() {
+    public void ShowRank()
+    {
         int rank = 0;
         if (ScoreManager.Instance.Score >= 6000)
         {
@@ -98,6 +118,11 @@ public class Results : MonoBehaviour
 
         rankPanel.GetComponent<RankUI>().SetRank((Rank)rank);
         rankPanel.SetActive(true);
+    }
+
+    public void ShowLeaderboardRank()
+    {
+        leaderboardRankPanel.SetActive(true);
     }
 
     public IEnumerator IncreaseNumberTo(ValueDisplay display, int targetNumber, float duration)

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public float countdownDelay = 1f; // Delay between countdown steps
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
     public Results results;
+    public LeaderboardRankUI leaderboardRank;
 
     public bool gameStarted = false;
     public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
@@ -145,6 +146,7 @@ public class GameManager : MonoBehaviour
         GetComponent<VoiceTriggers>().StopBantering();
 
         // fake name until we have a name input
+        leaderboardRank.SetRank(leaderboard.GetLeaderboardPosition(playerName, playerName, scoreManager.Score));
         leaderboard.NewScore(playerName, playerName, scoreManager.Score);
 
         // send score to metagame
@@ -154,6 +156,7 @@ public class GameManager : MonoBehaviour
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
         results.gameObject.SetActive(true);
+        results.ShowName(playerName);
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {
