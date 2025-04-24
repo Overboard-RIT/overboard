@@ -7,7 +7,6 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance; // Singleton instance
     public BackWallUI scoreUI; // UI Text element to display the score
     // public UnityEngine.UI.Text finalScoreText; // UI Text element to display the score
-    [SerializeField]
     private int currentScore = 0;
     public int Score { get { return currentScore; } } // Property to access the score
 
