@@ -84,8 +84,9 @@ public class GameManager : MonoBehaviour
         gameTimer.enabled = true;
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
+        Debug.Log(metagameAPI.currentPlayerID);
+        playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
 
-        playerName = GetComponent<Names>().GenerateUniquePirateName();
         scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
@@ -122,6 +123,10 @@ public class GameManager : MonoBehaviour
 
         // fake name until we have a name input
         leaderboard.NewScore(playerName, playerName, scoreManager.Score);
+
+        // send score to metagame
+        metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
+
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
@@ -145,6 +150,8 @@ public class GameManager : MonoBehaviour
         backWallUI.GoIdle();
         backgroundAudio.playOnboarding();
         StartOnboarding();
+        gameStarted = false;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.ATTRACT));
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {

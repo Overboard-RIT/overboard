@@ -63,12 +63,17 @@ public class RFIDScanner : MonoBehaviour
         public LightPreset SUCCESSBLUE;
     }
 
-    private Dictionary<RFIDLed, LightPreset> lightPresets = new Dictionary<RFIDLed, LightPreset>();
+    private Dictionary<RFIDLed, LightPreset> lightPresets;
 
     void Start()
     {
         // Load presets from the server
-        StartCoroutine(BuildPresets());
+        if (lightPresets == null)
+        {
+            lightPresets = new Dictionary<RFIDLed, LightPreset>();
+            StartCoroutine(BuildPresets());
+        }
+        
     }
 
     private IEnumerator BuildPresets()

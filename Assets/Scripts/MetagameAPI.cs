@@ -8,7 +8,7 @@ public class MetagameAPI : MonoBehaviour
     private const string GetUrl = "band_id";
     private const string PostUrl = "prize-money/award";
     private const string GameID = "overboard"; // our ID in the metagame
-    private string currentPlayerID = string.Empty; // id of the current player
+    public string currentPlayerID; // id of the current player
     public bool apiEnabled = true; // flag to enable or disable API calls
     public RFIDScanner scanner; // reference to the RFID scanner
 
@@ -48,6 +48,16 @@ public class MetagameAPI : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (currentPlayerID == null || currentPlayerID == "") currentPlayerID = ""; // reset player ID if it's null or empty
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     // Sends a POST request with game ID, player ID, and score
     public void PostGameData(string playerID, int score)
     {
@@ -57,6 +67,12 @@ public class MetagameAPI : MonoBehaviour
     private IEnumerator PostGameDataCoroutine(string gameID, string playerID, int score)
     {
         // TODO: replace with actual endpoint
+        if (!apiEnabled || playerID == null || playerID == "")
+        {
+            currentPlayerID = ""; // use the RFID identifier as the player ID
+            yield break;
+        }
+
         string url = $"{BaseUrl}{PostUrl}";
         WWWForm form = new WWWForm();
         form.AddField("interactive_slug", gameID);
@@ -75,6 +91,7 @@ public class MetagameAPI : MonoBehaviour
             {
                 Debug.LogError($"POST request failed: {request.error}");
             }
+            currentPlayerID = ""; // reset player ID after posting data
         }
     }
 }

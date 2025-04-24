@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class Names : MonoBehaviour
 {
-    private List<PirateName> pirateNames = new List<PirateName>();
+    private static List<PirateName> pirateNames;
+    private static Dictionary<string, PirateName> pirateNameDictionary;
 
     private struct PirateName : System.IEquatable<PirateName>
     {
@@ -35,7 +36,7 @@ public class Names : MonoBehaviour
         }
     }
 
-    private string[] adjectives = {
+    private static string[] adjectives = {
         "Salty",
         "Seafaring",
         "One-Eyed",
@@ -51,9 +52,7 @@ public class Names : MonoBehaviour
         "Seasick",
         "Cunning",
         "Scurvy",
-        "Soggy",
         "Silly",
-        "Splashy",
         "Breezy",
         "Sunny",
         "Bubbly",
@@ -66,10 +65,29 @@ public class Names : MonoBehaviour
         "Crafty",
         "Clever",
         "Greedy",
-        "Crabby"
+        "Crabby",
+        "Rusty",
+        "Risky",
+        "Calm",
+        "Intrepid",
+        "Reckless",
+        "Legendary",
+        "Mysterious",
+        "Wily",
+        "Witty",
+        "Whimsical",
+        "Devious",
+        "Rippling",
+        "Buoyant",
+        "Gallant",
+        "Dashing",
+        "Tidal",
+        "Colossal",
+        "Vast",
+        "Sunburnt"
     };
 
-    private string[] nouns = {
+    private static string[] nouns = {
         "Scoundrel",
         "Crewmate",
         "Gem",
@@ -100,20 +118,77 @@ public class Names : MonoBehaviour
         "Tide",
         "Lobster",
         "Anchor",
-        "Shrimp"
+        "Shrimp",
+        "Harpoon",
+        "Compass",
+        "Buoy",
+        "Plank",
+        "Rudder",
+        "Helm",
+        "Cutlass",
+        "Parrot",
+        "Pegleg",
+        "Galleon",
+        "Brig",
+        "Kraken",
+        "Barnacle",
+        "Mariner",
+        "Port",
+        "Stern",
+        "Scallywag",
+        "Galley",
+        "Seashell",
+        "Navigator",
+        "Lookout",
+        "Shipwreck",
+        "Sandbar",
+        "Reef",
+        "Current",
+        "Lagoon",
+        "Harbor",
+        "Dock",
+        "Wharf",
+        "Marina",
+        "Fleet",
+        "Seafarer",
+        "Seafoam",
+        "Shipmate",
+        "Deckhand",
+        "Net",
+        "Clam",
+        "Shellfish",
+        "Booty",
+        "Voyager",
+        "Turtle",
+        "Explorer",
+        "Adventurer"
     };
-    public string GenerateUniquePirateName()
+    
+    public string GenerateUniquePirateName(string playerID)
     {
-        PirateName pirateName = GeneratePirateName();
+        if (playerID != string.Empty) {
+            // check if already has name
+            if (pirateNameDictionary.ContainsKey(playerID)) {
+                return pirateNameDictionary[playerID].ToString();
+            }
+        }
+
+        PirateName pirateName;
 
         // Check if the name is already in the list
-        while (pirateNames.Contains(pirateName))
-        {
+        do {
             pirateName = GeneratePirateName();
         }
+        while (pirateNames.Contains(pirateName));
 
         // Add the unique name to the list
         pirateNames.Add(pirateName);
+
+        // add to dictionary
+        if (playerID != string.Empty) {
+            pirateNameDictionary[playerID] = pirateName;
+        }
+
         return pirateName;
     }
     private PirateName GeneratePirateName()
@@ -134,5 +209,19 @@ public class Names : MonoBehaviour
         noun = nouns[Random.Range(0, nouns.Length)];
 
         return new PirateName(firstAdjective, noun);
+    }
+
+    void Start()
+    {
+        if (pirateNames == null)
+        {
+            pirateNames = new List<PirateName>();
+        }
+        if (pirateNameDictionary == null)
+        {
+            pirateNameDictionary = new Dictionary<string, PirateName>();
+        }
+        
+        Debug.Log(pirateNameDictionary.Count);
     }
 }

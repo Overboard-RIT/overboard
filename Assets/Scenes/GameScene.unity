@@ -1467,7 +1467,7 @@ MonoBehaviour:
   maxBounds: {x: 10, y: 0, z: -10}
   centerCamera: 1
   margin: 3
-  timerStartsAt: 59.01
+  timerStartsAt: 5
   denoiseWindowSize: 30
   overboardGracePeriod: 0.25
   overboardCooldown: 3
@@ -6866,6 +6866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40aee8a3a0e811b4b99e208138726fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerID: 
   apiEnabled: 0
   scanner: {fileID: 1328671218}
 --- !u!1 &1364431573
@@ -9877,7 +9878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeup: {fileID: 34922951}
-  timeRemaining: 59.01
+  timeRemaining: 5
   fadeDuration: 1
   score: {fileID: 568445858}
   backWallUI: {fileID: 1864916408}
