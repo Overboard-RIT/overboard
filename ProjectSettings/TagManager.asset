@@ -10,6 +10,8 @@ TagManager:
   - Flotsam
   - Coin
   - UITimer
+  - Shark
+  - Effect
   layers:
   - Default
   - TransparentFX
