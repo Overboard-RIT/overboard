@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
@@ -16,12 +17,14 @@ public class GameManager : MonoBehaviour
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
-
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
+    public Results results;
 
     public bool gameStarted = false;
     public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
     public RFIDScanner scanner; // Tell Scanner color
+
+    public int overboards = 0;
 
     [Header("Inspector Controls")]
     public bool startOnboard = false;
@@ -31,6 +34,19 @@ public class GameManager : MonoBehaviour
 
     private string playerName;
 
+    void Awake()
+    {
+        // Ensure only one instance of ScoreManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+            enabled = false; // Disable the script until game starts
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void OnValidate()
     {
@@ -59,7 +75,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start() {
+    void Start()
+    {
         ReloadGame();
     }
 
@@ -73,7 +90,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartCountdown() {
+    public void IncrementOverboards()
+    {
+        overboards++;
+    }
+
+    public void StartCountdown()
+    {
         StartCoroutine(StartGameCountdown());
     }
 
@@ -101,7 +124,7 @@ public class GameManager : MonoBehaviour
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
         GetComponent<VoiceTriggers>().StartBantering();
-        
+
         backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
 
@@ -130,6 +153,7 @@ public class GameManager : MonoBehaviour
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
+        results.gameObject.SetActive(true);
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {
@@ -145,13 +169,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReloadGame() {
+    public void ReloadGame()
+    {
         GetComponent<VoiceTriggers>().OnIdle();
         backWallUI.GoIdle();
         backgroundAudio.playOnboarding();
         StartOnboarding();
+
         gameStarted = false;
         StartCoroutine(scanner.UpdateLED(RFIDLed.ATTRACT));
+
+        overboards = 0;
+        results.Init();
+
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {
