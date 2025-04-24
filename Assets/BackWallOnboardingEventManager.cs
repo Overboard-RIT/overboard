@@ -7,11 +7,20 @@ using TMPro;
  * BackWallOnboardEventManager (take a breath) holds all information related to the backwall UI. 
  * In short, this has logic for waiting on Players and updating the UI to account for this.
  * This is largely hiding/revealing elements.
+ * 
+ * PUBLIC FUNCTIONS
+ * SetP1Ready = true when the player is on the raft
+ *  - updates the UI to
+ *  - callable on keyboard by pressing 'W'
+ * ToggleDifficulty = 'casual' or 'difficult' depending on the option chose by player
+ * defaults to 'casual'
+ *  - updates the UI to display CASUAL/EXPERT
+ *  - callable on keyboard by pressing 'R'
  */
 
 public class UIReferenceHolder : MonoBehaviour
 {
-    [Header("Scully")]
+    [Header("Scully (Outdated References)")]
     public Image scully;
     public Image scullySpeechBubble;
     public TextMeshProUGUI scullySpeech;
