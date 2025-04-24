@@ -8,19 +8,20 @@ public class Names : MonoBehaviour
     private struct PirateName : System.IEquatable<PirateName>
     {
         public string firstAdjective;
-        public string secondAdjective;
+        // public string secondAdjective;
         public string noun;
 
-        public PirateName(string firstAdjective, string secondAdjective, string noun)
+        public PirateName(string firstAdjective, string noun)
         {
             this.firstAdjective = firstAdjective;
-            this.secondAdjective = secondAdjective;
+            // this.secondAdjective = secondAdjective;
             this.noun = noun;
         }
 
         public override string ToString()
         {
-            return $"{firstAdjective} {secondAdjective} {noun}";
+            // return $"{firstAdjective} {secondAdjective} {noun}";
+            return $"{firstAdjective}{noun}";
         }
 
         public static implicit operator string(PirateName pirateName)
@@ -35,7 +36,6 @@ public class Names : MonoBehaviour
     }
 
     private string[] adjectives = {
-        "Swashbuckling",
         "Salty",
         "Seafaring",
         "One-Eyed",
@@ -44,12 +44,29 @@ public class Names : MonoBehaviour
         "Rebellious",
         "Daring",
         "Fearsome",
-        "Treacherous",
         "Cutthroat",
         "Stormy",
         "Coastal",
         "Nautical",
-        "Seasick"
+        "Seasick",
+        "Cunning",
+        "Scurvy",
+        "Soggy",
+        "Silly",
+        "Splashy",
+        "Breezy",
+        "Sunny",
+        "Bubbly",
+        "Foamy",
+        "Scaly",
+        "Fishy",
+        "Brave",
+        "Bold",
+        "Curious",
+        "Crafty",
+        "Clever",
+        "Greedy",
+        "Crabby"
     };
 
     private string[] nouns = {
@@ -70,7 +87,20 @@ public class Names : MonoBehaviour
         "Matey",
         "Crab",
         "Fish",
-        "Starfish"
+        "Starfish",
+        "Octopus",
+        "Whale",
+        "Coral",
+        "Island",
+        "Pufferfish",
+        "Pirate",
+        "Buccaneer",
+        "Captain",
+        "Wave",
+        "Tide",
+        "Lobster",
+        "Anchor",
+        "Shrimp"
     };
     public string GenerateUniquePirateName()
     {
@@ -89,20 +119,20 @@ public class Names : MonoBehaviour
     private PirateName GeneratePirateName()
     {
         string firstAdjective;
-        string secondAdjective;
+        // string secondAdjective;
         string noun;
 
         firstAdjective = adjectives[Random.Range(0, adjectives.Length)];
-        secondAdjective = adjectives[Random.Range(0, adjectives.Length)];
+        // secondAdjective = adjectives[Random.Range(0, adjectives.Length)];
 
-        while (firstAdjective == secondAdjective)
-        {
-            // Ensure the two adjectives are not the same
-            secondAdjective = adjectives[Random.Range(0, adjectives.Length)];
-        }
+        // while (firstAdjective == secondAdjective)
+        // {
+        //     // Ensure the two adjectives are not the same
+        //     secondAdjective = adjectives[Random.Range(0, adjectives.Length)];
+        // }
 
         noun = nouns[Random.Range(0, nouns.Length)];
 
-        return new PirateName(firstAdjective, secondAdjective, noun);
+        return new PirateName(firstAdjective, noun);
     }
 }
