@@ -1549,10 +1549,10 @@ MonoBehaviour:
   backWallUI: {fileID: 1864916408}
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
+  results: {fileID: 164460696}
   gameStarted: 0
   metagameAPI: {fileID: 1328671221}
   scanner: {fileID: 1328671218}
-  results: {fileID: 164460696}
   overboards: 0
   startOnboard: 0
   showDifficulty: 0
@@ -13161,8 +13161,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5174af55bf9024b32884488821e6b03e, type: 2}
-  m_sharedMaterial: {fileID: -3603726932419371341, guid: 5174af55bf9024b32884488821e6b03e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bf18fdb9dd006b641b90ab737a52e65b, type: 2}
+  m_sharedMaterial: {fileID: -3603726932419371341, guid: bf18fdb9dd006b641b90ab737a52e65b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
