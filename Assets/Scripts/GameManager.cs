@@ -69,6 +69,13 @@ public class GameManager : MonoBehaviour
             introStarted = true;
             StartCoroutine(StartGameCountdown());
         }
+
+        // test key for ensuring Onboarding connections are valid
+        // look through the new code in BackWallUI.cs to get a better reference
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            this.StartOnboarding();
+        }
     }
 
     public void StartCountdown() {
@@ -112,13 +119,6 @@ public class GameManager : MonoBehaviour
         backWallUI.StartOnboarding();
 
         backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
-    }
-
-    private void FixedUpdate()
-    {
-        if(Input.GetKeyDown(KeyCode.Q)){
-            this.StartOnboarding();
-        }
     }
 
     public void ShowDifficulty()
