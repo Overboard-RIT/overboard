@@ -106,6 +106,19 @@ public class GameManager : MonoBehaviour
     public void StartOnboarding()
     {
         flotsamManager.StartOnboarding();
+
+        // Andrew added this
+        // I think it's where you want to trigger this in the UI?
+        backWallUI.StartOnboarding();
+
+        backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
+    }
+
+    private void FixedUpdate()
+    {
+        if(Input.GetKeyDown(KeyCode.Q)){
+            this.StartOnboarding();
+        }
     }
 
     public void ShowDifficulty()

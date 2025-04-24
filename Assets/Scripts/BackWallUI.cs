@@ -276,6 +276,8 @@ public class BackWallUI : MonoBehaviour
 
         // sets the game
         SetImageAlpha(letsPlaySign, 1f);
+
+        p1Ready = true;
     }
 
 }
