@@ -1422,6 +1422,9 @@ MonoBehaviour:
   backWallUI: {fileID: 1864916408}
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
+  gameStarted: 0
+  metagameAPI: {fileID: 1328671221}
+  scanner: {fileID: 1328671218}
   startOnboard: 0
   showDifficulty: 0
   startGame: 0
@@ -6640,6 +6643,7 @@ GameObject:
   - component: {fileID: 1328671219}
   - component: {fileID: 1328671218}
   - component: {fileID: 1328671220}
+  - component: {fileID: 1328671221}
   m_Layer: 0
   m_Name: MetagameManager
   m_TagString: Untagged
@@ -6660,6 +6664,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successAudio: {fileID: 1328671220}
+  metagameAPI: {fileID: 1328671221}
+  gameManager: {fileID: 309585986}
 --- !u!4 &1328671219
 Transform:
   m_ObjectHideFlags: 0
@@ -6772,6 +6778,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1328671221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328671217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40aee8a3a0e811b4b99e208138726fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scanner: {fileID: 1328671218}
 --- !u!1 &1364431573
 GameObject:
   m_ObjectHideFlags: 0

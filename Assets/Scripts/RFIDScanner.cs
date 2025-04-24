@@ -29,8 +29,9 @@ public class RFIDScanner : MonoBehaviour
 
     private ClientWebSocket webSocket;
     private CancellationTokenSource cts;
-
     public AudioSource successAudio;
+    public MetagameAPI metagameAPI;
+    public GameManager gameManager;
 
     // Class that holds params for each light preset
     [System.Serializable]
@@ -98,8 +99,6 @@ public class RFIDScanner : MonoBehaviour
             lightPresets[RFIDLed.ERROR] = parsedPresets.ERROR;
             lightPresets[RFIDLed.SUCCESSBLUE] = parsedPresets.SUCCESSBLUE;
 
-            Debug.Log("Light presets loaded into dictionary.");
-
             ConnectToServer("ws://nm-rfid-2.rit.edu:8001/ws");
         }
         else
@@ -116,14 +115,12 @@ public class RFIDScanner : MonoBehaviour
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
 
-        Debug.Log($"Sending message to {url}: {messageToSend}");
-
         // Send the request
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("Message sent successfully!");
+            
         }
         else
         {
@@ -136,7 +133,6 @@ public class RFIDScanner : MonoBehaviour
         if (lightPresets.TryGetValue(preset, out LightPreset lightPreset))
         {
             string message = lightPreset.ToString(); // Convert the preset to a JSON string
-            Debug.Log($"Updating LED to {preset}");
 
             // Start sending the message to the server
             yield return StartCoroutine(SendMessageToRFIDServer(serverUrl + "/lights", message));
@@ -189,11 +185,17 @@ public class RFIDScanner : MonoBehaviour
                 Debug.Log($"Message received: {message}");
 
                 // Handle message
-                yield return StartCoroutine(UpdateLED(RFIDLed.BUSY));
-                yield return new WaitForSeconds(1f); // Simulate some processing time
-                successAudio.Play(); // Play success sound
-                yield return StartCoroutine(UpdateLED(RFIDLed.SUCCESSBLUE));
-                yield return StartCoroutine(UpdateLED(RFIDLed.OCCUPIED));
+                if (gameManager.gameStarted) {
+                    // ignore
+                    yield return StartCoroutine(UpdateLED(RFIDLed.NOOP));
+                }
+                else {
+                    yield return StartCoroutine(UpdateLED(RFIDLed.BUSY));
+                    //yield return new WaitForSeconds(0.5f); // Simulate some processing time
+                    successAudio.Play(); // Play success sound
+                    yield return StartCoroutine(UpdateLED(RFIDLed.SUCCESS));
+                    yield return StartCoroutine(UpdateLED(RFIDLed.OCCUPIED));
+                }                
             }
         }
     }

@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour
 
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
 
-    // public bool gameStarted = false;
+    public bool gameStarted = false;
+    public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
+    public RFIDScanner scanner; // Tell Scanner color
 
     [Header("Inspector Controls")]
     public bool startOnboard = false;
@@ -77,7 +79,6 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
         gameTimer.enabled = true;
@@ -155,6 +156,8 @@ public class GameManager : MonoBehaviour
     {
         backgroundAudio.stopOnboarding();
         backWallUI.Squawk("Ready Yourself, Swabbie!", "");
+        gameStarted = true;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.OCCUPIED));
         yield return new WaitForSeconds(countdownDelay * 1.5f);
 
         // Countdown from 3... 2... 1...
