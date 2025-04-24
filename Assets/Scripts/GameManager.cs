@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
     public Results results;
 
-    // public bool gameStarted = false;
+    public bool gameStarted = false;
+    public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
+    public RFIDScanner scanner; // Tell Scanner color
 
     public int overboards = 0;
 
@@ -100,14 +102,14 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
-        // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
         gameTimer.enabled = true;
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
+        Debug.Log(metagameAPI.currentPlayerID);
+        playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
 
-        playerName = GetComponent<Names>().GenerateUniquePirateName();
         scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
@@ -144,6 +146,10 @@ public class GameManager : MonoBehaviour
 
         // fake name until we have a name input
         leaderboard.NewScore(playerName, playerName, scoreManager.Score);
+
+        // send score to metagame
+        metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
+
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
@@ -169,8 +175,13 @@ public class GameManager : MonoBehaviour
         backWallUI.GoIdle();
         backgroundAudio.playOnboarding();
         StartOnboarding();
+
+        gameStarted = false;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.ATTRACT));
+
         overboards = 0;
         results.Init();
+
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {
@@ -182,6 +193,8 @@ public class GameManager : MonoBehaviour
     {
         backgroundAudio.stopOnboarding();
         backWallUI.Squawk("Ready Yourself, Swabbie!", "");
+        gameStarted = true;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.OCCUPIED));
         yield return new WaitForSeconds(countdownDelay * 1.5f);
 
         // Countdown from 3... 2... 1...
