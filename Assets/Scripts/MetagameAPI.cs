@@ -4,7 +4,9 @@ using System.Collections;
 
 public class MetagameAPI : MonoBehaviour
 {
-    private const string BaseUrl = "https://your-api-url.com"; // TODO Replace
+    private const string BaseUrl = "http://new-media-metagame.com/api/";
+    private const string GetUrl = "band_id";
+    private const string PostUrl = "prize-money/award";
     private const string GameID = "overboard"; // our ID in the metagame
     private string currentPlayerID = string.Empty; // id of the current player
     public RFIDScanner scanner; // reference to the RFID scanner
@@ -18,7 +20,7 @@ public class MetagameAPI : MonoBehaviour
     private IEnumerator GetPlayerIDCoroutine(string rfidIdentifier)
     {
         // TODO: replace with actual endpoint
-        string url = $"{BaseUrl}/getPlayerID?input={UnityWebRequest.EscapeURL(rfidIdentifier)}";
+        string url = $"{BaseUrl}{GetUrl}={UnityWebRequest.EscapeURL(rfidIdentifier)}";
         
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
@@ -27,6 +29,7 @@ public class MetagameAPI : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log($"Player ID received: {request.downloadHandler.text}");
+                scanner.SequenceSuccess();
 
                 // do stuff with the ID
                 currentPlayerID = request.downloadHandler.text;
@@ -35,6 +38,7 @@ public class MetagameAPI : MonoBehaviour
             else
             {
                 Debug.LogError($"GET request failed: {request.error}");
+                scanner.SequenceFailure();
             }
         }
     }
@@ -48,11 +52,11 @@ public class MetagameAPI : MonoBehaviour
     private IEnumerator PostGameDataCoroutine(string gameID, string playerID, int score)
     {
         // TODO: replace with actual endpoint
-        string url = $"{BaseUrl}/postGameData";
+        string url = $"{BaseUrl}{PostUrl}";
         WWWForm form = new WWWForm();
-        form.AddField("gameID", gameID);
-        form.AddField("playerID", playerID);
-        form.AddField("score", score);
+        form.AddField("interactive_slug", gameID);
+        form.AddField("player_id", playerID);
+        form.AddField("amount", score);
 
         using (UnityWebRequest request = UnityWebRequest.Post(url, form))
         {

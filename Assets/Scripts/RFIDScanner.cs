@@ -191,12 +191,21 @@ public class RFIDScanner : MonoBehaviour
                 }
                 else {
                     yield return StartCoroutine(UpdateLED(RFIDLed.BUSY));
-                    //yield return new WaitForSeconds(0.5f); // Simulate some processing time
-                    successAudio.Play(); // Play success sound
-                    yield return StartCoroutine(UpdateLED(RFIDLed.SUCCESS));
-                    yield return StartCoroutine(UpdateLED(RFIDLed.OCCUPIED));
+                    metagameAPI.GetPlayerID(message);
                 }                
             }
         }
+    }
+
+    public void SequenceSuccess() {
+        // Play success sound and update LED
+        successAudio.Play();
+        StartCoroutine(UpdateLED(RFIDLed.SUCCESS));
+        StartCoroutine(UpdateLED(RFIDLed.OCCUPIED));
+    }
+
+    public void SequenceFailure() {
+        StartCoroutine(UpdateLED(RFIDLed.FAILURE));
+        StartCoroutine(UpdateLED(RFIDLed.ATTRACT));
     }
 }
