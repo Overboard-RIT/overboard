@@ -9,6 +9,7 @@ public class MetagameAPI : MonoBehaviour
     private const string PostUrl = "prize-money/award";
     private const string GameID = "overboard"; // our ID in the metagame
     private string currentPlayerID = string.Empty; // id of the current player
+    public bool apiEnabled = true; // flag to enable or disable API calls
     public RFIDScanner scanner; // reference to the RFID scanner
 
     // Sends a GET request with a string parameter to retrieve a player ID
@@ -19,6 +20,13 @@ public class MetagameAPI : MonoBehaviour
 
     private IEnumerator GetPlayerIDCoroutine(string rfidIdentifier)
     {
+        if (!apiEnabled)
+        {
+            currentPlayerID = rfidIdentifier; // use the RFID identifier as the player ID
+            scanner.SequenceSuccess();
+            yield break;
+        }
+
         // TODO: replace with actual endpoint
         string url = $"{BaseUrl}{GetUrl}={UnityWebRequest.EscapeURL(rfidIdentifier)}";
         
@@ -29,11 +37,8 @@ public class MetagameAPI : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log($"Player ID received: {request.downloadHandler.text}");
-                scanner.SequenceSuccess();
-
-                // do stuff with the ID
                 currentPlayerID = request.downloadHandler.text;
-
+                scanner.SequenceSuccess();
             }
             else
             {
