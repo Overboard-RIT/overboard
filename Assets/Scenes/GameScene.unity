@@ -902,13 +902,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1320739303}
   - {fileID: 967628291}
   m_Father: {fileID: 1864916404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 516, y: 375.46}
-  m_SizeDelta: {x: -1422.611, y: -770.121}
+  m_AnchoredPosition: {x: -443.6167, y: -174.435}
+  m_SizeDelta: {x: 508.89795, y: 168.41498}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &166114414
 MonoBehaviour:
@@ -1553,6 +1554,9 @@ MonoBehaviour:
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
   results: {fileID: 164460696}
+  gameStarted: 0
+  metagameAPI: {fileID: 1328671221}
+  scanner: {fileID: 1328671218}
   leaderboardRank: {fileID: 1276944751}
   overboards: 0
   startOnboard: 0
@@ -1596,7 +1600,7 @@ MonoBehaviour:
   maxBounds: {x: 10, y: 0, z: -10}
   centerCamera: 1
   margin: 3
-  timerStartsAt: 59.01
+  timerStartsAt: 5
   denoiseWindowSize: 30
   overboardGracePeriod: 0.25
   overboardCooldown: 3
@@ -5143,7 +5147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &776425802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5170,7 +5174,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776425801}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -5845,10 +5849,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 166114413}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.77}
-  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -493.61, y: -177.67}
-  m_SizeDelta: {x: 237.43, y: 74.466}
+  m_AnchoredPosition: {x: -326.59515, y: 14.266701}
+  m_SizeDelta: {x: 157.7668, y: -108.7497}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &967628292
 MonoBehaviour:
@@ -5881,13 +5885,13 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
+  m_enableVertexGradient: 1
+  m_colorMode: 2
   m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+    topLeft: {r: 0.9843137, g: 0.9882353, b: 0.94509804, a: 1}
+    topRight: {r: 0.9843137, g: 0.9882353, b: 0.94509804, a: 1}
+    bottomLeft: {r: 1, g: 0.8784314, b: 0.654902, a: 1}
+    bottomRight: {r: 1, g: 0.8784314, b: 0.654902, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -5935,7 +5939,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 99.88405, y: 3.763441, z: 0.6386719, w: 15.451076}
+  m_margin: {x: 10.074215, y: 3.763441, z: 0.6386719, w: 15.451076}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7456,7 +7460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1305943852
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7650,6 +7654,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310434075}
   m_CullTransparentMesh: 1
+--- !u!1 &1320739302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1320739303}
+  - component: {fileID: 1320739305}
+  - component: {fileID: 1320739304}
+  m_Layer: 7
+  m_Name: coins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1320739303
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320739302}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 166114413}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.07946777, y: -0.002532959}
+  m_SizeDelta: {x: 0.15887, y: -0.46}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1320739304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320739302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 254cfb65214ee483d90c49a6280982d1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1320739305
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320739302}
+  m_CullTransparentMesh: 1
 --- !u!1 &1328671217
 GameObject:
   m_ObjectHideFlags: 0
@@ -7661,6 +7740,7 @@ GameObject:
   - component: {fileID: 1328671219}
   - component: {fileID: 1328671218}
   - component: {fileID: 1328671220}
+  - component: {fileID: 1328671221}
   m_Layer: 0
   m_Name: MetagameManager
   m_TagString: Untagged
@@ -7681,6 +7761,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successAudio: {fileID: 1328671220}
+  metagameAPI: {fileID: 1328671221}
+  gameManager: {fileID: 309585986}
 --- !u!4 &1328671219
 Transform:
   m_ObjectHideFlags: 0
@@ -7793,6 +7875,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1328671221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328671217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40aee8a3a0e811b4b99e208138726fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerID: 
+  apiEnabled: 0
+  scanner: {fileID: 1328671218}
 --- !u!1 &1364431573
 GameObject:
   m_ObjectHideFlags: 0
@@ -8701,8 +8798,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1000017459678459020, guid: 97d315754873a4fbfb3953d30653e815, type: 2}
-  m_audioClip: {fileID: 8300000, guid: ace2e63e019c1974eac1209a05e31b87, type: 3}
-  m_Resource: {fileID: 8300000, guid: ace2e63e019c1974eac1209a05e31b87, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 320e97c4769fb3847b389a23f20d2f88, type: 3}
+  m_Resource: {fileID: 8300000, guid: 320e97c4769fb3847b389a23f20d2f88, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.4
   m_Pitch: 1
@@ -10975,7 +11072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeup: {fileID: 34922951}
-  timeRemaining: 59.01
+  timeRemaining: 5
   fadeDuration: 1
   score: {fileID: 568445858}
   backWallUI: {fileID: 1864916408}
@@ -13285,8 +13382,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5174af55bf9024b32884488821e6b03e, type: 2}
-  m_sharedMaterial: {fileID: -3603726932419371341, guid: 5174af55bf9024b32884488821e6b03e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bf18fdb9dd006b641b90ab737a52e65b, type: 2}
+  m_sharedMaterial: {fileID: -3603726932419371341, guid: bf18fdb9dd006b641b90ab737a52e65b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
