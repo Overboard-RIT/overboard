@@ -82,6 +82,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(StartGameCountdown());
     }
 
+    public void SetPlayerName()
+    {
+        playerName = GetComponent<Names>().GenerateUniquePirateName();
+        backWallUI.SetPlayerName(playerName);
+    }
+
     private void StartGame()
     {
         // gameStarted = true;
@@ -91,7 +97,6 @@ public class GameManager : MonoBehaviour
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
 
-        playerName = GetComponent<Names>().GenerateUniquePirateName();
         scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
@@ -107,7 +112,7 @@ public class GameManager : MonoBehaviour
         backgroundAudio.playGameplay();
         GetComponent<VoiceTriggers>().StartBantering();
         
-        backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
+        // backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
 
     public void StartOnboarding()
@@ -118,7 +123,7 @@ public class GameManager : MonoBehaviour
         // I think it's where you want to trigger this in the UI?
         backWallUI.StartOnboarding();
 
-        backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
+        // backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
     }
 
     public void ShowDifficulty()

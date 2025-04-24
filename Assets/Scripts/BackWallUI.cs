@@ -15,7 +15,7 @@ public class BackWallUI : MonoBehaviour
     public GameObject speechBubblePanel;
     public GameObject idlePanel;
     private List<OverboardPlayer> players = new List<OverboardPlayer>();
-
+    public FlotsamManager flotsamManager;
     public GameObject scullyPlatform;
     public GameObject scullyNeutral;
     public GameObject scullyPoint;
@@ -35,6 +35,7 @@ public class BackWallUI : MonoBehaviour
     public Image p1ReadyText;
     public Image blueDividerLine;
     public Image letsPlaySign;
+    public GameObject diffiucltyPanel;
 
     [Header("Settings")]
     public Image diffCasual;
@@ -44,7 +45,7 @@ public class BackWallUI : MonoBehaviour
 
     // private stuff dealing with onboarding, currentDifficulty
     // and if P1 is ready to play
-    private string currentDiff = "casual";
+    // private string currentDiff = "casual";
     private bool p1Ready = false;
 
     private OverboardPlayer example = new OverboardPlayer("Player 1", 0, 0);
@@ -104,6 +105,10 @@ public class BackWallUI : MonoBehaviour
         }
     }
 
+    public void SetPlayerName(string name) {
+        p1Name.text = name;
+    }
+
     public void Squawk(string heading, string body)
     {
         foreach (Transform child in speechBubblePanel.transform)
@@ -146,7 +151,7 @@ public class BackWallUI : MonoBehaviour
         score.GetComponent<TextMeshProUGUI>().text = "0 pts";
         // AddPlayer(example);
         //AddPlayer(example);
-        Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
+        // Squawk("Ahoy There!", "Kindly stand upon me trusty raft to start the game!");
     }
 
     // does the UI stuff for Onboarding, namely hiding 
@@ -156,7 +161,7 @@ public class BackWallUI : MonoBehaviour
         idlePanel.SetActive(false);
         onboardingPanel.SetActive(true);
 
-        scullyScript.SquawkRaft();
+        // scullyScript.SquawkRaft();
 
         // hide Player 2 components
         /*SetImageAlpha(p2ContainerFull, 0f);
@@ -177,7 +182,9 @@ public class BackWallUI : MonoBehaviour
         // hide "Let's Play" sign
         SetImageAlpha(letsPlaySign, 0f);
 
-        // hide Expert difficulty
+        // hide difficulty
+        diffiucltyPanel.SetActive(false);
+        SetImageAlpha(diffCasual, 0f);
         SetImageAlpha(diffExpert, 0f);
 
         // get player names from meta config
@@ -190,19 +197,19 @@ public class BackWallUI : MonoBehaviour
 
     }
 
-    private void ToggleDifficulty()
+    public void SetDifficulty()
     {
-        if (this.currentDiff == "casual")
+        diffiucltyPanel.SetActive(true);
+        FlotsamManager.Difficulty currentDiff = flotsamManager.difficulty;
+        if (currentDiff == FlotsamManager.Difficulty.Expert)
         {
             SetImageAlpha(diffCasual, 0f);
             SetImageAlpha(diffExpert, 1f);
-            currentDiff = "expert";
         }
         else
         {
             SetImageAlpha(diffCasual, 1f);
             SetImageAlpha(diffExpert, 0f);
-            currentDiff = "casual";
         }
     }
 
@@ -253,7 +260,7 @@ public class BackWallUI : MonoBehaviour
         // change the difficulty
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ToggleDifficulty();
+            // ToggleDifficulty();
         }
 
         // start the game (if p1Ready)
