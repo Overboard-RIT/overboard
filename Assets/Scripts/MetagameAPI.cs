@@ -100,24 +100,26 @@ public class MetagameAPI : MonoBehaviour
 
         string url = $"{BaseUrl}{PostUrl}";
 
-        WWWForm form = new WWWForm();
-        form.AddField("interactive_slug", gameID);
-        form.AddField("player_id", playerID);
-        form.AddField("amount", score);
+        string data = "{ ";
 
-        using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+        data += "\"player_id\": \"" + playerID + "\", ";
+        data += "\"interactive_slug\": \"" + gameID + "\", ";
+        data += "\"amount\": " + score + " }";
+
+        Debug.Log(data);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url, data, "application/json"))
         {
-            yield return request.SendWebRequest();
+            yield return www.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log("POST request successful.");
+                Debug.LogError(www.error);
             }
             else
             {
-                Debug.LogError($"POST request failed: {request.error}");
+                Debug.Log("Form upload complete!");
             }
-            currentPlayerID = ""; // reset player ID after posting data
         }
 
     }
