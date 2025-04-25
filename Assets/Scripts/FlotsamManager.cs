@@ -13,6 +13,7 @@ public class FlotsamManager : MonoBehaviour
         set
         {
             difficulty = value;
+            gameManager.gameDifficulty = difficulty;
 
             if (difficulty == Difficulty.Expert)
             {
@@ -58,8 +59,6 @@ public class FlotsamManager : MonoBehaviour
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
     private GameObject lastSpawnedFlotsam;
-
-    public BootyManager bootyManager;
 
     public Vector3 MinGlobalBoundary { get; set; }
     public Vector3 MaxGlobalBoundary { get; set; }
@@ -162,6 +161,16 @@ public class FlotsamManager : MonoBehaviour
                     spawnPosition = GetRandomPositionAroundPlayer();
                 }
 
+                GameObject[] flotsams;
+                if (difficulty == Difficulty.Casual)
+                {
+                    flotsams = flotsamPrefabs.Clone() as GameObject[];
+                }
+                else
+                {
+                    flotsams = new GameObject[flotsamPrefabs.Length - 1];
+                    Array.Copy(flotsamPrefabs, 1, flotsams, 0, flotsamPrefabs.Length - 1); // copy all but the barrel
+                }
                 GameObject flotsamPrefab = flotsamPrefabs[UnityEngine.Random.Range(0, flotsamPrefabs.Length)];
 
                 // Ensure there's no overlap with existing flotsam
@@ -172,7 +181,7 @@ public class FlotsamManager : MonoBehaviour
                     if (lastSpawnedFlotsam != null)
                     {
                         Debug.Log("here");
-                        this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                        GetComponent<BootyManager>().SendPositions(lastSpawnedFlotsam, spawnPosition);
                     }
 
                     lastSpawnedFlotsam = newFlotsam;

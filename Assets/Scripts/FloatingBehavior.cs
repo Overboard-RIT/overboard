@@ -106,7 +106,11 @@ public class FloatingBehavior : MonoBehaviour
         {
             case PlatformType.Barrel:
                 amplitude = 10f;
-                if (UnityEngine.Random.value < 0.5f)
+                if (GameManager.Instance.gameDifficulty == FlotsamManager.Difficulty.Casual)
+                {
+                    break;
+                }
+                if (UnityEngine.Random.value < 0.25f)
                 {
                     transform.Rotate(
                         0f,
@@ -141,6 +145,8 @@ public class FloatingBehavior : MonoBehaviour
         if (isRollingBarrel)
         {
             transform.position += barrelRollingDirection * Time.deltaTime;
+            startPosition.x = transform.position.x;
+            startPosition.z = transform.position.z;
             transform.Rotate(0f, -5 * rotationSpeed * Time.deltaTime, 0f, Space.Self);
         }
         else

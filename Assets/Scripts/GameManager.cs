@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public List<StartAndStop> countdownNumbers;
     public StartAndStop start;
     private bool introStarted = false;
+    public FlotsamManager.Difficulty gameDifficulty;
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
