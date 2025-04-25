@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4747231873213873389}
   m_Layer: 0
   m_Name: CoinSpawnAnimation
-  m_TagString: Untagged
+  m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 3111696062146099990, guid: c7569851d2d75cb43823515faf3aae60, type: 3}
+  spawnCoin: 1

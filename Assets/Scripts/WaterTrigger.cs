@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WaterTrigger : MonoBehaviour
 {
@@ -12,20 +13,44 @@ public class WaterTrigger : MonoBehaviour
 
     private float? enteredWaterAt = null;
 
+    public GameObject playerLeftFoot;
+    public GameObject playerRightFoot;
+
+    public GameObject splash;
+    public GameObject sharksPrefab;
+
     public GameTimer gameTimer; // Assign in Inspector
+    private List<Shark> sharks = new List<Shark>();
+
+    void Awake() {
+        enabled = false; // Disable this script until the game starts
+    }
 
     void Update()
     {
-        if (gameTimer.isGameOver || !gameManager.gameStarted) {
-            return;
+        foreach (Shark shark in sharks)
+        {
+            if (shark != null)
+            {
+                shark.playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
+            }
         }
 
-        FlotsamCollider[] flotsamColliders = FindObjectsByType<FlotsamCollider>(FindObjectsSortMode.None);
-        foreach (FlotsamCollider flotsamCollider in flotsamColliders)
+        GameObject[] flotsams = GameObject.FindGameObjectsWithTag("Flotsam");
+        foreach (GameObject flotsam in flotsams)
         {
+            FlotsamCollider flotsamCollider = flotsam.GetComponent<FlotsamCollider>();
             if (flotsamCollider.PlayerContact)
             {
                 enteredWaterAt = null;
+                foreach (Shark shark in sharks)
+                {
+                    if (shark != null)
+                    {
+                        Destroy(shark.gameObject); // Destroy the shark if the player is in contact with flotsam
+                    }
+                }
+                sharks.Clear(); // Clear the list of sharks if the player is in contact with flotsam
                 return;
             }
         }
@@ -43,6 +68,15 @@ public class WaterTrigger : MonoBehaviour
                 penaltyText.ShowText(); // Show "-5 SECONDS!" text
                 lastPenaltyTime = Time.time; // Update penalty timer
                 enteredWaterAt = null;
+                gameManager.GetComponent<VoiceTriggers>().OnOverboard();
+                gameManager.GetComponent<VoiceTriggers>().ResetBanterTimer();
+
+                
+                Vector3 playerPosition = (playerLeftFoot.transform.position + playerRightFoot.transform.position) / 2;
+                playerPosition.y = 0.5f; // Adjust Y position to be above the water
+                GameObject shark = Instantiate(sharksPrefab, playerPosition, Quaternion.Euler(90f, 0f, 0f));
+                Instantiate(splash, playerPosition, Quaternion.Euler(90f, 0f, 0f));
+                sharks.Add(shark.GetComponent<Shark>());
             }
         }
     }

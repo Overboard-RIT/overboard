@@ -3,12 +3,23 @@ using System;
 
 public class BoundsManager : MonoBehaviour
 {
-    public float margin = 3f;
+    private float margin = 3f;
 
     private Vector3 boundsMin;
     private Vector3 boundsMax;
     public GameObject ocean;
-    public GameObject raft;
+    // public GameObject raft;
+
+    public float Margin
+    {
+        get => margin;
+        set
+        {
+            margin = value;
+            RepositionOcean();
+            // RepositionRaft();
+        }
+    }
 
     public Vector3 BoundsMin
     {
@@ -17,7 +28,7 @@ public class BoundsManager : MonoBehaviour
         {
             boundsMin = value;
             RepositionOcean();
-            RepositionRaft();
+            // RepositionRaft();
         }
     }
     public Vector3 BoundsMax
@@ -27,7 +38,7 @@ public class BoundsManager : MonoBehaviour
         {
             boundsMax = value;
             RepositionOcean();
-            RepositionRaft();
+            // RepositionRaft();
         }
     }
 
@@ -58,12 +69,31 @@ public class BoundsManager : MonoBehaviour
         );
     }
 
-    private void RepositionRaft() {
-        Vector3 newPosition = new Vector3(
-            (boundsMin.x + boundsMax.x) / 2f,
-            ocean.transform.position.y,
-            (boundsMin.z + boundsMax.z) / 2f
+    // private void RepositionRaft() {
+    //     Vector3 newPosition = new Vector3(
+    //         (boundsMin.x + boundsMax.x) / 2f,
+    //         ocean.transform.position.y,
+    //         (boundsMin.z + boundsMax.z) / 2f
+    //     );
+    //     raft.transform.position = newPosition;
+    // }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.blue;
+        Vector3 center = (boundsMin + boundsMax) / 2f;
+        Vector3 size = new Vector3(
+            boundsMax.x - boundsMin.x,
+            10f,
+            boundsMax.z - boundsMin.z
         );
-        raft.transform.position = newPosition;
+        Gizmos.DrawWireCube(center, size);
+
+        Gizmos.color = Color.green;
+        Vector3 sizePlusMargin = new Vector3(
+            boundsMax.x - boundsMin.x + margin * 2f,
+            10f + margin * 2f,
+            boundsMax.z - boundsMin.z + margin * 2f
+        );
+        Gizmos.DrawWireCube(center, sizePlusMargin);
     }
 }
