@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,7 +42,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            enabled = false; // Disable the script until game starts
         }
         else
         {
@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        Debug.LogWarning($"{gameObject.name} was deactivated! Callstack:\n" + Environment.StackTrace);
+    }
+
     void Start()
     {
         ReloadGame();
@@ -99,6 +104,12 @@ public class GameManager : MonoBehaviour
     public void StartCountdown()
     {
         StartCoroutine(StartGameCountdown());
+    }
+
+    public void SetPlayerName()
+    {
+        playerName = GetComponent<Names>().GenerateUniquePirateName("");
+        backWallUI.SetPlayerName(playerName);
     }
 
     private void StartGame()
@@ -126,12 +137,18 @@ public class GameManager : MonoBehaviour
         backgroundAudio.playGameplay();
         GetComponent<VoiceTriggers>().StartBantering();
 
-        backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
+        // backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
 
     public void StartOnboarding()
     {
         flotsamManager.StartOnboarding();
+
+        // Andrew added this
+        // I think it's where you want to trigger this in the UI?
+        backWallUI.StartOnboarding();
+
+        // backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
     }
 
     public void ShowDifficulty()
