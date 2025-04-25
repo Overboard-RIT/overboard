@@ -11,10 +11,8 @@ using System;
 
 public class BootyManager : MonoBehaviour
 {
-
-
     public GameObject gem;
-
+    private FlotsamManager flotsamManager;
     //midpoint between two rafts
     private Vector3 midpoint;
 
@@ -24,6 +22,7 @@ public class BootyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        flotsamManager = GetComponent<FlotsamManager>();
         // for testing: fake midpoint so the gem spawns immediately
         // midpoint = new Vector3(0, 1, 0); // set height so it's visible
         // SpawnGem(); // spawn immediately
@@ -33,6 +32,10 @@ public class BootyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (flotsamManager.GameDifficulty == FlotsamManager.Difficulty.Casual)
+        {
+            return;
+        }
         // check to ensure that the midpoint between two rafts isn't exactly 0,0,0
         // this is sorta spaghetti and serves as an alternative to checking for a null value,
         // as a Vector3 can't be null (defaults zero). If zero, and RNG rolls correctly,

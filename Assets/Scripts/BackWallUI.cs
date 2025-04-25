@@ -203,7 +203,7 @@ public class BackWallUI : MonoBehaviour
     public void SetDifficulty()
     {
         diffiucltyPanel.SetActive(true);
-        FlotsamManager.Difficulty currentDiff = flotsamManager.difficulty;
+        FlotsamManager.Difficulty currentDiff = flotsamManager.GameDifficulty;
         if (currentDiff == FlotsamManager.Difficulty.Expert)
         {
             SetImageAlpha(diffCasual, 0f);
