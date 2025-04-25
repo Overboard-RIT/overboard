@@ -64,8 +64,6 @@ public class MetagameAPI : MonoBehaviour
                     Debug.LogError("Failed to extract Player ID from response.");
                     scanner.SequenceFailure();
                 }
-
-                
             }
             else
             {
@@ -101,6 +99,10 @@ public class MetagameAPI : MonoBehaviour
         }
 
         string url = $"{BaseUrl}{PostUrl}";
+
+        // Convert playerID to an integer
+        Debug.Log($"Posting data to URL: {url}");
+
         WWWForm form = new WWWForm();
         form.AddField("interactive_slug", gameID);
         form.AddField("player_id", playerID);
@@ -109,6 +111,8 @@ public class MetagameAPI : MonoBehaviour
         using (UnityWebRequest request = UnityWebRequest.Post(url, form))
         {
             yield return request.SendWebRequest();
+
+            Debug.Log(request.uri);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -120,5 +124,6 @@ public class MetagameAPI : MonoBehaviour
             }
             currentPlayerID = ""; // reset player ID after posting data
         }
+
     }
 }
