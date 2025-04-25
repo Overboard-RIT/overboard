@@ -37,14 +37,14 @@ public class BootyManager : MonoBehaviour
         // this is sorta spaghetti and serves as an alternative to checking for a null value,
         // as a Vector3 can't be null (defaults zero). If zero, and RNG rolls correctly,
         // and we're ready to spawn, spawn a gem at the midpoint
-        Debug.Log("midpoint: " + midpoint + " " + "ready to spawn:" + readyToSpawn);
+        // Debug.Log("midpoint: " + midpoint + " " + "ready to spawn:" + readyToSpawn);
         // if((midpoint != Vector3.zero) && (UnityEngine.Random.Range(0,4) == 1) && readyToSpawn)
-        if ((midpoint != Vector3.zero) && readyToSpawn)
+        if ((midpoint != Vector3.zero) && readyToSpawn && (UnityEngine.Random.Range(0, 4) == 1))
         {
-            Debug.Log(midpoint);
+            // Debug.Log(midpoint);
             StartCoroutine(SpawnGem());
             readyToSpawn = false;
-            Debug.Log("Gem: readyToSpawn = false");
+            // Debug.Log("Gem: readyToSpawn = false");
         }
     }
 

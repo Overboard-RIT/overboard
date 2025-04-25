@@ -8,7 +8,7 @@ public class Gem : MonoBehaviour
     void Update()
     {
         // Make the coin spin around the Y-axis (using deltaTime to make it frame-rate independent)
-        transform.Rotate(100f * Time.deltaTime, 0, 0); // 100f is the rotation speed
+        transform.Rotate(100f * Time.deltaTime, 100f * Time.deltaTime, 0); // 100f is the rotation speed
     }
 
     void OnTriggerEnter(Collider other)
