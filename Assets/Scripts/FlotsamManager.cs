@@ -187,8 +187,8 @@ public class FlotsamManager : MonoBehaviour
         casualDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
-            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Casual;
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
             casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.RemoveAllListeners();
@@ -211,8 +211,8 @@ public class FlotsamManager : MonoBehaviour
         expertDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
-            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             difficulty = Difficulty.Expert;
+            gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
             casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
             expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.RemoveAllListeners();
