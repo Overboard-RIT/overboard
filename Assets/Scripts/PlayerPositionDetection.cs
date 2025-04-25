@@ -67,7 +67,7 @@ public class PlayerPositionDetection : MonoBehaviour
         {
             if (position.center.x == 0 && position.center.y == 0 && position.center.z == 0) continue;
             if (!bounds.CheckInBounds(position.center)) continue;
-            Debug.Log($"Player Position: {position.center.x}, {position.center.y}, {position.center.z}");
+            //Debug.Log($"Player Position: {position.center.x}, {position.center.y}, {position.center.z}");
             activePlayerPositions.Add(new PlayerPosition(position.center, position.leftFoot, position.rightFoot));
         }
 
@@ -131,4 +131,5 @@ public class PlayerPositionDetection : MonoBehaviour
     {
         return new Vector3(joint.Position.X * 10, 5, joint.Position.Z * -10);
     }
+    
 }
