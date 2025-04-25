@@ -196,6 +196,7 @@ public class RFIDScanner : MonoBehaviour
                 }
                 else {
                     yield return StartCoroutine(UpdateLED(RFIDLed.BUSY));
+                    yield return new WaitForSeconds(0.2f);
                     metagameAPI.GetPlayerID(message);
                 }                
             }

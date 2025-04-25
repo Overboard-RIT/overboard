@@ -104,7 +104,7 @@ public class FlotsamManager : MonoBehaviour
 
     private IEnumerator SpawnFlotsamRoutine()
     {
-        Debug.Log("i am spawning blocks n shit");
+        //Debug.Log("i am spawning blocks n shit");
         while (true)
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(spawnIntervalMin, spawnIntervalMax));
@@ -139,7 +139,7 @@ public class FlotsamManager : MonoBehaviour
                     GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
                     if (lastSpawnedFlotsam != null)
                     {
-                        Debug.Log("here");
+                        //Debug.Log("here");
                         this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
                     }
 
