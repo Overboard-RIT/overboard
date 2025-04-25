@@ -1554,10 +1554,10 @@ MonoBehaviour:
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
   results: {fileID: 164460696}
+  leaderboardRank: {fileID: 1276944751}
   gameStarted: 0
   metagameAPI: {fileID: 1328671221}
   scanner: {fileID: 1328671218}
-  leaderboardRank: {fileID: 1276944751}
   overboards: 0
   startOnboard: 0
   showDifficulty: 0
@@ -7888,7 +7888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerID: 
-  apiEnabled: 0
+  apiEnabled: 1
   scanner: {fileID: 1328671218}
 --- !u!1 &1364431573
 GameObject:
