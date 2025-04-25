@@ -6,11 +6,43 @@ public class FlotsamManager : MonoBehaviour
 {
     public GameManager gameManager; // Reference to the GameManager
     [Header("Difficulty")]
-    public Difficulty difficulty = Difficulty.Casual; // Difficulty levels
-    [Range(0.0f, 1.0f)]
-    public float scaleFactor = 1f; // Scale factor for flotsam size
-    [Range(1.0f, 2.0f)]
-    public float distanceFactor = 1f; // Distance factor for flotsam spawn distance
+    private Difficulty difficulty = Difficulty.Casual; // Difficulty levels
+    public Difficulty GameDifficulty
+    {
+        get { return difficulty; }
+        set
+        {
+            difficulty = value;
+
+            if (difficulty == Difficulty.Expert)
+            {
+                scaleFactor = expertScaleFactor;
+                distanceFactor = expertDistanceFactor;
+                spawnRadius = expertSpawnRadius;
+
+            }
+            else if (difficulty == Difficulty.Casual)
+            {
+                scaleFactor = casualScaleFactor;
+                distanceFactor = casualDistanceFactor;
+                spawnRadius = casualSpawnRadius;
+            }
+        }
+    }
+    [Range(0.0f, 2.0f)]
+    public float casualScaleFactor = 1f; // Scale factor for flotsam size
+    [Range(0.0f, 2.0f)]
+    public float casualDistanceFactor = 1f; // Distance factor for flotsam spawn distance
+    [Range(10f, 20f)]
+    public float casualSpawnRadius = 15f; // Spawn radius for casual difficulty
+    [Range(0.0f, 2.0f)]
+    public float expertScaleFactor = 1f; // Scale factor for flotsam size
+    [Range(0.0f, 2.0f)]
+    public float expertDistanceFactor = 1f; // Distance factor for flotsam spawn distance
+    [Range(10f, 20f)]
+    public float expertSpawnRadius = 15f; // Spawn radius for expert difficulty
+    private float scaleFactor = 1f;
+    private float distanceFactor = 1f;
     [Header("Flotsam Settings")]
     public GameObject[] flotsamPrefabs; // Array of flotsam prefabs
     public GameObject playerPlatformPrefab; // Prefab for the player platform
@@ -19,12 +51,15 @@ public class FlotsamManager : MonoBehaviour
     public int startingFlotsamIndex = 2;
     public float spawnIntervalMin = 3f; // Time between spawns
     public float spawnIntervalMax = 7f;
-    public float spawnRadius = 15f; // Radius around the player to spawn flotsam
+    private float spawnRadius = 15f; // Radius around the player to spawn flotsam
     public float offRadiusChance = 0.1f; // Chance for flotsam to spawn outside the radius
     public float offRadiusMaxDistance = 30f; // Max distance for off-radius spawn
     public LayerMask flotsamLayer; // Layer to check for existing flotsam
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
+    private GameObject lastSpawnedFlotsam;
+
+    public BootyManager bootyManager;
 
     public Vector3 MinGlobalBoundary { get; set; }
     public Vector3 MaxGlobalBoundary { get; set; }
@@ -40,8 +75,9 @@ public class FlotsamManager : MonoBehaviour
     private GameObject expertDifficulty;
     public GameObject startingPlatform;
 
-    
-    void OnDrawGizmos() {
+
+    void OnDrawGizmos()
+    {
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 0, 1));
         Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
         Gizmos.DrawSphere(playerTransform.position, spawnRadius);
@@ -132,7 +168,14 @@ public class FlotsamManager : MonoBehaviour
                 if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
                 {
                     spawnPosition.y = -3f;
-                    Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                    GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                    if (lastSpawnedFlotsam != null)
+                    {
+                        Debug.Log("here");
+                        this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                    }
+
+                    lastSpawnedFlotsam = newFlotsam;
                     return;
                 }
             }
@@ -176,8 +219,8 @@ public class FlotsamManager : MonoBehaviour
         casualDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            GameDifficulty = Difficulty.Casual;
             gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
-            difficulty = Difficulty.Casual;
             expertDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
             casualDifficulty.GetComponent<UIPlatform>().PlatformEntered.RemoveAllListeners();
@@ -200,8 +243,8 @@ public class FlotsamManager : MonoBehaviour
         expertDifficulty.GetComponent<UIPlatform>().platformStandDuration = 1.5f;
         expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.AddListener(() =>
         {
+            GameDifficulty = Difficulty.Expert;
             gameManager.GetComponent<VoiceTriggers>().OnOnboardingEnded();
-            difficulty = Difficulty.Expert;
             casualDifficulty.GetComponent<FlotsamLifecycle>().EndGame();
             playerPlatform.GetComponent<FlotsamLifecycle>().EndGame();
             expertDifficulty.GetComponent<UIPlatform>().PlatformEntered.RemoveAllListeners();

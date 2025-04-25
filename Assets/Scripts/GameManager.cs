@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public Scully scully;
     public Leaderboard leaderboard;
     public GameTimer gameTimer;
@@ -16,10 +18,15 @@ public class GameManager : MonoBehaviour
 
     public BackWallUI backWallUI; // Reference to the BackWallUI script
     public float countdownDelay = 1f; // Delay between countdown steps
-
     public BackgroundAudio backgroundAudio; // Reference to the BackgroundAudio script
+    public Results results;
+    public LeaderboardRankUI leaderboardRank;
 
-    // public bool gameStarted = false;
+    public bool gameStarted = false;
+    public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
+    public RFIDScanner scanner; // Tell Scanner color
+
+    public int overboards = 0;
 
     [Header("Inspector Controls")]
     public bool startOnboard = false;
@@ -29,6 +36,18 @@ public class GameManager : MonoBehaviour
 
     private string playerName;
 
+    void Awake()
+    {
+        // Ensure only one instance of ScoreManager exists
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void OnValidate()
     {
@@ -57,7 +76,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start() {
+    void OnDisable()
+    {
+        Debug.LogWarning($"{gameObject.name} was deactivated! Callstack:\n" + Environment.StackTrace);
+    }
+
+    void Start()
+    {
         ReloadGame();
     }
 
@@ -71,20 +96,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartCountdown() {
+    public void IncrementOverboards()
+    {
+        overboards++;
+    }
+
+    public void StartCountdown()
+    {
         StartCoroutine(StartGameCountdown());
+    }
+
+    public void SetPlayerName()
+    {
+        playerName = GetComponent<Names>().GenerateUniquePirateName("");
+        backWallUI.SetPlayerName(playerName);
     }
 
     private void StartGame()
     {
-        // gameStarted = true;
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
         gameTimer.enabled = true;
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
+        Debug.Log(metagameAPI.currentPlayerID);
+        playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
 
-        playerName = GetComponent<Names>().GenerateUniquePirateName();
         scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
@@ -99,13 +136,19 @@ public class GameManager : MonoBehaviour
         scoreManager.StartGame();
         backgroundAudio.playGameplay();
         GetComponent<VoiceTriggers>().StartBantering();
-        
-        backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
+
+        // backWallUI.Squawk("Go!", "Weigh anchor, and make me rich!");
     }
 
     public void StartOnboarding()
     {
         flotsamManager.StartOnboarding();
+
+        // Andrew added this
+        // I think it's where you want to trigger this in the UI?
+        backWallUI.StartOnboarding();
+
+        // backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
     }
 
     public void ShowDifficulty()
@@ -120,10 +163,17 @@ public class GameManager : MonoBehaviour
         GetComponent<VoiceTriggers>().StopBantering();
 
         // fake name until we have a name input
+        leaderboardRank.SetRank(leaderboard.GetLeaderboardPosition(playerName, playerName, scoreManager.Score));
         leaderboard.NewScore(playerName, playerName, scoreManager.Score);
+
+        // send score to metagame
+        metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
+
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
+        results.gameObject.SetActive(true);
+        results.ShowName(playerName);
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {
@@ -139,11 +189,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReloadGame() {
+    public void ReloadGame()
+    {
         GetComponent<VoiceTriggers>().OnIdle();
         backWallUI.GoIdle();
         backgroundAudio.playOnboarding();
         StartOnboarding();
+
+        gameStarted = false;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.ATTRACT));
+
+        overboards = 0;
+        results.Init();
+
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {
@@ -155,6 +213,8 @@ public class GameManager : MonoBehaviour
     {
         backgroundAudio.stopOnboarding();
         backWallUI.Squawk("Ready Yourself, Swabbie!", "");
+        gameStarted = true;
+        StartCoroutine(scanner.UpdateLED(RFIDLed.OCCUPIED));
         yield return new WaitForSeconds(countdownDelay * 1.5f);
 
         // Countdown from 3... 2... 1...

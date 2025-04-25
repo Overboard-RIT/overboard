@@ -36,9 +36,9 @@ public class Config : MonoBehaviour
     [SerializeField]
     [Range(4, 10)]
     private float spawnIntervalMax = 7f;
-    [SerializeField]
-    [Range(10, 20)]
-    private float spawnRadius = 15f;
+    // [SerializeField]
+    // [Range(10, 20)]
+    // private float spawnRadius = 15f;
     [SerializeField]
     [Range(0, 1)]
     private float offRadiusChance = 0.1f;
@@ -183,15 +183,15 @@ public class Config : MonoBehaviour
         }
     }
 
-    public float SpawnRadius
-    {
-        get => spawnRadius;
-        set
-        {
-            spawnRadius = value;
-            flotsamManager.spawnRadius = spawnRadius;
-        }
-    }
+    // public float SpawnRadius
+    // {
+    //     get => spawnRadius;
+    //     set
+    //     {
+    //         spawnRadius = value;
+    //         flotsamManager.spawnRadius = spawnRadius;
+    //     }
+    // }
 
     public float OffRadiusChance
     {
@@ -234,7 +234,7 @@ public class Config : MonoBehaviour
         OverboardCooldown = overboardCooldown;
         SpawnIntervalMin = spawnIntervalMin;
         SpawnIntervalMax = spawnIntervalMax;
-        SpawnRadius = spawnRadius;
+        // SpawnRadius = spawnRadius;
         OffRadiusChance = offRadiusChance;
         OffRadiusMaxDistance = offRadiusMaxDistance;
         CameraPosition = cameraPosition;

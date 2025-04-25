@@ -70,7 +70,6 @@ public class FlotsamLifecycle : MonoBehaviour
             StartCoroutine(StayOnSurface());
         }
     }
-
     private IEnumerator StayOnSurface()
     {
         yield return new WaitForSeconds(surfaceDuration - warningTime); // Time before warning appears
