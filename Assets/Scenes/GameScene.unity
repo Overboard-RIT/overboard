@@ -1901,7 +1901,7 @@ MonoBehaviour:
   maxBounds: {x: 10, y: 0, z: -10}
   centerCamera: 1
   margin: 3
-  timerStartsAt: 5
+  timerStartsAt: 60
   denoiseWindowSize: 30
   overboardGracePeriod: 0.25
   overboardCooldown: 3
@@ -3982,6 +3982,7 @@ MonoBehaviour:
     m_Bits: 8
   spawnY: 0
   playerTransform: {fileID: 1997432730}
+  bootyManager: {fileID: 2139829482}
   startingPlatform: {fileID: 0}
 --- !u!4 &568445857
 Transform:
@@ -12686,7 +12687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeup: {fileID: 34922951}
-  timeRemaining: 5
+  timeRemaining: 60
   fadeDuration: 1
   score: {fileID: 568445858}
   backWallUI: {fileID: 1864916408}
@@ -15560,6 +15561,51 @@ MonoBehaviour:
   blinkInterval: 0.1
   slidePanel: {fileID: 515103138}
   isGameOver: 1
+--- !u!1 &2139829481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2139829483}
+  - component: {fileID: 2139829482}
+  m_Layer: 0
+  m_Name: BootyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2139829482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139829481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ec34ade8d4e7845aa0b8b2f82464d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gem: {fileID: 4352981629451102000, guid: 1f48a66916a94df4ebd463c596236529, type: 3}
+--- !u!4 &2139829483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139829481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4998311, y: 1.995368, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -15575,3 +15621,4 @@ SceneRoots:
   - {fileID: 706497940}
   - {fileID: 1481209886}
   - {fileID: 1328671219}
+  - {fileID: 2139829483}

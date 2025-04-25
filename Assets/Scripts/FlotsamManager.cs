@@ -25,6 +25,9 @@ public class FlotsamManager : MonoBehaviour
     public LayerMask flotsamLayer; // Layer to check for existing flotsam
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
+    private GameObject lastSpawnedFlotsam;
+
+    public BootyManager bootyManager;
 
     public Vector3 MinGlobalBoundary { get; set; }
     public Vector3 MaxGlobalBoundary { get; set; }
@@ -40,8 +43,9 @@ public class FlotsamManager : MonoBehaviour
     private GameObject expertDifficulty;
     public GameObject startingPlatform;
 
-    
-    void OnDrawGizmos() {
+
+    void OnDrawGizmos()
+    {
         Gizmos.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, new Vector3(1, 0, 1));
         Gizmos.color = new Color(1f, 1f, 0f, 0.25f);
         Gizmos.DrawSphere(playerTransform.position, spawnRadius);
@@ -132,7 +136,14 @@ public class FlotsamManager : MonoBehaviour
                 if (IsPositionWithinGlobalBoundary(spawnPosition) && !IsPositionOccupied(spawnPosition, flotsamPrefab))
                 {
                     spawnPosition.y = -3f;
-                    Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                    GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
+                    if (lastSpawnedFlotsam != null)
+                    {
+                        Debug.Log("here");
+                        this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                    }
+
+                    lastSpawnedFlotsam = newFlotsam;
                     return;
                 }
             }
