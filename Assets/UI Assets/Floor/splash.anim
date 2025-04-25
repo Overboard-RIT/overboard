@@ -112,7 +112,7 @@ AnimationClip:
   - time: 1.0833334
     functionName: Destroy
     data: 
-    objectReferenceParameter: {fileID: 2842336448850805461, guid: 2387cc9cd72124f32892e2fde54f3bb7, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 394c267f8118048e2acba15cd104f1ff, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

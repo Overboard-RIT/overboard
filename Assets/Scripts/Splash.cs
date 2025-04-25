@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Splash : MonoBehaviour
 {
-    public void Destroy()
+    public void OnAnimationEnd()
     {
         Destroy(gameObject);
     }
