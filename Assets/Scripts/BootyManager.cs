@@ -65,7 +65,7 @@ public class BootyManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f); // wait for platform to rise
 
-        Debug.Log("spawngem");
+        //Debug.Log("spawngem");
         Instantiate(gem, midpoint, Quaternion.Euler(90, 0, 0));
         StartCoroutine(StartCooldown());
 
@@ -76,7 +76,7 @@ public class BootyManager : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         readyToSpawn = true;
-        Debug.Log("Gem: readyToSpawn = true");
+        //Debug.Log("Gem: readyToSpawn = true");
     }
 
 }

@@ -7,7 +7,7 @@ public class ActivateAllDisplays : MonoBehaviour
 {
     void Start()
     {
-        Debug.Log("displays connected: " + Display.displays.Length);
+        //Debug.Log("displays connected: " + Display.displays.Length);
         // Display.displays[0] is the primary, default display and is always ON, so start at index 1.
         // Check if additional displays are available and activate each.
 
@@ -21,7 +21,7 @@ public class ActivateAllDisplays : MonoBehaviour
 
         for (int i = 0; i < Display.displays.Length; i++)
         {
-            Debug.Log($"Display {i}: {Screen.width}x{Screen.height}");
+            //Debug.Log($"Display {i}: {Screen.width}x{Screen.height}");
             Display.displays[i].Activate();
         }
     }

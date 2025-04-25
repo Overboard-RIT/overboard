@@ -21,7 +21,7 @@ public class LeaderboardRankUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("RankUI: Image component or rank sprite not found at ." + nonNullRank);
+            //Debug.LogError("RankUI: Image component or rank sprite not found at ." + nonNullRank);
         }
     }
 }
