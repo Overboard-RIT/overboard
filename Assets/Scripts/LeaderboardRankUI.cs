@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEditor.Animations;
+using UnityEngine.Animations;
 
 public class LeaderboardRankUI : MonoBehaviour
 {
