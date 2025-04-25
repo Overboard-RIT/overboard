@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-        Debug.LogWarning($"{gameObject.name} was deactivated! Callstack:\n" + Environment.StackTrace);
+        //Debug.LogWarning($"{gameObject.name} was deactivated! Callstack:\n" + Environment.StackTrace);
     }
 
     void Start()
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
         gameTimer.enabled = true;
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
-        Debug.Log(metagameAPI.currentPlayerID);
+        //Debug.Log(metagameAPI.currentPlayerID);
         playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
 
         scully.StartGame();

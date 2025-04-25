@@ -14,7 +14,7 @@ public class RankUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("RankUI: Image component or rank sprite not found.");
+            //Debug.LogError("RankUI: Image component or rank sprite not found.");
         }
     }
 }

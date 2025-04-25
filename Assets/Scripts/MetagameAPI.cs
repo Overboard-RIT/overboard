@@ -61,13 +61,13 @@ public class MetagameAPI : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Failed to extract Player ID from response.");
+                    //Debug.LogError("Failed to extract Player ID from response.");
                     scanner.SequenceFailure();
                 }
             }
             else
             {
-                Debug.LogError($"GET request failed: {request.error}");
+                //Debug.LogError($"GET request failed: {request.error}");
                 scanner.SequenceFailure();
             }
         }
@@ -106,7 +106,7 @@ public class MetagameAPI : MonoBehaviour
         data += "\"interactive_slug\": \"" + gameID + "\", ";
         data += "\"amount\": " + score + " }";
 
-        Debug.Log(data);
+        //Debug.Log(data);
 
         using (UnityWebRequest www = UnityWebRequest.Post(url, data, "application/json"))
         {
