@@ -5,12 +5,24 @@ using System.Collections;
 public class MetagameAPI : MonoBehaviour
 {
     private const string BaseUrl = "http://new-media-metagame.com/api/";
-    private const string GetUrl = "band_id";
+    private const string GetUrl = "bands?bandId";
     private const string PostUrl = "prize-money/award";
     private const string GameID = "overboard"; // our ID in the metagame
     public string currentPlayerID; // id of the current player
     public bool apiEnabled = true; // flag to enable or disable API calls
     public RFIDScanner scanner; // reference to the RFID scanner
+
+    // Define a class to match the JSON structure
+    [System.Serializable]
+    private class PlayerResponse
+    {
+        public string id;
+        public string band_id;
+        public object details;
+        public string created_at;
+        public int prize;
+
+    }
 
     // Sends a GET request with a string parameter to retrieve a player ID
     public void GetPlayerID(string rfidIdentifier)
@@ -29,7 +41,7 @@ public class MetagameAPI : MonoBehaviour
 
         // TODO: replace with actual endpoint
         string url = $"{BaseUrl}{GetUrl}={UnityWebRequest.EscapeURL(rfidIdentifier)}";
-        
+
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             yield return request.SendWebRequest();
@@ -37,8 +49,23 @@ public class MetagameAPI : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log($"Player ID received: {request.downloadHandler.text}");
-                currentPlayerID = request.downloadHandler.text;
-                scanner.SequenceSuccess();
+                string responseText = request.downloadHandler.text;
+
+                // Parse the JSON response to retrieve the "id" value
+                PlayerResponse response = JsonUtility.FromJson<PlayerResponse>(responseText);
+                if (response != null && !string.IsNullOrEmpty(response.id))
+                {
+                    currentPlayerID = response.id;
+                    //Debug.Log($"Extracted Player ID: {currentPlayerID}");
+                    scanner.SequenceSuccess();
+                }
+                else
+                {
+                    Debug.LogError("Failed to extract Player ID from response.");
+                    scanner.SequenceFailure();
+                }
+
+                
             }
             else
             {
