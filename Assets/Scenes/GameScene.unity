@@ -1554,10 +1554,10 @@ MonoBehaviour:
   countdownDelay: 1.5
   backgroundAudio: {fileID: 1481209881}
   results: {fileID: 164460696}
+  leaderboardRank: {fileID: 1276944751}
   gameStarted: 0
   metagameAPI: {fileID: 1328671221}
   scanner: {fileID: 1328671218}
-  leaderboardRank: {fileID: 1276944751}
   overboards: 0
   startOnboard: 0
   showDifficulty: 0
@@ -1600,7 +1600,7 @@ MonoBehaviour:
   maxBounds: {x: 10, y: 0, z: -10}
   centerCamera: 1
   margin: 3
-  timerStartsAt: 5
+  timerStartsAt: 60
   denoiseWindowSize: 30
   overboardGracePeriod: 0.25
   overboardCooldown: 3
@@ -3377,10 +3377,7 @@ MonoBehaviour:
   spawnY: 0
   playerTransform: {fileID: 1997432730}
   bootyManager: {fileID: 2139829482}
-  minGlobalBoundary: {x: -10, y: 0, z: -58.7}
-  maxGlobalBoundary: {x: 15, y: 0, z: 0}
-  gameManager: {fileID: 309585986}
-  boundsManager: {fileID: 666666157}
+  startingPlatform: {fileID: 0}
 --- !u!4 &568445857
 Transform:
   m_ObjectHideFlags: 0
@@ -11076,7 +11073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeup: {fileID: 34922951}
-  timeRemaining: 5
+  timeRemaining: 60
   fadeDuration: 1
   score: {fileID: 568445858}
   backWallUI: {fileID: 1864916408}

@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 6266479721307919796, guid: eb8f2632072cf5e49b475e8b3e469243, type: 3}
+  spawnCoin: 1

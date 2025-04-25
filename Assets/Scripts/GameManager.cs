@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            enabled = false; // Disable the script until game starts
         }
         else
         {
