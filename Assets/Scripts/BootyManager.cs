@@ -15,14 +15,18 @@ public class BootyManager : MonoBehaviour
     private FlotsamManager flotsamManager;
     //midpoint between two rafts
     private Vector3 midpoint;
+    public float minimumDistanceToSpawn = 5f; // Minimum distance to spawn the gem
+    public float cooldown = 5f;
 
     // determine if a gem is ready to be spawned
-    private bool readyToSpawn = true;
+    private bool readyToSpawn = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         flotsamManager = GetComponent<FlotsamManager>();
+        enabled = false;
+        StartCoroutine(StartCooldown());
         // for testing: fake midpoint so the gem spawns immediately
         // midpoint = new Vector3(0, 1, 0); // set height so it's visible
         // SpawnGem(); // spawn immediately
@@ -36,19 +40,13 @@ public class BootyManager : MonoBehaviour
         {
             return;
         }
-        // check to ensure that the midpoint between two rafts isn't exactly 0,0,0
-        // this is sorta spaghetti and serves as an alternative to checking for a null value,
-        // as a Vector3 can't be null (defaults zero). If zero, and RNG rolls correctly,
-        // and we're ready to spawn, spawn a gem at the midpoint
-        // Debug.Log("midpoint: " + midpoint + " " + "ready to spawn:" + readyToSpawn);
-        // if((midpoint != Vector3.zero) && (UnityEngine.Random.Range(0,4) == 1) && readyToSpawn)
-        if ((midpoint != Vector3.zero) && readyToSpawn && (UnityEngine.Random.Range(0, 4) == 1))
+
+        if (!readyToSpawn)
         {
-            // Debug.Log(midpoint);
-            StartCoroutine(SpawnGem());
-            readyToSpawn = false;
-            // Debug.Log("Gem: readyToSpawn = false");
+            return;
         }
+
+        SpawnGem();
     }
 
     // this receives the positions of two flotsams, to determine the midpoint
@@ -60,20 +58,58 @@ public class BootyManager : MonoBehaviour
 
     }
 
-    // spawns the gem!
-    private IEnumerator SpawnGem()
+    public void SpawnGem()
     {
-        yield return new WaitForSeconds(1.5f); // wait for platform to rise
+        Debug.Log("Spawning gem...");
+        // GameObject[] flotsams = Array.FindAll(GameObject.FindGameObjectsWithTag("Flotsam"), flotsam => (flotsam.GetComponent<FlotsamLifecycle>().currentState == FlotsamLifecycle.FlotsamState.Floating));
+        GameObject[] flotsams = GameObject.FindGameObjectsWithTag("Flotsam");
+        if (flotsams.Length < 2)
+        {
+            Debug.Log("Not enough flotsams to spawn a gem.");
+            StartCoroutine(StartCooldown());
+            return;
+        }
+        ;
 
-        //Debug.Log("spawngem");
-        Instantiate(gem, midpoint, Quaternion.Euler(90, 0, 0));
-        StartCoroutine(StartCooldown());
+        Vector3 spawnLocation = Vector3.zero;
+        while (spawnLocation == Vector3.zero)
+        {
+            // Get a random flotsam
+            GameObject flotsam = flotsams[UnityEngine.Random.Range(0, flotsams.Length)];
+            foreach (GameObject otherFlotsam in flotsams)
+            {
+                if (otherFlotsam == flotsam) continue;
+                if (Vector3.Distance(flotsam.transform.position, otherFlotsam.transform.position) > minimumDistanceToSpawn)
+                {
+                    spawnLocation = (flotsam.transform.position + otherFlotsam.transform.position) / 2;
+                    spawnLocation.y = 3f; // Set height so it's visible
+                    Instantiate(gem, spawnLocation, Quaternion.Euler(90, 0, 0));
+                    StartCoroutine(StartCooldown());
+                    return;
+                }
+            }
 
+            Debug.Log("No valid spawn location found. Retrying...");
+        }
     }
+
+    
+
+    // // spawns the gem!
+    // private IEnumerator SpawnGem()
+    // {
+    //     yield return new WaitForSeconds(1.5f); // wait for platform to rise
+
+    //     //Debug.Log("spawngem");
+    //     StartCoroutine(StartCooldown());
+
+    // }
 
     private IEnumerator StartCooldown()
     {
-        yield return new WaitForSeconds(5);
+        readyToSpawn = false;
+
+        yield return new WaitForSeconds(cooldown);
 
         readyToSpawn = true;
         //Debug.Log("Gem: readyToSpawn = true");
