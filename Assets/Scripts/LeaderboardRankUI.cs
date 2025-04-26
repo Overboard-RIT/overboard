@@ -12,6 +12,8 @@ public class LeaderboardRankUI : MonoBehaviour
         if (rank == null)
         {
             rankImage.runtimeAnimatorController = null;
+            GetComponent<Image>().color = Color.clear;
+            rankImage.GetComponent<Image>().color = Color.clear;
             return;
         }
 
