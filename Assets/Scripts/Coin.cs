@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    public int points = 100; // Points awarded when the coin is collected
+    public int points = 200; // Points awarded when the coin is collected
     public GameObject collectAnim;
 
     void Update()

@@ -20,6 +20,7 @@ public class FlotsamManager : MonoBehaviour
                 scaleFactor = expertScaleFactor;
                 distanceFactor = expertDistanceFactor;
                 spawnRadius = expertSpawnRadius;
+                offRadiusMaxDistance = expertOffChanceRadius;
 
             }
             else if (difficulty == Difficulty.Casual)
@@ -27,6 +28,7 @@ public class FlotsamManager : MonoBehaviour
                 scaleFactor = casualScaleFactor;
                 distanceFactor = casualDistanceFactor;
                 spawnRadius = casualSpawnRadius;
+                offRadiusMaxDistance = expertOffChanceRadius;
             }
         }
     }
@@ -36,12 +38,14 @@ public class FlotsamManager : MonoBehaviour
     public float casualDistanceFactor = 1f; // Distance factor for flotsam spawn distance
     [Range(10f, 20f)]
     public float casualSpawnRadius = 15f; // Spawn radius for casual difficulty
+    public float casualOffChanceRadius = 20f;
     [Range(0.0f, 2.0f)]
     public float expertScaleFactor = 1f; // Scale factor for flotsam size
     [Range(0.0f, 2.0f)]
     public float expertDistanceFactor = 1f; // Distance factor for flotsam spawn distance
     [Range(10f, 20f)]
     public float expertSpawnRadius = 15f; // Spawn radius for expert difficulty
+    public float expertOffChanceRadius = 30f;
     private float scaleFactor = 1f;
     private float distanceFactor = 1f;
     [Header("Flotsam Settings")]
@@ -54,7 +58,7 @@ public class FlotsamManager : MonoBehaviour
     public float spawnIntervalMax = 7f;
     private float spawnRadius = 15f; // Radius around the player to spawn flotsam
     public float offRadiusChance = 0.1f; // Chance for flotsam to spawn outside the radius
-    public float offRadiusMaxDistance = 30f; // Max distance for off-radius spawn
+    private float offRadiusMaxDistance = 30f; // Max distance for off-radius spawn
     public LayerMask flotsamLayer; // Layer to check for existing flotsam
     public float spawnY = -5f; // Initial spawn height (below water)
     public Transform playerTransform; // Reference to the player's transform
@@ -194,9 +198,9 @@ public class FlotsamManager : MonoBehaviour
     {
         // gameManager.GetComponent<VoiceTriggers>().OnOnboardingStarted();
         Vector3 spawnPosition = new Vector3(
-            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.8f),
+            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.5f),
             -3f,
-            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.2f)
+            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.075f)
         );
         playerPlatform = Instantiate(playerPlatformPrefab, spawnPosition, Quaternion.Euler(90f, 90f, 0));
         playerPlatform.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
@@ -218,9 +222,9 @@ public class FlotsamManager : MonoBehaviour
     {
         gameManager.GetComponent<VoiceTriggers>().OnPromptDifficulty();
         Vector3 spawnPosition1 = new Vector3(
-            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.5f),
+            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.35f),
             -3f,
-            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.13f)
+            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.28f)
         );
         casualDifficulty = Instantiate(casualDifficultyPrefab, spawnPosition1, Quaternion.Euler(90f, 90f, 0));
         casualDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
@@ -242,9 +246,9 @@ public class FlotsamManager : MonoBehaviour
         });
 
         Vector3 spawnPosition2 = new Vector3(
-            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.5f),
+            Mathf.Lerp(MinGlobalBoundary.x, MaxGlobalBoundary.x, 0.65f),
             -3f,
-            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.27f)
+            Mathf.Lerp(MinGlobalBoundary.z, MaxGlobalBoundary.z, 0.28f)
         );
         expertDifficulty = Instantiate(expertDifficultyPrefab, spawnPosition2, Quaternion.Euler(90f, 90f, 0));
         expertDifficulty.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);

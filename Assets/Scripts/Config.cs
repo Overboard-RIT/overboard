@@ -31,10 +31,10 @@ public class Config : MonoBehaviour
     [Range(0, 5)]
     private float overboardCooldown = 3f;
     [SerializeField]
-    [Range(3, 7)]
+    [Range(1, 6)]
     private float spawnIntervalMin = 3f;
     [SerializeField]
-    [Range(4, 10)]
+    [Range(3, 10)]
     private float spawnIntervalMax = 7f;
     // [SerializeField]
     // [Range(10, 20)]
@@ -42,9 +42,9 @@ public class Config : MonoBehaviour
     [SerializeField]
     [Range(0, 1)]
     private float offRadiusChance = 0.1f;
-    [SerializeField]
-    [Range(20, 50)]
-    private float offRadiusMaxDistance = 30f;
+    // [SerializeField]
+    // [Range(20, 50)]
+    // private float offRadiusMaxDistance = 30f;
     [SerializeField]
     private Vector3 cameraPosition;
 
@@ -203,15 +203,15 @@ public class Config : MonoBehaviour
         }
     }
 
-    public float OffRadiusMaxDistance
-    {
-        get => offRadiusMaxDistance;
-        set
-        {
-            offRadiusMaxDistance = value;
-            flotsamManager.offRadiusMaxDistance = offRadiusMaxDistance;
-        }
-    }
+    // public float OffRadiusMaxDistance
+    // {
+    //     get => offRadiusMaxDistance;
+    //     set
+    //     {
+    //         offRadiusMaxDistance = value;
+    //         flotsamManager.offRadiusMaxDistance = offRadiusMaxDistance;
+    //     }
+    // }
 
     public Vector3 CameraPosition
     {
@@ -236,7 +236,7 @@ public class Config : MonoBehaviour
         SpawnIntervalMax = spawnIntervalMax;
         // SpawnRadius = spawnRadius;
         OffRadiusChance = offRadiusChance;
-        OffRadiusMaxDistance = offRadiusMaxDistance;
+        // OffRadiusMaxDistance = offRadiusMaxDistance;
         CameraPosition = cameraPosition;
     }
 

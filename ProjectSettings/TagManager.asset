@@ -12,6 +12,7 @@ TagManager:
   - UITimer
   - Shark
   - Effect
+  - Gem
   layers:
   - Default
   - TransparentFX

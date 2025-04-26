@@ -42,6 +42,7 @@ public class GameTimer : MonoBehaviour
         // If time reaches zero, trigger game over
         if (timeRemaining <= 0.0f)
         {
+            Debug.Log("I am the timer controller and I am ending the game");
             gameManager.EndGame();
             EndGame();
             return; // Do not update if time is up

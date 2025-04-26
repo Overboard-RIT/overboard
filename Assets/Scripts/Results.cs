@@ -52,12 +52,6 @@ public class Results : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        Init();
-    }
-
     public void ShowName(string name)
     {
         StartCoroutine(ShowNameCoroutine(name));
@@ -95,7 +89,7 @@ public class Results : MonoBehaviour
     public void ShowRank()
     {
         int rank = 0;
-        if (ScoreManager.Instance.Score >= 6000)
+        if (ScoreManager.Instance.Score >= 5000)
         {
             rank = (int)Rank.Captain;
         }

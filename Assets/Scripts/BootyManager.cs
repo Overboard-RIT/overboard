@@ -1,8 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Linq.Expressions;
-using System;
-
 
 // Andrew Black
 // 4/8/25
@@ -61,6 +58,9 @@ public class BootyManager : MonoBehaviour
     public void SpawnGem()
     {
         Debug.Log("Spawning gem...");
+
+        if (GameObject.FindGameObjectsWithTag("Gem").Length > 0) return;
+
         // GameObject[] flotsams = Array.FindAll(GameObject.FindGameObjectsWithTag("Flotsam"), flotsam => (flotsam.GetComponent<FlotsamLifecycle>().currentState == FlotsamLifecycle.FlotsamState.Floating));
         GameObject[] flotsams = GameObject.FindGameObjectsWithTag("Flotsam");
         if (flotsams.Length < 2)
@@ -72,28 +72,25 @@ public class BootyManager : MonoBehaviour
         ;
 
         Vector3 spawnLocation = Vector3.zero;
-        while (spawnLocation == Vector3.zero)
+        // Get a random flotsam
+        GameObject flotsam = flotsams[UnityEngine.Random.Range(0, flotsams.Length)];
+        foreach (GameObject otherFlotsam in flotsams)
         {
-            // Get a random flotsam
-            GameObject flotsam = flotsams[UnityEngine.Random.Range(0, flotsams.Length)];
-            foreach (GameObject otherFlotsam in flotsams)
+            if (otherFlotsam == flotsam) continue;
+            if (Vector3.Distance(flotsam.transform.position, otherFlotsam.transform.position) > minimumDistanceToSpawn)
             {
-                if (otherFlotsam == flotsam) continue;
-                if (Vector3.Distance(flotsam.transform.position, otherFlotsam.transform.position) > minimumDistanceToSpawn)
-                {
-                    spawnLocation = (flotsam.transform.position + otherFlotsam.transform.position) / 2;
-                    spawnLocation.y = 3f; // Set height so it's visible
-                    Instantiate(gem, spawnLocation, Quaternion.Euler(90, 0, 0));
-                    StartCoroutine(StartCooldown());
-                    return;
-                }
+                spawnLocation = (flotsam.transform.position + otherFlotsam.transform.position) / 2;
+                spawnLocation.y = 3f; // Set height so it's visible
+                Instantiate(gem, spawnLocation, Quaternion.Euler(90, 0, 0));
+                StartCoroutine(StartCooldown());
+                return;
             }
-
-            Debug.Log("No valid spawn location found. Retrying...");
         }
+
+        Debug.Log("No valid spawn location found. Retrying...");
     }
 
-    
+
 
     // // spawns the gem!
     // private IEnumerator SpawnGem()

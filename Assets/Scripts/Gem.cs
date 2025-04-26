@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour
 {
-    public int points = 300; // Points awarded when the coin is collected
+    public int points = 600; // Points awarded when the coin is collected
     public GameObject collectAnim;
 
     void Update()
@@ -29,5 +29,17 @@ public class Gem : MonoBehaviour
 
         Instantiate(collectAnim, transform.position, Quaternion.Euler(90f, 0, 0)); // Instantiate the collection animation at the coin's position
         Destroy(gameObject); // Destroy the coin object
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.color = new Color(1f, 0f, 1f, 0.25f);
+        float radius = GetComponent<SphereCollider>().radius;
+        Vector3 center = GetComponent<SphereCollider>().center;
+        Gizmos.DrawSphere(center, radius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(center, radius);
     }
 }

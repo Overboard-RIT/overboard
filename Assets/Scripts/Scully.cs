@@ -5,6 +5,7 @@ using System.Collections;
 public class Scully : MonoBehaviour
 {
     public GameManager gameManager;
+    public PlayerPositionDetection playerPositionDetection;
     public float idleTime = 10f;
     public float endGap = 0.5f;
     private ScullyLoader loader;
@@ -33,7 +34,7 @@ public class Scully : MonoBehaviour
     public void SquawkChooseDifficulty()
     {
         loader.OverrideIdle();
-        loader.PlayScullyLooping(ScullyLoader.ScullyCategory.ChooseDifficulty, 3f);
+        loader.PlayScullyLooping(ScullyLoader.ScullyCategory.ChooseDifficulty, 6f);
     }
 
     public void StopOnboarding()
@@ -65,11 +66,11 @@ public class Scully : MonoBehaviour
     private IEnumerator SquawkScoreCoroutine()
     {
         int score = ScoreManager.Instance.Score;
-        if (score < 1000)
+        if (score < 1500)
         {
             yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.LowScore));
         }
-        else if (score < 2500)
+        else if (score < 4000)
         {
             yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.NormalScore));
         }
@@ -104,7 +105,9 @@ public class Scully : MonoBehaviour
         // yield return StartCoroutine(loader.PlayScullyOnceCoroutine(ScullyLoader.ScullyCategory.EndGame));
 
         // reload game
-        yield return new WaitForSeconds(5f);
+        while (playerPositionDetection.GetActivePositions().Count > 0) {
+            yield return new WaitForSeconds(0.25f);
+        }
         gameManager.ReloadGame();
     }
 

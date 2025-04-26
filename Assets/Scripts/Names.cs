@@ -6,7 +6,7 @@ public class Names : MonoBehaviour
     private static List<PirateName> pirateNames;
     private static Dictionary<string, PirateName> pirateNameDictionary;
 
-    private struct PirateName : System.IEquatable<PirateName>
+    public struct PirateName : System.IEquatable<PirateName>
     {
         public string firstAdjective;
         // public string secondAdjective;
@@ -23,6 +23,10 @@ public class Names : MonoBehaviour
         {
             // return $"{firstAdjective} {secondAdjective} {noun}";
             return $"{firstAdjective}{noun}";
+        }
+
+        public string WithSpaces() {
+            return $"{firstAdjective} {noun}";
         }
 
         public static implicit operator string(PirateName pirateName)
@@ -164,12 +168,12 @@ public class Names : MonoBehaviour
         "Adventurer"
     };
     
-    public string GenerateUniquePirateName(string playerID)
+    public PirateName GenerateUniquePirateName(string playerID)
     {
         if (playerID != string.Empty) {
             // check if already has name
             if (pirateNameDictionary.ContainsKey(playerID)) {
-                return pirateNameDictionary[playerID].ToString();
+                return pirateNameDictionary[playerID];
             }
         }
 

@@ -124,7 +124,7 @@ public class Leaderboard : MonoBehaviour
             }
             // see where player would've been
             {
-                for (int i = entries.Count - 1; i >= 0; i++)
+                for (int i = entries.Count - 1; i >= 0; i--)
                 {
                     if (entry.score > entries[i].score)
                     {

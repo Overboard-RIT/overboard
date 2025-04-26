@@ -110,7 +110,7 @@ public class FloatingBehavior : MonoBehaviour
                 {
                     break;
                 }
-                if (UnityEngine.Random.value < 0.25f)
+                if (UnityEngine.Random.value < 1f)
                 {
                     transform.Rotate(
                         0f,

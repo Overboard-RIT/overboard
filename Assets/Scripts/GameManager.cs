@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 using System.Collections.Generic;
-using System;
+using UnityEditorInternal;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public bool startGame = false;
     public bool endGame = false;
 
-    private string playerName;
+    private Names.PirateName playerName;
 
     void Awake()
     {
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     public void SetPlayerName()
     {
         playerName = GetComponent<Names>().GenerateUniquePirateName("");
-        backWallUI.SetPlayerName(playerName);
+        backWallUI.SetPlayerName(playerName.ToString());
     }
 
     private void StartGame()
@@ -123,13 +123,13 @@ public class GameManager : MonoBehaviour
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
         //Debug.Log(metagameAPI.currentPlayerID);
-        playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
+        // playerName = GetComponent<Names>().GenerateUniquePirateName(metagameAPI.currentPlayerID);
 
         scully.StartGame();
         start.Show();
         backWallUI.AddPlayer(
             new BackWallUI.OverboardPlayer(
-                playerName,
+                playerName.ToString(),
                 0,
                 0 // replace with metagame score
             )
@@ -149,7 +149,6 @@ public class GameManager : MonoBehaviour
 
         // Andrew added this
         // I think it's where you want to trigger this in the UI?
-        backWallUI.StartOnboarding();
 
         // backWallUI.Squawk("Onboarding Text", "Onboarding Text2");
     }
@@ -159,15 +158,21 @@ public class GameManager : MonoBehaviour
         flotsamManager.ShowDifficulty();
     }
 
+    private IEnumerator TransitionToResults() {
+        yield return new WaitForSeconds(1.2f);
+        backWallUI.ReenableIdle();
+        results.gameObject.SetActive(true);
+        results.ShowName(playerName);
+    }
+
     public void EndGame()
     {
+        Debug.Log("I am the game manager and I am ending the game");
         // gameStarted = false;
-        GetComponent<VoiceTriggers>().OnRoundEnd();
         GetComponent<VoiceTriggers>().StopBantering();
 
-        // fake name until we have a name input
         leaderboardRank.SetRank(leaderboard.GetLeaderboardPosition(playerName, playerName, scoreManager.Score));
-        leaderboard.NewScore(playerName, playerName, scoreManager.Score);
+        leaderboard.NewScore(playerName.ToString(), playerName.WithSpaces(), scoreManager.Score);
 
         // send score to metagame
         metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
@@ -175,9 +180,9 @@ public class GameManager : MonoBehaviour
         flotsamManager.Stop();
         waterTrigger.enabled = false;
         scoreManager.enabled = false;
-        results.gameObject.SetActive(true);
-        results.ShowName(playerName);
         bootyManager.enabled = false;
+
+        StartCoroutine(TransitionToResults());
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {
@@ -191,6 +196,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(shark);
         }
+
+        GetComponent<VoiceTriggers>().OnRoundEnd();
     }
 
     public void ReloadGame()

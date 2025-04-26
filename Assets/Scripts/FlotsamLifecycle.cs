@@ -6,7 +6,7 @@ public class FlotsamLifecycle : MonoBehaviour
 {
     public float floatSpeed = 1f;      // Speed of rising to surface
     private float sinkSpeed = 0.0f;     // Speed of sinking
-    public float surfaceDuration = 5f; // Time staying on surface
+    public float surfaceDuration = 3f; // Time staying on surface
     public float warningTime = 2f;     // Time before warning appears
     public float destroyDepth = -1f;   // Depth at which object is destroyed
     public float maxSinkSpeed = 2f;
@@ -30,7 +30,7 @@ public class FlotsamLifecycle : MonoBehaviour
         surfaceDuration = UnityEngine.Random.Range(5f, 8f);
         StartCoroutine(FloatToSurface());
 
-        if (ableToSpawnCoin && UnityEngine.Random.Range(0, 4) != 1)
+        if (ableToSpawnCoin && UnityEngine.Random.Range(0, 8) != 1)
         {
             StartCoroutine(SpawnCoin());
         }

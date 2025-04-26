@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class BackWallUI : MonoBehaviour
 {
@@ -20,21 +21,24 @@ public class BackWallUI : MonoBehaviour
     public GameObject scullyPoint;
 
     public AudioSource SquawkSound;
+    public AudioClip[] squawks;
 
     [Header("Player 1 Onboarding UI")]
     public GameObject onboardingPanel;
-    public Image p1ContainerFull;
-    public Image p1ContainerFull2;
-    public Image p1ContainerEmpty;
-    public Image p1BoardShadow;
+    // public Image p1ContainerFull;
+    // public Image p1ContainerFull2;
+    // public Image p1ContainerEmpty;
+    // public Image p1BoardShadow;
     public Image p1Board;
     public Image p1Icon;
     public TextMeshProUGUI p1Name;
-    public Image p1WaitingText;
-    public Image p1ReadyText;
-    public Image blueDividerLine;
-    public Image letsPlaySign;
-    public GameObject diffiucltyPanel;
+    // public Image p1WaitingText;
+    // public Image p1ReadyText;
+    // public Image blueDividerLine;
+    // public Image letsPlaySign;
+    public GameObject difficultyPanel;
+    public GameObject onboardingBlue;
+    public GameObject onboardingWhite;
 
     [Header("Settings")]
     public Image diffCasual;
@@ -45,7 +49,7 @@ public class BackWallUI : MonoBehaviour
     // private stuff dealing with onboarding, currentDifficulty
     // and if P1 is ready to play
     // private string currentDiff = "casual";
-    private bool p1Ready = false;
+    // private bool p1Ready = false;
 
     private OverboardPlayer example = new OverboardPlayer("Player 1", 0, 0);
 
@@ -83,7 +87,7 @@ public class BackWallUI : MonoBehaviour
 
     public void SetScore(int newScore)
     {
-        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString() + " pts";
+        score.GetComponent<TextMeshProUGUI>().text = newScore.ToString();
     }
 
     public void AddPlayer(OverboardPlayer player)
@@ -115,6 +119,8 @@ public class BackWallUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        // StartCoroutine(SquawkCoroutine);
+        SquawkSound.clip = squawks[UnityEngine.Random.Range(0, squawks.Length)];
         SquawkSound.Play();
 
         GameObject newBubble = Instantiate(speechBubble, speechBubblePanel.transform);
@@ -146,7 +152,7 @@ public class BackWallUI : MonoBehaviour
     public void StartGame()
     {
         idlePanel.SetActive(false);
-        score.GetComponent<TextMeshProUGUI>().text = "0 pts";
+        score.GetComponent<TextMeshProUGUI>().text = "0";
         HideOnboarding();
         // AddPlayer(example);
         //AddPlayer(example);
@@ -157,8 +163,10 @@ public class BackWallUI : MonoBehaviour
     // members of the Backwall Panel(s) that we don't want to see
     public void StartOnboarding()
     {
-        idlePanel.SetActive(false);
+        // idlePanel.SetActive(false);
         onboardingPanel.SetActive(true);
+        onboardingBlue.SetActive(false);
+        onboardingWhite.SetActive(true);
 
         // scullyScript.SquawkRaft();
 
@@ -173,16 +181,13 @@ public class BackWallUI : MonoBehaviour
         SetImageAlpha(p2ReadyText, 0f);*/
 
         // hide Player 1 components
-        SetImageAlpha(p1ContainerFull, 0f);
-        SetImageAlpha(p1ContainerFull2, 0f);
-        SetImageAlpha(p1ContainerEmpty, 0f);
-        SetImageAlpha(p1ReadyText, 0f);
+        // SetImageAlpha(p1ReadyText, 0f);
 
         // hide "Let's Play" sign
-        SetImageAlpha(letsPlaySign, 0f);
+        // SetImageAlpha(letsPlaySign, 0f);
 
         // hide difficulty
-        diffiucltyPanel.SetActive(false);
+        difficultyPanel.SetActive(false);
         SetImageAlpha(diffCasual, 0f);
         SetImageAlpha(diffExpert, 0f);
 
@@ -202,7 +207,9 @@ public class BackWallUI : MonoBehaviour
 
     public void SetDifficulty()
     {
-        diffiucltyPanel.SetActive(true);
+        difficultyPanel.SetActive(true);
+        onboardingBlue.SetActive(true);
+        onboardingWhite.SetActive(false);
         FlotsamManager.Difficulty currentDiff = flotsamManager.GameDifficulty;
         if (currentDiff == FlotsamManager.Difficulty.Expert)
         {
@@ -228,6 +235,10 @@ public class BackWallUI : MonoBehaviour
         }
     }
 
+    public void ReenableIdle() {
+        idlePanel.SetActive(true);
+    }
+
     void Start() {
         GoIdle();
     }
@@ -243,50 +254,50 @@ public class BackWallUI : MonoBehaviour
         players.Clear();
     }
 
-    private void Update()
-    {
-        // key commands are for testing purposes
+    // private void Update()
+    // {
+    //     // key commands are for testing purposes
 
-        // change UI to match P1 being ready
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            PlayerReady();
-        }
+    //     // change UI to match P1 being ready
+    //     if (Input.GetKeyDown(KeyCode.W))
+    //     {
+    //         PlayerReady();
+    //     }
 
-        // call the onboarding process, which changes the UI
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartOnboarding();
-        }
+    //     // call the onboarding process, which changes the UI
+    //     if (Input.GetKeyDown(KeyCode.E))
+    //     {
+    //         StartOnboarding();
+    //     }
 
-        // change the difficulty
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // ToggleDifficulty();
-        }
+    //     // change the difficulty
+    //     if (Input.GetKeyDown(KeyCode.R))
+    //     {
+    //         // ToggleDifficulty();
+    //     }
 
-        // start the game (if p1Ready)
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (p1Ready)
-            {
-                StartGame();
-            }
-        }
-    }
+    //     // start the game (if p1Ready)
+    //     if (Input.GetKeyDown(KeyCode.T))
+    //     {
+    //         if (p1Ready)
+    //         {
+    //             StartGame();
+    //         }
+    //     }
+    // }
 
-    private void PlayerReady()
-    {
-        SetImageAlpha(p1ContainerFull, 1f);
-        SetImageAlpha(p1ContainerFull2, 1f);
-        SetImageAlpha(p1WaitingText, 0f);
-        SetImageAlpha(p1ReadyText, 1f);
-        SetImageAlpha(p1BoardShadow, 0f);
+    // private void PlayerReady()
+    // {
+    //     SetImageAlpha(p1ContainerFull, 1f);
+    //     SetImageAlpha(p1ContainerFull2, 1f);
+    //     SetImageAlpha(p1WaitingText, 0f);
+    //     SetImageAlpha(p1ReadyText, 1f);
+    //     SetImageAlpha(p1BoardShadow, 0f);
 
-        // sets the game
-        SetImageAlpha(letsPlaySign, 1f);
+    //     // sets the game
+    //     SetImageAlpha(letsPlaySign, 1f);
 
-        p1Ready = true;
-    }
+    //     p1Ready = true;
+    // }
 
 }

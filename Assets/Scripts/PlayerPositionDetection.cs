@@ -102,13 +102,15 @@ public class PlayerPositionDetection : MonoBehaviour
         foreach (var body in data)
         {
             Kinect.Joint footLeft = body.Joints[Kinect.JointType.FootLeft];
+            Kinect.Joint ankleLeft = body.Joints[Kinect.JointType.FootLeft];
             Kinect.Joint footRight = body.Joints[Kinect.JointType.FootRight];
+            Kinect.Joint ankleRight = body.Joints[Kinect.JointType.FootRight];
             Vector3 playerCenter = AverageJointPosition(footLeft, footRight);
             positions.Add(
                 new PlayerPosition(
                     playerCenter,
-                    GetVector3FromJoint(footLeft),
-                    GetVector3FromJoint(footRight)
+                    (GetVector3FromJoint(footLeft) + GetVector3FromJoint(ankleLeft)) * 0.5f,
+                    (GetVector3FromJoint(footRight) + GetVector3FromJoint(ankleRight)) * 0.5f
                 )
             );
         }
@@ -131,5 +133,22 @@ public class PlayerPositionDetection : MonoBehaviour
     {
         return new Vector3(joint.Position.X * 10, 5, joint.Position.Z * -10);
     }
-    
+
+    void OnDrawGizmos()
+    {
+        foreach (var position in GetPlayerPositions())
+        {
+            if (activePlayerPositions.Contains(position))
+            {
+                Gizmos.color = Color.yellow;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+
+            Gizmos.DrawSphere(position.center, 0.5f);
+        }
+    }
+
 }
