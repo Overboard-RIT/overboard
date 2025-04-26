@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.UI;
 
 public class LeaderboardRankUI : MonoBehaviour
 {
@@ -14,13 +15,18 @@ public class LeaderboardRankUI : MonoBehaviour
             return;
         }
 
-        int nonNullRank = (int)rank - 1;
-        if (ranks.Length > nonNullRank)
+        int nonNullRank = (int)rank;
+        if (nonNullRank < ranks.Length)
         {
+            GetComponent<Image>().color = Color.white;
+            rankImage.GetComponent<Image>().color = Color.white;
             rankImage.runtimeAnimatorController = ranks[nonNullRank];
         }
         else
         {
+            rankImage.runtimeAnimatorController = null;
+            GetComponent<Image>().color = Color.clear;
+            rankImage.GetComponent<Image>().color = Color.clear;
             //Debug.LogError("RankUI: Image component or rank sprite not found at ." + nonNullRank);
         }
     }

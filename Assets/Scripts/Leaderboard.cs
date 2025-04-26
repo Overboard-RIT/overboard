@@ -43,7 +43,8 @@ public class Leaderboard : MonoBehaviour
         }
     }
 
-    public int? GetLeaderboardPosition(string id, string playerName, int score) {
+    public int? GetLeaderboardPosition(string id, string playerName, int score)
+    {
         return leaderboardList.SimulateAdd(new LeaderboardEntry("", "", score));
     }
 
@@ -109,31 +110,29 @@ public class Leaderboard : MonoBehaviour
             // if the leaderboard is full and the new entry is lower than the lowest score, return out
             if (entries.Count >= maxEntries && entry.score < entries.Last().score)
                 return null;
-            // if player is already on the leaderboard, keep the higher score
+            // // if player is already on the leaderboard, keep the higher score
+            // for (int i = 0; i < entries.Count; i++)
+            // {
+            //     if (entries[i].id == entry.id)
+            //     {
+            //         if (entry.score > entries[i].score)
+            //         {
+            //             entries[i] = entry;
+            //             entries.Sort((e1, e2) => e2.score.CompareTo(e1.score));
+            //             return null;
+            //         }
+            //     }
+            // }
+            // see where player would've been
+
             for (int i = 0; i < entries.Count; i++)
             {
-                if (entries[i].id == entry.id)
+                if (entry.score > entries[i].score)
                 {
-                    if (entry.score > entries[i].score)
-                    {
-                        entries[i] = entry;
-                        entries.Sort((e1, e2) => e2.score.CompareTo(e1.score));
-                        return null;
-                    }
+                    return i;
                 }
             }
-            // see where player would've been
-            {
-                for (int i = entries.Count - 1; i >= 0; i--)
-                {
-                    if (entry.score > entries[i].score)
-                    {
-                        continue;
-                    }
-                    return i + 2;
-                }
-                return 1;
-            }
+            return entries.Count;
         }
         public void Add(LeaderboardEntry entry)
         {

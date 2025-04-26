@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 
 public class GameManager : MonoBehaviour
 {
@@ -171,8 +170,15 @@ public class GameManager : MonoBehaviour
         // gameStarted = false;
         GetComponent<VoiceTriggers>().StopBantering();
 
-        leaderboardRank.SetRank(leaderboard.GetLeaderboardPosition(playerName, playerName, scoreManager.Score));
-        leaderboard.NewScore(playerName.ToString(), playerName.WithSpaces(), scoreManager.Score);
+        // fake name until we have a name input
+        int? rank = leaderboard.GetLeaderboardPosition(playerName, playerName, scoreManager.Score);
+        Debug.Log("Rank: " + rank);
+        leaderboardRank.SetRank(rank);
+        if (rank >= 3)
+        {
+            leaderboardRank.gameObject.SetActive(false);
+        }
+        leaderboard.NewScore(playerName, playerName, scoreManager.Score);
 
         // send score to metagame
         metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
