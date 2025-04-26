@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class WaterTrigger : MonoBehaviour
 {
-    public FloatingTextUI penaltyText; // Assign in Inspector
     public float gracePeriod = 0.5f;
     public float penaltyCooldown = 2f; // Time before the player can be penalized again
     public ScoreManager scoreManager; // Assign in Inspector
@@ -65,7 +64,7 @@ public class WaterTrigger : MonoBehaviour
             Time.time >= lastPenaltyTime + penaltyCooldown) // Check if enough time has passed since the last penalty
             {
                 scoreManager.AddPoints(-200);
-                penaltyText.ShowText(); // Show "-5 SECONDS!" text
+                //penaltyText.StartAnimation("overboard-notification_0"); // Show "-5 SECONDS!" text
                 lastPenaltyTime = Time.time; // Update penalty timer
                 enteredWaterAt = null;
                 gameManager.GetComponent<VoiceTriggers>().OnOverboard();
