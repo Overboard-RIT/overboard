@@ -5,6 +5,7 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    public BootyManager bootyManager;
     public static GameManager Instance;
     public Scully scully;
     public Leaderboard leaderboard;
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
         waterTrigger.enabled = true;
         scoreManager.enabled = true;
         gameTimer.enabled = true;
+        bootyManager.enabled = true;
 
         gameTimer.timeRemaining = GetComponent<Config>().TimerStartsAt;
         //Debug.Log(metagameAPI.currentPlayerID);
@@ -175,6 +177,7 @@ public class GameManager : MonoBehaviour
         scoreManager.enabled = false;
         results.gameObject.SetActive(true);
         results.ShowName(playerName);
+        bootyManager.enabled = false;
 
         foreach (GameObject flotsam in GameObject.FindGameObjectsWithTag("Flotsam"))
         {

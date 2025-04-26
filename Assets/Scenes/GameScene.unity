@@ -1838,6 +1838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cf166f10aa44ae7af7b2303844a8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bootyManager: {fileID: 568445859}
   scully: {fileID: 677236168}
   leaderboard: {fileID: 1364431577}
   gameTimer: {fileID: 1864916409}
@@ -4057,6 +4058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gem: {fileID: 4352981629451102000, guid: 1f48a66916a94df4ebd463c596236529, type: 3}
+  minimumDistanceToSpawn: 15
+  cooldown: 5
 --- !u!1 &572317093
 GameObject:
   m_ObjectHideFlags: 0
@@ -11007,6 +11010,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1602184182
@@ -12459,7 +12463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -378.5454, y: -16.091064}
+  m_AnchoredPosition: {x: -378.5454, y: -16.090942}
   m_SizeDelta: {x: -458.8349, y: -2.0315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791910188

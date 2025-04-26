@@ -181,7 +181,7 @@ public class FlotsamManager : MonoBehaviour
                     // if (lastSpawnedFlotsam != null)
                     // {
                     //     // Debug.Log("here");
-                    //     // this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                    //     this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
                     // }
 
                     // lastSpawnedFlotsam = newFlotsam;
