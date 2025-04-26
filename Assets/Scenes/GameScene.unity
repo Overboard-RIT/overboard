@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149c2d112a829b7409de81dd8cbd6b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gracePeriod: 0.25
+  gracePeriod: 0.5
   penaltyCooldown: 3
   scoreManager: {fileID: 568445858}
   gameManager: {fileID: 309585986}
@@ -1617,7 +1617,7 @@ MonoBehaviour:
   margin: 6
   timerStartsAt: 59.01
   denoiseWindowSize: 30
-  overboardGracePeriod: 0.25
+  overboardGracePeriod: 0.5
   overboardCooldown: 3
   spawnIntervalMin: 1
   spawnIntervalMax: 4
@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b57906027ef4688a4cd80c2bab15a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  banterThreshold: 7
+  banterThreshold: 12
   banterTimer: 0
   bantering: 0
   TriggerIdle:
