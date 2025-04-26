@@ -1,5 +1,13 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [ "jp.keijiro" ]
+    }
+  ],
   "dependencies": {
+    "jp.keijiro.klak.spout": "2.0.3",
     "app.rive.rive-unity": "https://github.com/rive-app/rive-unity.git?path=package#v0.3.3",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.unity.2d.sprite": "1.0.0",

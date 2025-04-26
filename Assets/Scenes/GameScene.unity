@@ -203,7 +203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17.499983, y: -8.000003}
+  m_AnchoredPosition: {x: -17.5, y: -8}
   m_SizeDelta: {x: -1301.3301, y: -733.1701}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &24875096
@@ -696,8 +696,8 @@ Canvas:
   m_GameObject: {fileID: 92988929}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1004552961}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -725,7 +725,6 @@ RectTransform:
   - {fileID: 2139599853}
   - {fileID: 1864916404}
   - {fileID: 515103137}
-  - {fileID: 1004552958}
   - {fileID: 1602184181}
   - {fileID: 1305943852}
   - {fileID: 1667329607}
@@ -1363,8 +1362,8 @@ Transform:
   m_GameObject: {fileID: 200007302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: -27.5}
-  m_LocalScale: {x: 2.26875, y: 1, z: 3.8}
+  m_LocalPosition: {x: 0, y: -0.2, z: -30}
+  m_LocalScale: {x: 2.2875001, y: 1, z: 3.6000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 973550298}
@@ -1898,9 +1897,9 @@ MonoBehaviour:
   denoisers:
   - {fileID: 148681183}
   minBounds: {x: -10, y: 0, z: -45}
-  maxBounds: {x: 10, y: 0, z: -10}
+  maxBounds: {x: 10, y: 0, z: -15}
   centerCamera: 1
-  margin: 3
+  margin: 6
   timerStartsAt: 59.01
   denoiseWindowSize: 30
   overboardGracePeriod: 0.25
@@ -1909,7 +1908,7 @@ MonoBehaviour:
   spawnIntervalMax: 7
   offRadiusChance: 0.1
   offRadiusMaxDistance: 30
-  cameraPosition: {x: 0, y: 75, z: -27.5}
+  cameraPosition: {x: 0, y: 75, z: -30}
 --- !u!114 &309585989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2517,6 +2516,7 @@ GameObject:
   - component: {fileID: 384671610}
   - component: {fileID: 384671612}
   - component: {fileID: 384671611}
+  - component: {fileID: 384671613}
   m_Layer: 6
   m_Name: Side Wall Camera
   m_TagString: Untagged
@@ -2533,11 +2533,11 @@ Transform:
   m_GameObject: {fileID: 384671609}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 407.4424, y: 191.4937, z: 275.94727}
-  m_LocalScale: {x: 2.34375, y: 2.34375, z: 2.34375}
+  m_LocalPosition: {x: -0.3526001, y: 79.67581, z: 62.57769}
+  m_LocalScale: {x: 0.53150177, y: 0.53150177, z: 0.53150177}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1480383186}
+  m_Father: {fileID: 1101852898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &384671611
 MonoBehaviour:
@@ -2624,7 +2624,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 64
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 9587e47924b38994db16c9852a2ecd7e, type: 2}
   m_TargetDisplay: 2
   m_TargetEye: 3
   m_HDR: 1
@@ -2634,6 +2634,24 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &384671613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384671609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45099d624c1e6c14e9514f4e5ea1ed9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spoutName: SideWall
+  _keepAlpha: 0
+  _captureMethod: 2
+  _sourceCamera: {fileID: 0}
+  _sourceTexture: {fileID: 8400000, guid: 9587e47924b38994db16c9852a2ecd7e, type: 2}
+  _resources: {fileID: 11400000, guid: f449ebbe2051c2e4d993eaa773a410de, type: 2}
 --- !u!1 &394727552
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,9 +3201,9 @@ Canvas:
   m_GameObject: {fileID: 488580058}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 615378690}
+  m_PlaneDistance: 57.2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -3838,7 +3856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.77}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.8439026, y: -24.890999}
+  m_AnchoredPosition: {x: 3.8439026, y: -24.890991}
   m_SizeDelta: {x: -293.3845, y: -47.5296}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &562066831
@@ -4129,6 +4147,7 @@ GameObject:
   - component: {fileID: 615378689}
   - component: {fileID: 615378691}
   - component: {fileID: 615378692}
+  - component: {fileID: 615378693}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4145,7 +4164,7 @@ Transform:
   m_GameObject: {fileID: 615378687}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 75, z: -27.5}
+  m_LocalPosition: {x: 0, y: 75, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4198,9 +4217,9 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 31
+    m_Bits: 63
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 683956e9907b6b64997ced3877d7dd4a, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -4266,6 +4285,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebeb7c96653dde4d9212c7f65d314f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &615378693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615378687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45099d624c1e6c14e9514f4e5ea1ed9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spoutName: GameFloor
+  _keepAlpha: 0
+  _captureMethod: 2
+  _sourceCamera: {fileID: 0}
+  _sourceTexture: {fileID: 8400000, guid: 683956e9907b6b64997ced3877d7dd4a, type: 2}
+  _resources: {fileID: 11400000, guid: f449ebbe2051c2e4d993eaa773a410de, type: 2}
 --- !u!1 &615858500
 GameObject:
   m_ObjectHideFlags: 0
@@ -4678,7 +4715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -565.73, y: 272.11}
+  m_AnchoredPosition: {x: -565.72986, y: 272.11}
   m_SizeDelta: {x: -1291.5, y: -544.23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673336008
@@ -4810,7 +4847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17.5, y: -8.00061}
+  m_AnchoredPosition: {x: -17.5, y: -8.000488}
   m_SizeDelta: {x: -1301.3, y: -733.17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &677236164
@@ -5237,7 +5274,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -162, y: 52.108}
+  m_AnchoredPosition: {x: -162, y: 52.10791}
   m_SizeDelta: {x: -427.0376, y: -850.1141}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &695910449
@@ -6556,7 +6593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 128, y: 52.108}
+  m_AnchoredPosition: {x: 128, y: 52.10791}
   m_SizeDelta: {x: -407.2338, y: -850.1141}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &834322589
@@ -7110,6 +7147,7 @@ GameObject:
   - component: {fileID: 1004552958}
   - component: {fileID: 1004552961}
   - component: {fileID: 1004552959}
+  - component: {fileID: 1004552962}
   m_Layer: 7
   m_Name: Back Wall Camera
   m_TagString: Untagged
@@ -7126,11 +7164,11 @@ Transform:
   m_GameObject: {fileID: 1004552957}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 391.14465, y: 183.83395, z: 264.90936}
-  m_LocalScale: {x: 2.25, y: 2.25, z: 2.25}
+  m_LocalPosition: {x: 81.09207, y: 117.95398, z: 117.737495}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92988933}
+  m_Father: {fileID: 1101852898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1004552959
 MonoBehaviour:
@@ -7217,7 +7255,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 128
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: b7007fb01564df94bbcb7cfbd79f9336, type: 2}
   m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
@@ -7227,6 +7265,24 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1004552962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004552957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45099d624c1e6c14e9514f4e5ea1ed9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spoutName: BackWall
+  _keepAlpha: 0
+  _captureMethod: 2
+  _sourceCamera: {fileID: 0}
+  _sourceTexture: {fileID: 8400000, guid: b7007fb01564df94bbcb7cfbd79f9336, type: 2}
+  _resources: {fileID: 11400000, guid: f449ebbe2051c2e4d993eaa773a410de, type: 2}
 --- !u!1 &1012247388
 GameObject:
   m_ObjectHideFlags: 0
@@ -7986,7 +8042,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1004552958}
   - {fileID: 92988933}
+  - {fileID: 384671610}
   - {fileID: 1480383186}
   - {fileID: 488580059}
   m_Father: {fileID: 0}
@@ -9040,7 +9098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 545.47, y: -719}
+  m_AnchoredPosition: {x: 545.4697, y: -719}
   m_SizeDelta: {x: 1090.9304, y: 1438}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1364431575
@@ -10079,7 +10137,6 @@ RectTransform:
   m_Children:
   - {fileID: 1364431574}
   - {fileID: 2062950893}
-  - {fileID: 384671610}
   m_Father: {fileID: 1101852898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10136,7 +10193,7 @@ Canvas:
   m_GameObject: {fileID: 1480383185}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 384671612}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -10949,7 +11006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1602184182
@@ -12402,7 +12459,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -378.5454, y: -16.091}
+  m_AnchoredPosition: {x: -378.5454, y: -16.091064}
   m_SizeDelta: {x: -458.8349, y: -2.0315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791910188
@@ -14700,7 +14757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 245.24, y: -204.66}
+  m_AnchoredPosition: {x: 245.23999, y: -204.66003}
   m_SizeDelta: {x: -601.66797, y: -538.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065102906

@@ -178,13 +178,13 @@ public class FlotsamManager : MonoBehaviour
                 {
                     spawnPosition.y = -3f;
                     GameObject newFlotsam = Instantiate(flotsamPrefab, spawnPosition, Quaternion.identity);
-                    if (lastSpawnedFlotsam != null)
-                    {
-                        // Debug.Log("here");
-                        this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
-                    }
+                    // if (lastSpawnedFlotsam != null)
+                    // {
+                    //     // Debug.Log("here");
+                    //     // this.bootyManager.SendPositions(lastSpawnedFlotsam, spawnPosition);
+                    // }
 
-                    lastSpawnedFlotsam = newFlotsam;
+                    // lastSpawnedFlotsam = newFlotsam;
                     return;
                 }
             }
