@@ -7,12 +7,11 @@
 | _  <|  |  |     |    -(  |  |
 \_____\_____|__|__|__|\__\____/
 ```
-![Unity](https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white)
 
 # Overboard 🏴‍☠️
 *"The floor is lava… but in a shipwreck!"*
 
-![player jumps between platforms at Imagine RIT](/overboard-in-action.avif)
+![player jumps between platforms at Imagine RIT](/overboard-in-action.jpg)
 
 Overboard is a **time-based "floor is lava" survival game** where shipwrecked pirates must navigate a hazardous arena, collect doubloons, and avoid peril before the rescue boat arrives. The game takes place in a **10' x 6' play area** using **top-down floor and wall projections**, with player movement tracked via a **Kinect v2 sensor**. The game is built in **Unity 6** for interactive projections and UI.
 
