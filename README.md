@@ -12,7 +12,9 @@
 # Overboard 🏴‍☠️
 *"The floor is lava… but in a shipwreck!"*
 
-Overboard is a **time-based "floor is lava" survival game** where shipwrecked pirates must navigate a hazardous arena, collect doubloons, and avoid peril before the rescue boat arrives. The game takes place in a **15' x 10' play area** using **top-down floor and wall projections**, with player movement tracked via **two Kinect v2 sensors**. The game is built in **Unity 6** for interactive projections and UI.
+![player jumps between platforms at Imagine RIT](/overboard-in-action.avif)
+
+Overboard is a **time-based "floor is lava" survival game** where shipwrecked pirates must navigate a hazardous arena, collect doubloons, and avoid peril before the rescue boat arrives. The game takes place in a **10' x 6' play area** using **top-down floor and wall projections**, with player movement tracked via a **Kinect v2 sensor**. The game is built in **Unity 6** for interactive projections and UI.
 
 ---
 
@@ -30,39 +32,41 @@ Overboard is a **time-based "floor is lava" survival game** where shipwrecked pi
    git clone https://github.com/Overboard-RIT/overboard.git
    ```
 3. Open the Unity project in **Unity 6**
+4. Use `Tools > Build Video AssetBundle` to preload videos.
 
 ---
 
 ## 🎮 Running the Game
 
-1. Open the Unity project
+1. **Open** the Unity project
 2. Click the **Play** button
-
-*Note: While the game will launch, **calibration is required for proper Kinect alignment.** See below.*
-
----
-
-## 🎯 Calibration Process (in development)
-
-1. **Set up the Kinect sensors** in fixed positions.
-2. **Floor Calibration:** Stand in one corner of the play area, then in the opposite corner. This allows the game to map the floor space.
-3. **Camera Alignment:** Move a reference dot to the calibrator’s position to sync the Unity camera with Kinect coordinates.
-
-This step ensures accurate player tracking but is not required just to run the game in Unity.
+3. **Calibrate** and play ([see below](#-calibration-process-in-development))
 
 ---
 
-## 🚀 Features & Roadmap
+## 🎯 Calibration Process
 
-### ✅ Implemented Features
+1. **Set up the Kinect sensor** in a fixed position.
+2. **Floor Calibration:** Stand in one corner of the play area, then in the opposite corner. Record the player position as it's logged to the debug console.
+3. **Use the recorded values** as the `Min Bounds` and `Max Bounds` values in the `Config` script component.
+
+Calibration ensures accurate player tracking but is not required to simply run the game in Unity.
+
+---
+
+## 🚀 Features
+
+### ✅ Plundered and Delivered
 - **Survival Gameplay:** Players collect as many doubloons as possible before time runs out.
 - **Kinect Motion Tracking:** Players' movement is captured in real-time.
+- **Difficulty Scaling:** Modes increase difficulty and add harder mechanics.
+- **Leaderboard for High Scores:** Save the highest scores of the day!
+- **Metagame Implementation** Game recognizes when players come back for another round and posts their scores to the metagame API.
 
-### 🔄 In Development
-- **Multiplayer support**
-- **Difficulty Scaling**
-- **Expanded play area using a second Kinect**
-- **Leaderboard for high scores**
+### 📋 Uncharted Waters
+- **Calibration Menu:** Custom UI to calibrate the space before starting the game.
+- **Multiplayer Support:** Players could compete against each other to get the most doubloons.
+- **Bigger Game Floor:** Using multiple Kinect sensors, the game floor could be expanded to include more players and more platforms.
 
 ---
 
@@ -76,17 +80,11 @@ Internal contributions from team members are welcome.
 
 ---
 
-## 📜 License
-
-TBD
-
----
-
 ## 📢 Contact
 
 This project was developed as part of the **New Media Capstone 2025** at **Rochester Institute of Technology (RIT)** and was created for **Imagine RIT 2025**.
 
-### Team Members
+### Development Team
 - **Andrew Black**
   - [Portfolio](https://blackandrew35.wixsite.com/portfolio) | [LinkedIn](https://www.linkedin.com/in/andrew-black-/) | [GitHub](https://github.com/AB-blackA)
 - **Colby Heaton**
@@ -96,6 +94,6 @@ This project was developed as part of the **New Media Capstone 2025** at **Roche
 
 ### Project Links
 - **Instagram:** [@overboard.rit](https://www.instagram.com/overboard.rit)
-- **Project Hub & Links:** [Linktree](https://linktr.ee/overboardrit)
+- **Project Hub:** [Website](https://overboard.framer.website/)
 
 For more information, visit our social media.

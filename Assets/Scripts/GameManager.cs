@@ -178,7 +178,7 @@ public class GameManager : MonoBehaviour
         {
             leaderboardRank.gameObject.SetActive(false);
         }
-        leaderboard.NewScore(playerName, playerName, scoreManager.Score);
+        leaderboard.NewScore(playerName.ToString(), playerName.WithSpaces(), scoreManager.Score);
 
         // send score to metagame
         metagameAPI.PostGameData(metagameAPI.currentPlayerID, scoreManager.Score * 100);
