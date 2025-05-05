@@ -95,4 +95,4 @@ This project was developed as part of the **New Media Capstone 2025** at **Roche
 - **Instagram:** [@overboard.rit](https://www.instagram.com/overboard.rit)
 - **Project Hub:** [Website](https://overboard.framer.website/)
 
-For more information, visit our social media.
+For more information, visit our website and social media.
