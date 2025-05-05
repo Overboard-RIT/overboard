@@ -39,7 +39,7 @@ Overboard is a **time-based "floor is lava" survival game** where shipwrecked pi
 
 1. **Open** the Unity project
 2. Click the **Play** button
-3. **Calibrate** and play ([see below](#-calibration-process-in-development))
+3. **Calibrate** and play ([see below](#-calibration-process))
 
 ---
 
