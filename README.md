@@ -60,7 +60,7 @@ Calibration ensures accurate player tracking but is not required to simply run t
 - **Kinect Motion Tracking:** Players' movement is captured in real-time.
 - **Difficulty Scaling:** Modes increase difficulty and add harder mechanics.
 - **Leaderboard for High Scores:** Save the highest scores of the day!
-- **Metagame Implementation** Game recognizes when players come back for another round and posts their scores to the metagame API.
+- **Metagame Implementation:** Game recognizes when players come back for another round and posts their scores to the metagame API.
 
 ### 📋 Uncharted Waters
 - **Calibration Menu:** Custom UI to calibrate the space before starting the game.
