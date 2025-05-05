@@ -71,7 +71,7 @@ Calibration ensures accurate player tracking but is not required to simply run t
 
 ## 🤝 Contributing
 
-Internal contributions from team members are welcome.
+Internal contributions from team members are welcome. See [issues](https://github.com/Overboard-RIT/overboard/issues) and the [roadmap](https://github.com/orgs/Overboard-RIT/projects/1) for work to be done.
 
 ### Contribution Guidelines
 1. **Branching:** Create a new branch for each feature or bug fix.
