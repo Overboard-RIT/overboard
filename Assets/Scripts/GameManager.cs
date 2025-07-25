@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public bool endGame = false;
 
     private Names.PirateName playerName;
+    public string customInputPlayerName = "";
 
     void Awake()
     {
@@ -75,6 +76,11 @@ public class GameManager : MonoBehaviour
             startGame = false;
             StartCountdown();
         }
+
+        if (customInputPlayerName != "")
+        {
+            Debug.Log("player name will be set to custom name: " + customInputPlayerName);
+        }
     }
 
     void OnDisable()
@@ -109,7 +115,15 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerName()
     {
-        playerName = GetComponent<Names>().GenerateUniquePirateName("");
+        if (customInputPlayerName != "")
+        {
+            Debug.Log("Setting player name to custom name: " + customInputPlayerName);
+            playerName = new Names.PirateName(customInputPlayerName, "");
+        }
+        else
+        {
+            playerName = GetComponent<Names>().GenerateUniquePirateName("");
+        }
         backWallUI.SetPlayerName(playerName.ToString());
     }
 
@@ -157,7 +171,8 @@ public class GameManager : MonoBehaviour
         flotsamManager.ShowDifficulty();
     }
 
-    private IEnumerator TransitionToResults() {
+    private IEnumerator TransitionToResults()
+    {
         yield return new WaitForSeconds(1.2f);
         backWallUI.ReenableIdle();
         results.gameObject.SetActive(true);
@@ -218,6 +233,8 @@ public class GameManager : MonoBehaviour
 
         overboards = 0;
         results.Init();
+
+        customInputPlayerName = "";
 
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
