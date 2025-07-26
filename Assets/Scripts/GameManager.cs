@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
     public bool endGame = false;
 
     private Names.PirateName playerName;
-    public string customInputPlayerName = "";
+    public GameObject customInputPlayerNameField;
 
     [Header("Leaderboard Controls")]
     public string customLeaderboardName = "";
@@ -82,11 +83,6 @@ public class GameManager : MonoBehaviour
             StartCountdown();
         }
 
-        if (customInputPlayerName != "")
-        {
-            Debug.Log("player name will be set to custom name: " + customInputPlayerName);
-        }
-
         if (addScore)
         {
             addScore = false;
@@ -114,15 +110,15 @@ public class GameManager : MonoBehaviour
         ReloadGame();
     }
 
-    void Update()
-    {
-        // Wait for the spacebar press to start the game
-        if (!introStarted && Input.GetKeyDown(KeyCode.Space))
-        {
-            introStarted = true;
-            StartCoroutine(StartGameCountdown());
-        }
-    }
+    // void Update()
+    // {
+    //     // Wait for the spacebar press to start the game
+    //     if (!introStarted && Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         introStarted = true;
+    //         StartCoroutine(StartGameCountdown());
+    //     }
+    // }
 
     public void IncrementOverboards()
     {
@@ -136,10 +132,12 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerName()
     {
+        string customInputPlayerName = customInputPlayerNameField.GetComponent<TMP_InputField>().text;
         if (customInputPlayerName != "")
         {
             Debug.Log("Setting player name to custom name: " + customInputPlayerName);
             playerName = new Names.PirateName(customInputPlayerName, "");
+            customInputPlayerNameField.GetComponent<TMP_InputField>().text = "";
         }
         else
         {
@@ -254,9 +252,6 @@ public class GameManager : MonoBehaviour
 
         overboards = 0;
         results.Init();
-
-        customInputPlayerName = "";
-
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {

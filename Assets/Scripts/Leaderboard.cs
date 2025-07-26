@@ -19,7 +19,7 @@ public class Leaderboard : MonoBehaviour
     {
         if (!leaderboardInitialized)
         {
-            leaderboardList = new LeaderboardList(leaderboardItems.Count);
+            leaderboardList = new LeaderboardList(leaderboardItems.Count + 5);
             ResetLeaderboard();
             leaderboardInitialized = true;
         }
@@ -65,6 +65,12 @@ public class Leaderboard : MonoBehaviour
         leaderboardList.Add(entry);
 
         // update the leaderboard UI
+        LoadLeaderboard();
+    }
+
+    public void RemoveEntry(int place)
+    {
+        leaderboardList.RemoveAt(place);
         LoadLeaderboard();
     }
 
@@ -175,10 +181,10 @@ public class Leaderboard : MonoBehaviour
         {
             throw new System.NotSupportedException("Insert is not supported");
         }
-        public bool Remove(LeaderboardEntry item) => false; // no removal
+        public bool Remove(LeaderboardEntry item) => false; // use remove at instead
         public void RemoveAt(int index)
         {
-            throw new System.NotSupportedException("RemoveAt is not supported");
+            entries.RemoveAt(index);
         }
     }
 }
