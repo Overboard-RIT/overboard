@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
     private Names.PirateName playerName;
     public string customInputPlayerName = "";
 
+    [Header("Leaderboard Controls")]
+    public string customLeaderboardName = "";
+    public int customLeaderboardScore = 0;
+    public bool addScore = false;
+
     void Awake()
     {
         // Ensure only one instance of ScoreManager exists
@@ -80,6 +85,22 @@ public class GameManager : MonoBehaviour
         if (customInputPlayerName != "")
         {
             Debug.Log("player name will be set to custom name: " + customInputPlayerName);
+        }
+
+        if (addScore)
+        {
+            addScore = false;
+            if (customLeaderboardName == "")
+            {
+                Debug.Log("failed to add score, no name provided");
+            }
+            else
+            {
+                leaderboard.NewScore(customLeaderboardName, customLeaderboardName, customLeaderboardScore);
+                Debug.Log("added new score for " + customLeaderboardName);
+                customLeaderboardName = "";
+                customLeaderboardScore = 0;
+            }
         }
     }
 
