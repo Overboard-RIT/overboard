@@ -10,7 +10,7 @@ public class WaterTrigger : MonoBehaviour
 
     private float lastPenaltyTime = -Mathf.Infinity; // Tracks last penalty time
 
-    private float? enteredWaterAt = null;
+    public float? enteredWaterAt = null;
 
     public GameObject playerLeftFoot;
     public GameObject playerRightFoot;

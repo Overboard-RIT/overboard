@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public bool gameStarted = false;
     public MetagameAPI metagameAPI; // Reference to the MetagameAPI script
     public RFIDScanner scanner; // Tell Scanner color
-
+    public Stats stats;
     public int overboards = 0;
 
     [Header("Inspector Controls")]
@@ -144,6 +144,7 @@ public class GameManager : MonoBehaviour
             playerName = GetComponent<Names>().GenerateUniquePirateName("");
         }
         backWallUI.SetPlayerName(playerName.ToString());
+        stats.SetPlayerName(playerName.ToString());
     }
 
     private void StartGame()
@@ -252,6 +253,7 @@ public class GameManager : MonoBehaviour
 
         overboards = 0;
         results.Init();
+        stats.ReloadGame();
 
         foreach (GameObject effect in GameObject.FindGameObjectsWithTag("Effect"))
         {
